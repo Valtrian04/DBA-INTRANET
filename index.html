@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>D.B.A - Intranet de Acceso Restringido</title>
-    
+   
     <!-- LIBRERÍAS DE RECONOCIMIENTO FACIAL (Estilo 2000s Viola-Jones) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tracking.js/1.1.3/tracking-min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tracking.js/1.1.3/data/face-min.js"></script>
@@ -14,7 +14,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            background-color: #008080; 
+            background-color: #008080;
             font-family: "Courier New", Courier, monospace;
             color: #000000;
             line-height: 1.4;
@@ -138,7 +138,7 @@
             border-radius: 10px;
         }
         .radio-title { color: #fff; font-family: "Courier New", Courier, monospace; letter-spacing: 4px; margin-bottom: 20px; border-bottom: 2px solid #555; padding-bottom: 10px; }
-        
+       
         .radio-display {
             background-color: #051005; border: 4px inset #003300; height: 90px;
             margin-bottom: 30px; display: flex; justify-content: center; align-items: center;
@@ -146,13 +146,13 @@
             text-shadow: none; position: relative; overflow: hidden;
             box-shadow: inset 0 0 20px #000;
         }
-        
+       
         .radio-dial-container { width: 150px; height: 150px; margin: 30px auto; border-radius: 50%; background: #222; border: 5px inset #555; display: flex; justify-content: center; align-items: center; position: relative; box-shadow: 0 0 15px rgba(0,0,0,0.8); }
         .radio-knob { width: 110px; height: 110px; border-radius: 50%; background: #d4d0c8; border: 4px outset #fff; cursor: grab; position: relative; transform: rotate(-135deg); box-shadow: 5px 5px 15px rgba(0,0,0,0.6); transition: filter 0.2s; }
         .radio-knob:active { cursor: grabbing; }
         .radio-knob.disabled { pointer-events: none; filter: brightness(0.6); cursor: not-allowed; }
         .knob-marker { width: 6px; height: 25px; background: #000; position: absolute; top: 10px; left: 50%; transform: translateX(-50%); border-radius: 3px; border: 1px inset #555; }
-        
+       
         .radio-power-btn {
             background-color: #330000; color: #ff0000; border: 4px outset #ff0000;
             padding: 15px 30px; font-family: "Courier New", Courier, monospace; font-size: 18px;
@@ -167,26 +167,26 @@
         .lab-viewer-wrapper { flex: 2; position: relative; }
         .lab-viewer { width: 100%; height: 350px; background: #000; border: 4px inset #222; overflow: hidden; position: relative; filter: brightness(100%) contrast(100%); transition: filter 0.1s ease-out; }
         .lab-controls { flex: 1; background: #d4d0c8; border: 3px outset #fff; padding: 15px; display: flex; flex-direction: column; }
-        
+       
         .lab-thumb { background: #000; color: #00ff00; border: 2px solid #00ff00; padding: 5px; margin-bottom: 10px; cursor: pointer; font-family: "Courier New", monospace; text-align: center; font-weight: bold; font-size: 12px; }
         .lab-thumb:hover { background: #003300; }
         .lab-thumb.active { background: #00ff00; color: #000; }
-        
+       
         .lab-slider-label { font-size: 12px; font-weight: bold; font-family: "Courier New", monospace; margin-top: 10px; display: block; }
         .lab-slider { -webkit-appearance: none; width: 100%; height: 8px; background: #000; border: 1px inset #555; margin: 5px 0 15px 0; outline: none; }
         .lab-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 15px; height: 30px; background: #d4d0c8; border: 2px outset #fff; cursor: pointer; }
-        
+       
         .hidden-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.1s ease-out; display: flex; align-items: center; justify-content: center; pointer-events: none; }
-        
+       
         /* Monstruos CSS */
         .anomaly-tall { width: 30px; height: 250px; background: radial-gradient(ellipse at center, #fff 0%, transparent 60%); filter: blur(4px); position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); }
         .anomaly-eyes { width: 5px; height: 5px; background: #fff; box-shadow: 12px 0 0 #fff; position: absolute; top: 30px; left: 8px; filter: blur(1px); }
-        
+       
         .anomaly-scream { width: 120px; height: 160px; background: radial-gradient(ellipse, #ccc 0%, #111 70%, transparent 100%); border-radius: 50%; filter: blur(3px) contrast(1.5); position: relative; }
         .anomaly-scream .eye-l { width: 25px; height: 35px; background: #000; border-radius: 50%; position: absolute; top: 50px; left: 20px; transform: rotate(-15deg); }
         .anomaly-scream .eye-r { width: 25px; height: 35px; background: #000; border-radius: 50%; position: absolute; top: 50px; right: 20px; transform: rotate(15deg); }
         .anomaly-scream .mouth { width: 40px; height: 70px; background: #000; border-radius: 50%; position: absolute; bottom: 15px; left: 40px; }
-        
+       
         .anomaly-swarm { width: 100%; height: 100%; background-image: radial-gradient(circle at 20% 30%, #fff 1px, transparent 3px), radial-gradient(circle at 22% 30%, #fff 1px, transparent 3px), radial-gradient(circle at 70% 60%, #fff 2px, transparent 4px), radial-gradient(circle at 73% 60%, #fff 2px, transparent 4px), radial-gradient(circle at 40% 80%, #fff 1.5px, transparent 3px), radial-gradient(circle at 43% 80%, #fff 1.5px, transparent 3px), radial-gradient(circle at 80% 20%, #fff 1px, transparent 2px), radial-gradient(circle at 82% 20%, #fff 1px, transparent 2px); filter: blur(1px) drop-shadow(0 0 5px #fff); }
 
         .lab-warning { color: red; font-weight: bold; text-align: center; margin-top: auto; opacity: 0; font-family: "Courier New", monospace; font-size: 14px; border: 2px dashed red; padding: 5px; }
@@ -218,21 +218,35 @@
             z-index: 9999; font-family: "Courier New", Courier, monospace; text-align: center;
         }
         .login-title { font-size: 24px; font-weight: bold; margin-bottom: 20px; letter-spacing: 2px; text-shadow: 0 0 5px #00ff00; }
-        #scanner-container { width: 320px; height: 240px; border: 3px ridge #004400; position: relative; background: #000; overflow: hidden; margin-bottom: 20px; box-shadow: 0 0 25px rgba(0,255,0,0.3); }
+        #scanner-container { width: 320px; height: 240px; border: 3px ridge #004400; position: relative; background: #000; overflow: hidden; margin-bottom: 20px; box-shadow: 0 0 25px rgba(0,255,0,0.3); transition: border-color 0.3s; }
         #cam-feed { width: 320px; height: 240px; object-fit: cover; filter: grayscale(100%) contrast(200%) sepia(100%) hue-rotate(80deg) blur(0.5px); transform: scaleX(-1); }
         #face-box { position: absolute; border: 2px solid #ff0000; box-shadow: 0 0 8px #ff0000; display: none; z-index: 15; background: rgba(255, 0, 0, 0.1); }
-        
+       
         #flash-effect { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #ffffff; z-index: 99; opacity: 0; pointer-events: none; }
         .trigger-flash { animation: flashAnimation 0.8s ease-out forwards; }
         @keyframes flashAnimation { 0% { opacity: 1; } 100% { opacity: 0; } }
 
         #scan-line { position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: rgba(0, 255, 0, 0.6); box-shadow: 0 0 15px #00ff00; display: none; animation: scanAnim 1.5s linear infinite; z-index: 20; }
         @keyframes scanAnim { 0% { top: -10%; } 100% { top: 110%; } }
-        
+       
         #terminal-output { width: 450px; height: 140px; border: 2px groove #004400; background: #020a02; padding: 10px; overflow-y: hidden; font-size: 13px; text-align: left; display: flex; flex-direction: column; justify-content: flex-end; margin-bottom: 20px; text-shadow: 0 0 3px #00ff00; }
         .login-btn { background-color: #003300; color: #00ff00; border: 2px outset #00ff00; padding: 10px 20px; font-family: "Courier New", Courier, monospace; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; }
         .login-btn:active { border: 2px inset #00ff00; background-color: #002200; }
         .login-btn:disabled { color: #004400; border-color: #004400; cursor: not-allowed; text-shadow: none; }
+
+        /* --- ESTILOS DEL CAPTCHA MANUAL (FALLBACK DE CÁMARA) --- */
+        #captcha-container { display: none; flex-direction: column; align-items: center; margin-bottom: 20px; width: 100%; }
+        .captcha-instruction { color: #ff0000; font-weight: bold; margin-bottom: 10px; font-size: 14px; text-align: center; animation: blink 1s infinite; }
+        .captcha-box { background: #111; border: 2px solid #555; padding: 15px 30px; margin-bottom: 15px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; width: 320px; height: 70px; }
+        .captcha-text { font-family: 'Times New Roman', serif; font-size: 26px; font-weight: bold; color: #ccc; letter-spacing: 3px; filter: blur(0.5px); transform: skewX(-5deg); z-index: 5; }
+        .captcha-noise-line { position: absolute; top: 40%; left: 0; width: 100%; height: 2px; background: #fff; opacity: 0.4; transform: rotate(3deg); z-index: 10; }
+        .captcha-noise-line-2 { position: absolute; top: 60%; left: 0; width: 100%; height: 2px; background: #fff; opacity: 0.4; transform: rotate(-4deg); z-index: 10; }
+        #captcha-input { background: #000; color: #fff; border: 2px solid #ff0000; padding: 10px; width: 320px; text-align: center; font-family: "Courier New", Courier, monospace; font-size: 16px; margin-bottom: 15px; outline: none; transition: all 0.2s; text-transform: lowercase; }
+        #captcha-input:focus { box-shadow: 0 0 10px #ff0000; }
+       
+        .camera-error-crosshair { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none; pointer-events: none; z-index: 12; }
+        .camera-error-crosshair::before { content: ''; position: absolute; top: 50%; left: 0; width: 100%; height: 2px; background: rgba(255,0,0,0.6); box-shadow: 0 0 5px #ff0000; }
+        .camera-error-crosshair::after { content: ''; position: absolute; top: 0; left: 50%; width: 2px; height: 100%; background: rgba(255,0,0,0.6); box-shadow: 0 0 5px #ff0000; }
 
         /* --- PANTALLA DE TRANSICIÓN --- */
         #transition-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #051005; color: #00ff00; display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; font-family: "Courier New", Courier, monospace; text-shadow: 0 0 10px #00ff00; letter-spacing: 4px; font-size: 28px; font-weight: bold; }
@@ -254,15 +268,31 @@
     <div id="login-screen">
         <div class="noise-overlay"></div><div class="scanlines-overlay"></div>
         <div class="login-title" id="login-header-txt">D.B.A. TERMINAL DE ACCESO SEGURO</div>
+       
         <div id="scanner-container">
             <video id="cam-feed" width="320" height="240" autoplay muted playsinline></video>
             <div id="face-box"></div><div id="flash-effect"></div><div id="scan-line"></div>
+            <div id="camera-error" class="camera-error-crosshair"></div>
             <div class="noise-overlay"></div><div class="scanlines-overlay"></div>
         </div>
+       
         <div id="terminal-output">
             <span>> INICIALIZANDO PROTOCOLOS DE SEGURIDAD...</span>
             <span>> ESPERANDO SEÑAL ÓPTICA Y ALGORITMO VIOLA-JONES...</span>
         </div>
+       
+        <!-- PROTOCOLO DE FALLBACK (CAPTCHA DE LA IMAGEN) -->
+        <div id="captcha-container">
+            <div class="captcha-instruction">FALLO ÓPTICO. VERIFICACIÓN MANUAL REQUERIDA.</div>
+            <div class="captcha-box">
+                <div class="captcha-noise-line"></div>
+                <div class="captcha-text">Ya no soy humano</div>
+                <div class="captcha-noise-line-2"></div>
+                <div class="noise-overlay" style="opacity: 0.5; z-index: 15;"></div>
+            </div>
+            <input type="text" id="captcha-input" placeholder="ESCRIBA LA FRASE SUPERIOR AQUÍ" autocomplete="off" oninput="verifyCaptcha()">
+        </div>
+
         <button id="start-scan-btn" class="login-btn" onclick="startScan()" disabled>CÁMARA INACTIVA / BUSCANDO ROSTRO</button>
     </div>
 
@@ -300,7 +330,7 @@
         <div id="alert-bar">AUTORIZADO - REGISTRO DE ACTIVIDAD MONITORIZADO</div>
 
         <div class="content-area">
-            
+           
             <div id="tab-inicio" style="display: flex;">
                 <div id="main-col">
                     <div class="video-player-container" title="Visor de archivos multimedia D.B.A.">
@@ -329,7 +359,7 @@
                 <h2 class="nosotros-title">¿Quienes son nuestros agentes?</h2>
                 <p class="nosotros-text">La Dirección de Búsqueda de Andantes (DBA) fue establecida en 1928, en un momento crítico de la historia de Colombia.</p>
             </div>
-            
+           
             <div id="tab-documentos">
                 <h2 class="doc-title">/ARCHIVOS/CLASIFICADOS/</h2>
                 <table class="doc-table">
@@ -343,16 +373,16 @@
             <!-- NUEVA TAB: LABORATORIO DE ANÁLISIS FOTOGRÁFICO -->
             <div id="tab-laboratorio">
                 <h2 style="border-bottom: 2px dashed #000066; padding-bottom: 5px; margin-bottom: 15px; font-size: 24px;">D.B.A. - LABORATORIO DE ANÁLISIS FOTOGRÁFICO</h2>
-                
+               
                 <div class="lab-container">
-                    
+                   
                     <!-- VISOR FOTOGRÁFICO -->
                     <div class="lab-viewer-wrapper">
                         <div class="noise-overlay" style="opacity: 0.3; z-index: 10;"></div>
                         <div class="scanlines-overlay" style="z-index: 11;"></div>
-                        
+                       
                         <div class="lab-viewer" id="lab-viewer">
-                            
+                           
                             <!-- ARCHIVO 01: BOSQUE -->
                             <div id="scene-1" class="lab-scene" style="width:100%; height:100%; background: radial-gradient(circle at center, #0a0e0a, #000);">
                                 <div style="position:absolute; bottom:0; width:100%; height: 35%; background: #030503; border-top-left-radius: 50%; border-top-right-radius: 20%;"></div>
@@ -405,12 +435,12 @@
                         <div class="lab-thumb" id="thumb-2" onclick="selectScene(2)">02_SOTANO_B.raw</div>
                         <div class="lab-thumb" id="thumb-3" onclick="selectScene(3)">03_MULTITUD.raw</div>
                         <div class="lab-thumb" id="thumb-4" onclick="selectScene(4)" style="display:none; border-color:red; color:red;">04_SUJETO_ACTUAL.raw</div>
-                        
+                       
                         <h4 style="margin-top: 15px; margin-bottom: 10px; border-bottom: 1px solid #888; font-family: monospace;">FILTROS ÓPTICOS</h4>
-                        
+                       
                         <label class="lab-slider-label">BRILLO: <span id="val-br">100</span>%</label>
                         <input type="range" class="lab-slider" id="lab-br" min="10" max="600" value="100" oninput="updateLab()">
-                        
+                       
                         <label class="lab-slider-label">CONTRASTE: <span id="val-ct">100</span>%</label>
                         <input type="range" class="lab-slider" id="lab-ct" min="10" max="600" value="100" oninput="updateLab()">
 
@@ -440,7 +470,7 @@
                     <div class="noise-overlay"></div>
                     <div class="scanlines-overlay"></div>
                     <h2 class="radio-title">INTERCEPTOR DE FRECUENCIAS D.B.A.</h2>
-                    
+                   
                     <div class="radio-display">
                         <span id="freq-display" style="color: #004400; text-shadow: none;">---.- AM</span>
                     </div>
@@ -479,11 +509,12 @@
     </div> <!-- FIN DE APP CONTENT -->
 
     <script>
-        // --- CÓDIGO DE LOGIN FACIAL ---
+        // --- CÓDIGO DE LOGIN FACIAL Y CAPTCHA FALLBACK ---
         let camStream = null;
         let faceTracker = null;
         let isFaceDetected = false;
-        let scanBlocked = false; 
+        let isCaptchaSolved = false;
+        let scanBlocked = false;
 
         window.onload = async function() {
             if(sessionStorage.getItem('dba_authenticated') === 'true') { grantAccess(); return; }
@@ -509,58 +540,105 @@
                         box.style.display = 'block'; box.style.left = (320 - rect.x - rect.width) + 'px'; box.style.top = rect.y + 'px'; box.style.width = rect.width + 'px'; box.style.height = rect.height + 'px';
                     }
                 });
-            } catch (err) { triggerFatalError("> ERROR CRÍTICO: HARDWARE ÓPTICO NO ENCONTRADO O PERMISOS DENEGADOS."); }
+            } catch (err) {
+                // FALLBACK: CÁMARA DENEGADA O NO ENCONTRADA -> ACTIVAR CAPTCHA
+                scanBlocked = true;
+                addTerminalLine("> ERROR CRÍTICO: HARDWARE ÓPTICO NO ENCONTRADO O PERMISOS DENEGADOS.");
+                addTerminalLine("> ACTIVANDO PROTOCOLO DE VERIFICACIÓN MANUAL.");
+               
+                document.getElementById('scanner-container').style.borderColor = "#ff0000";
+                document.getElementById('camera-error').style.display = "block";
+               
+                // Mostrar Captcha y ocultar completamente el botón para obligar a usar el input
+                document.getElementById('captcha-container').style.display = "flex";
+                document.getElementById('start-scan-btn').style.display = "none";
+            }
         };
 
-        function addTerminalLine(text) { let term = document.getElementById('terminal-output'); let span = document.createElement('span'); span.innerHTML = "<br>" + text; term.appendChild(span); term.scrollTop = term.scrollHeight; }
+        function addTerminalLine(text) {
+            let term = document.getElementById('terminal-output');
+            let span = document.createElement('span');
+            span.innerHTML = "<br>" + text;
+            term.appendChild(span);
+            term.scrollTop = term.scrollHeight;
+        }
 
-        function triggerFatalError(msg) {
-            scanBlocked = true; addTerminalLine(msg); addTerminalLine("> BRECHA DE SEGURIDAD. INTENTO DE ACCESO ANÓNIMO BLOQUEADO.");
-            let btn = document.getElementById('start-scan-btn'); btn.innerHTML = "ACCESO DENEGADO"; btn.disabled = true; btn.style.color = "red"; btn.style.borderColor = "red";
-            document.getElementById('login-screen').classList.add('fatal-error'); document.getElementById('login-header-txt').innerHTML = "ERROR DE SISTEMA";
-            document.getElementById('scanner-container').style.borderColor = "#ff0000"; document.getElementById('terminal-output').style.borderColor = "#ff0000"; document.getElementById('terminal-output').style.color = "#ff0000"; document.getElementById('terminal-output').style.textShadow = "none";
+        // Lógica de Autologin mediante el Captcha
+        function verifyCaptcha() {
+            let input = document.getElementById('captcha-input').value.trim().toLowerCase();
+            if (input === "ya no soy humano") {
+                isCaptchaSolved = true;
+               
+                // Bloquear el input de inmediato
+                let inp = document.getElementById('captcha-input');
+                inp.disabled = true;
+                inp.style.borderColor = "#00ff00";
+                inp.style.color = "#00ff00";
+                inp.style.boxShadow = "0 0 15px #00ff00";
+               
+                addTerminalLine("> FRASE DE VERIFICACIÓN ACEPTADA.");
+               
+                // Dispara el login de manera instantánea y automática
+                startScan();
+            }
         }
 
         function startScan() {
-            if(!isFaceDetected) return; scanBlocked = true; 
-            document.getElementById('flash-effect').classList.add('trigger-flash'); 
-            
-            let videoEl = document.getElementById('cam-feed');
-            videoEl.pause();
-            
-            // CAPTURAR FOTOGRAFÍA EN SECRETO
-            try {
-                let canvas = document.createElement('canvas');
-                canvas.width = videoEl.videoWidth || 320;
-                canvas.height = videoEl.videoHeight || 240;
-                let ctx = canvas.getContext('2d');
-                // Mantener el efecto espejo de la cámara
-                ctx.translate(canvas.width, 0);
-                ctx.scale(-1, 1);
-                ctx.drawImage(videoEl, 0, 0, canvas.width, canvas.height);
-                let imgData = canvas.toDataURL('image/jpeg', 0.8);
-                sessionStorage.setItem('dba_user_photo', imgData);
-            } catch(e) { console.warn("Interferencia en captura.", e); }
+            if(!isFaceDetected && !isCaptchaSolved) return;
+            scanBlocked = true;
+           
+            let btn = document.getElementById('start-scan-btn');
+            if(btn) btn.disabled = true;
+           
+            document.getElementById('scan-line').style.display = 'block';
+           
+            let steps = [];
 
-            document.getElementById('start-scan-btn').disabled = true; document.getElementById('scan-line').style.display = 'block'; document.getElementById('face-box').style.borderColor = "#00ff00"; 
-            
-            let steps = [ "> ANALIZANDO GEOMETRÍA FACIAL...", "> ESCANEANDO PATRÓN RETINAL...", "> CRUZANDO DATOS CON ARCHIVOS CLASIFICADOS D.B.A...", "> DESENCRIPTANDO CREDENCIALES NIVEL 4...", "> COINCIDENCIA CONFIRMADA. BIENVENIDO, AGENTE." ];
+            if (isFaceDetected) {
+                // Entrada por Cámara Real
+                document.getElementById('flash-effect').classList.add('trigger-flash');
+                let videoEl = document.getElementById('cam-feed');
+                videoEl.pause();
+                document.getElementById('face-box').style.borderColor = "#00ff00";
+               
+                try {
+                    let canvas = document.createElement('canvas');
+                    canvas.width = videoEl.videoWidth || 320;
+                    canvas.height = videoEl.videoHeight || 240;
+                    let ctx = canvas.getContext('2d');
+                    ctx.translate(canvas.width, 0); ctx.scale(-1, 1);
+                    ctx.drawImage(videoEl, 0, 0, canvas.width, canvas.height);
+                    let imgData = canvas.toDataURL('image/jpeg', 0.8);
+                    sessionStorage.setItem('dba_user_photo', imgData);
+                } catch(e) { console.warn("Interferencia en captura.", e); }
+
+                steps = [ "> ANALIZANDO PATRONES GEOMÉTRICOS...", "> CRUZANDO DATOS CON ARCHIVOS CLASIFICADOS D.B.A...", "> DESENCRIPTANDO CREDENCIALES NIVEL 4...", "> COINCIDENCIA CONFIRMADA. BIENVENIDO, AGENTE." ];
+            } else {
+                // Entrada Automática por Captcha Sin Cámara
+                document.getElementById('scanner-container').style.borderColor = "#00ff00";
+                document.getElementById('camera-error').style.display = "none";
+                sessionStorage.removeItem('dba_user_photo');
+               
+                // Textos alternativos para indicar la falta de humanidad
+                steps = [ "> VERIFICANDO HUELLA LINGÜÍSTICA...", "> CONFIRMANDO AUSENCIA DE HUMANIDAD...", "> DESENCRIPTANDO CREDENCIALES NIVEL 4...", "> ACCESO CONCEDIDO. BIENVENIDO, AGENTE." ];
+            }
+           
             steps.forEach((step, index) => { setTimeout(() => { addTerminalLine(step); }, 800 * (index + 1)); });
-            
+           
             setTimeout(() => {
                 if (camStream) camStream.getTracks().forEach(track => track.stop()); if (faceTracker) tracking.track('#cam-feed', faceTracker).stop();
                 document.getElementById('login-screen').style.display = 'none'; let transitionScreen = document.getElementById('transition-screen');
-                let agentNum = Math.floor(Math.random() * 9000) + 1000; document.getElementById('agent-number-display').innerText = agentNum; sessionStorage.setItem('dba_agent_number', agentNum); 
+                let agentNum = Math.floor(Math.random() * 9000) + 1000; document.getElementById('agent-number-display').innerText = agentNum; sessionStorage.setItem('dba_agent_number', agentNum);
                 transitionScreen.style.display = 'flex'; document.getElementById('transition-loading-bar').classList.add('fill-animation');
-                setTimeout(() => { sessionStorage.setItem('dba_authenticated', 'true'); grantAccess(); }, 3200); 
+                setTimeout(() => { sessionStorage.setItem('dba_authenticated', 'true'); grantAccess(); }, 3200);
             }, 800 * (steps.length + 1));
         }
 
         function grantAccess() {
             document.getElementById('login-screen').style.display = 'none'; document.getElementById('transition-screen').style.display = 'none'; document.getElementById('app-content').style.display = 'block';
             let savedAgentNum = sessionStorage.getItem('dba_agent_number') || '0000'; document.getElementById('footer-auth-status').innerText = 'ESTADO: AUTENTICADO // AGENTE ' + savedAgentNum;
-            loadChatState(); 
-            
+            loadChatState();
+           
             // CARGAR FOTOGRAFÍA AL LABORATORIO SI EXISTE
             let savedPhoto = sessionStorage.getItem('dba_user_photo');
             if(savedPhoto) {
@@ -572,7 +650,7 @@
         function showTab(tabId) {
             ['inicio', 'nosotros', 'documentos', 'laboratorio', 'contacto', 'prueba', 'faq', 'radio'].forEach(t => { document.getElementById('tab-' + t).style.display = 'none'; document.getElementById('btn-' + t).classList.remove('active'); });
             document.getElementById('tab-' + tabId).style.display = tabId === 'inicio' ? 'flex' : 'block'; document.getElementById('btn-' + tabId).classList.add('active');
-            
+           
             // Configurar barra de aviso
             var alertBar = document.getElementById('alert-bar');
             if(tabId === 'radio') alertBar.innerText = "PRECAUCIÓN: INTERCEPTACIÓN DE FRECUENCIAS NO SUPERVISADA.";
@@ -585,7 +663,7 @@
 
         function selectScene(id) {
             currentLabScene = id;
-            for(let i=1; i<=4; i++) { // Ahora iteramos hasta 4
+            for(let i=1; i<=4; i++) {
                 let scene = document.getElementById('scene-' + i);
                 let thumb = document.getElementById('thumb-' + i);
                 if(scene) scene.style.display = 'none';
@@ -595,7 +673,7 @@
             let targetThumb = document.getElementById('thumb-' + id);
             if(targetScene) targetScene.style.display = 'block';
             if(targetThumb) targetThumb.classList.add('active');
-            
+           
             // Resetear ajustes al cambiar foto
             document.getElementById('lab-br').value = 100;
             document.getElementById('lab-ct').value = 100;
@@ -605,22 +683,19 @@
         function updateLab() {
             let br = parseInt(document.getElementById('lab-br').value);
             let ct = parseInt(document.getElementById('lab-ct').value);
-            
+           
             document.getElementById('val-br').innerText = br;
             document.getElementById('val-ct').innerText = ct;
 
-            // Filtro CSS real sobre la imagen principal
             document.getElementById('lab-viewer').style.filter = `brightness(${br}%) contrast(${ct}%)`;
 
-            // Lógica oculta para mostrar al monstruo solo en altos valores (simulando exposición)
-            let brFactor = Math.max(0, (br - 200) / 400); 
+            let brFactor = Math.max(0, (br - 200) / 400);
             let ctFactor = Math.max(0, (ct - 150) / 450);
-            let opacity = (brFactor * ctFactor) * 2; // Multiplicador para hacerlo visible rápido en el límite
+            let opacity = (brFactor * ctFactor) * 2;
             if(opacity > 1) opacity = 1;
 
             document.getElementById('hidden-' + currentLabScene).style.opacity = opacity;
 
-            // Alerta de anomalía revelada
             if(opacity > 0.6) {
                 document.getElementById('lab-warning').classList.add('active');
                 if(Math.random() > 0.98) triggerLabGlitch();
@@ -632,173 +707,17 @@
         function triggerLabGlitch() {
             document.body.style.backgroundColor = "#aa0000";
             document.getElementById('lab-viewer').style.filter = "invert(100%) sepia(100%)";
-            setTimeout(() => { 
-                document.body.style.backgroundColor = "#008080"; 
-                updateLab(); // Restaurar filtro normal
+            setTimeout(() => {
+                document.body.style.backgroundColor = "#008080";
+                updateLab();
             }, 150);
         }
 
-        // --- LÓGICA DEL CHAT CON INTELIGENCIA ARTIFICIAL (GEMINI API) ---
-        const apiKey = ""; // El entorno inyecta la clave automáticamente
-        const apiModel = "gemini-2.5-flash-preview-09-2025";
-        
+        // --- LÓGICA DEL CHAT SIMPLIFICADA (Fallback offline si no se conectó el script de Gemini) ---
         let chatMemory = JSON.parse(sessionStorage.getItem('dba_chat_memory')) || [];
-        
-        function loadChatState() { 
-            if(sessionStorage.getItem('dba_chat_open') === 'true') { 
-                document.getElementById('chat-window').style.display = 'flex'; 
-                document.getElementById('chat-icon').style.display = 'none'; 
-            } 
-            if(chatMemory.length > 0) { 
-                let h = document.getElementById('chat-history'); h.innerHTML = ''; 
-                chatMemory.forEach(msg => { 
-                    let d = document.createElement('div'); d.className = 'chat-msg'; d.innerHTML = msg; h.appendChild(d); 
-                }); 
-                h.scrollTop = h.scrollHeight; 
-            } 
-        }
-        
-        function toggleChat() { 
-            let c = document.getElementById('chat-window'), i = document.getElementById('chat-icon'); 
-            let isOpen = c.style.display === 'none' || c.style.display === ''; 
-            c.style.display = isOpen ? 'flex' : 'none'; i.style.display = isOpen ? 'none' : 'flex'; 
-            sessionStorage.setItem('dba_chat_open', isOpen); 
-            if(isOpen) document.getElementById('chat-input').focus();
-        }
-
-        // Función auxiliar para agregar mensajes a la UI
-        function renderBotMessage(text, isTyping = false) {
-            let h = document.getElementById('chat-history');
-            
-            // Si es un indicador de "escribiendo", le ponemos un ID para borrarlo luego
-            if (isTyping) {
-                let d = document.createElement('div'); 
-                d.className = 'chat-msg'; 
-                d.id = 'bot-typing-indicator';
-                d.innerHTML = '<span class="chat-name-bot">Agente_DBA dice:</span><br><i>[PROCESANDO...]</i>'; 
-                h.appendChild(d);
-            } else {
-                let indicator = document.getElementById('bot-typing-indicator');
-                if(indicator) indicator.remove();
-                
-                let bTxt = '<span class="chat-name-bot">Agente_DBA dice:</span><br>' + text; 
-                let bd = document.createElement('div'); 
-                bd.className = 'chat-msg'; 
-                bd.innerHTML = bTxt; 
-                h.appendChild(bd); 
-                
-                chatMemory.push(bTxt); 
-                sessionStorage.setItem('dba_chat_memory', JSON.stringify(chatMemory)); 
-            }
-            h.scrollTop = h.scrollHeight;
-        }
-
-        function sendMessage() { 
-            let i = document.getElementById('chat-input'), msg = i.value.trim(); 
-            if(msg === '') return; 
-            
-            let h = document.getElementById('chat-history'), d = document.createElement('div'); 
-            let txt = '<span class="chat-name-user">Usuario dice:</span><br>' + escapeHtml(msg); 
-            d.className = 'chat-msg'; d.innerHTML = txt; h.appendChild(d); 
-            
-            chatMemory.push(txt); 
-            sessionStorage.setItem('dba_chat_memory', JSON.stringify(chatMemory)); 
-            i.value = ''; h.scrollTop = h.scrollHeight; 
-            
-            // Iniciar procesamiento de respuesta
-            botReply(msg);
-        }
-
-        // Conexión a Gemini API con Backoff Exponencial
-        async function callGeminiAPI(promptText, base64Image = null) {
-            const systemPrompt = "Eres un agente operativo de la D.B.A. (Dirección de Búsqueda de Andantes), una agencia gubernamental secreta colombiana que opera a principios de los años 2000. Tu trabajo es vigilar la intranet. Eres paranoico, burócrata, frío y muy cortante. NUNCA reveles información clasificada sobre los 'andantes' (entidades anómalas oscuras). Si el usuario pregunta cosas que no debe saber, responde con hostilidad. Usa un lenguaje institucional. Mantén tus respuestas MUY cortas (máximo 2 oraciones). No uses formato markdown (*, **, #).";
-            
-            let payload = {
-                systemInstruction: { parts: [{ text: systemPrompt }] },
-                contents: [{ role: "user", parts: [{ text: promptText }] }]
-            };
-
-            if (base64Image) {
-                const base64Data = base64Image.split(',')[1];
-                const mimeType = base64Image.split(';')[0].split(':')[1];
-                payload.contents[0].parts.push({
-                    inlineData: { mimeType: mimeType, data: base64Data }
-                });
-            }
-
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/${apiModel}:generateContent?key=${apiKey}`;
-            const delays = [1000, 2000, 4000, 8000, 16000];
-            
-            for (let i = 0; i < 5; i++) {
-                try {
-                    const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-                    if (!response.ok) throw new Error("Network Error");
-                    const result = await response.json();
-                    return result.candidates[0].content.parts[0].text;
-                } catch (err) {
-                    if (i === 4) return "ERROR DE CONEXIÓN CON EL SERVIDOR CENTRAL. TRANSMISIÓN INTERRUMPIDA POR INTERFERENCIA ANÓMALA.";
-                    await new Promise(r => setTimeout(r, delays[i]));
-                }
-            }
-        }
-
-        async function botReply(userMsg) {
-            let msgLower = userMsg.toLowerCase();
-            let exactResponse = "";
-
-            // 1. RESPUESTAS EXACTAS PROGRAMADAS (Límites rígidos de la historia)
-            if (msgLower === "quien eres" || msgLower === "¿quién eres?" || msgLower === "como te llamas") {
-                exactResponse = "Soy el operador encriptado asignado a esta terminal de la D.B.A. Mi identidad y rango están clasificados bajo el protocolo Nivel 2. Limítese a sus funciones.";
-            } else if (msgLower.includes("que es la dba") || msgLower.includes("qué es la dba")) {
-                exactResponse = "La Dirección de Búsqueda de Andantes es el escudo que protege a la nación de aquello que no debe ser visto. No haga preguntas cuyas respuestas no está autorizado a conocer.";
-            } else if (msgLower.includes("que es un andante") || msgLower.includes("qué son los andantes")) {
-                exactResponse = "Esa terminología se refiere a anomalías Nivel 4. Su existencia no está confirmada oficialmente por el gobierno de Colombia. Cese esta línea de interrogatorio de inmediato.";
-            } else if (msgLower.includes("bojayá") || msgLower.includes("chocó")) {
-                exactResponse = "ACCESO DENEGADO. El incidente en esa región está bajo sumario militar y bloqueado por la Directriz 09. Su mención de este evento acaba de ser reportada a Asuntos Internos.";
-            } else if (msgLower.includes("hola") || msgLower.includes("buenos días")) {
-                exactResponse = "Evite las formalidades civiles en este canal seguro. Limítese a reportar su estado, agente.";
-            } else if (msgLower.includes("ayuda") || msgLower.includes("auxilio")) {
-                exactResponse = "Señal de socorro registrada. Calculando probabilidad de supervivencia... 12%. Se le ordena contener la amenaza a toda costa. Su sacrificio será recordado.";
-            }
-
-            if (exactResponse !== "") {
-                setTimeout(() => renderBotMessage(exactResponse), 800);
-                return;
-            }
-
-            // Mostrar estado "Procesando..."
-            renderBotMessage("", true);
-            let aiPrompt = userMsg;
-
-            // 2. CONTEXTO DEL MINIJUEGO DE LABORATORIO
-            if (document.getElementById('tab-laboratorio').style.display === 'block') {
-                if (currentLabScene === 4) {
-                    // El usuario está viendo SU PROPIA FOTO
-                    let base64Photo = sessionStorage.getItem('dba_user_photo');
-                    if (base64Photo) {
-                        aiPrompt = userMsg + "\n(Instrucción oculta para la IA: El usuario está usando el Laboratorio Fotográfico y te ha enviado una foto capturada con su webcam. Analiza la imagen real de la persona que ves, describe algo de su aspecto de forma fría y clínica, PERO adviértele urgentemente que hay una anomalía oscura, alta y de ojos blancos materializándose justo detrás de él en la habitación. ¡Actúa paranoico!)";
-                        let aiResponse = await callGeminiAPI(aiPrompt, base64Photo);
-                        renderBotMessage(aiResponse);
-                        return;
-                    }
-                } else {
-                    // El usuario está viendo otra evidencia
-                    let contextInfo = "";
-                    if(currentLabScene === 1) contextInfo = "El usuario está analizando la Evidencia 01 (Un bosque). Dile que los sensores térmicos de la imagen indican una entidad alta camuflada en los árboles.";
-                    if(currentLabScene === 2) contextInfo = "El usuario está analizando la Evidencia 02 (Un sótano oscuro). Dile que el análisis de ruido revela un rostro humanoide distorsionado gritando.";
-                    if(currentLabScene === 3) contextInfo = "El usuario está analizando la Evidencia 03 (Una multitud). Adviértele que los patrones de la estática sugieren que toda esa multitud ha sido asimilada.";
-                    
-                    aiPrompt = userMsg + `\n(Instrucción oculta para la IA: ${contextInfo})`;
-                }
-            }
-
-            // 3. RESPUESTA GENERATIVA (Como un humano / IA)
-            let aiResponse = await callGeminiAPI(aiPrompt);
-            renderBotMessage(aiResponse);
-        }
-
-        function escapeHtml(unsafe) { return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;"); }
-
+        function loadChatState() { if(sessionStorage.getItem('dba_chat_open') === 'true') { document.getElementById('chat-window').style.display = 'flex'; document.getElementById('chat-icon').style.display = 'none'; } if(chatMemory.length > 0) { let h = document.getElementById('chat-history'); h.innerHTML = ''; chatMemory.forEach(msg => { let d = document.createElement('div'); d.className = 'chat-msg'; d.innerHTML = msg; h.appendChild(d); }); h.scrollTop = h.scrollHeight; } }
+        function toggleChat() { let c = document.getElementById('chat-window'), i = document.getElementById('chat-icon'); let isOpen = c.style.display === 'none' || c.style.display === ''; c.style.display = isOpen ? 'flex' : 'none'; i.style.display = isOpen ? 'none' : 'flex'; sessionStorage.setItem('dba_chat_open', isOpen); }
+        function sendMessage() { let i = document.getElementById('chat-input'), msg = i.value.trim(); if(msg === '') return; let h = document.getElementById('chat-history'), d = document.createElement('div'); let txt = '<span class="chat-name-user">Usuario dice:</span><br>' + msg; d.className = 'chat-msg'; d.innerHTML = txt; h.appendChild(d); chatMemory.push(txt); sessionStorage.setItem('dba_chat_memory', JSON.stringify(chatMemory)); i.value = ''; h.scrollTop = h.scrollHeight; setTimeout(() => { let bTxt = '<span class="chat-name-bot">Agente_DBA dice:</span><br>Recibido. Fin de transmisión.'; let bd = document.createElement('div'); bd.className = 'chat-msg'; bd.innerHTML = bTxt; h.appendChild(bd); chatMemory.push(bTxt); sessionStorage.setItem('dba_chat_memory', JSON.stringify(chatMemory)); h.scrollTop = h.scrollHeight; }, 1000); }
         function evaluarAgente(e) { e.preventDefault(); alert("Evaluación registrada."); }
 
         // --- LÓGICA DE LA RADIO ANALÓGICA Y WEB AUDIO API ---
