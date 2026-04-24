@@ -316,7 +316,7 @@
     <div id="main-wrapper">
         <div id="header">
             <div id="logo-container">
-                <img src="LOGO DBA_2026_fondo_blanco.png" alt="Logo D.B.A">
+                <img src="LOGO DBA_2026.png" alt="Logo D.B.A">
             </div>
             <h1 id="header-title">D.B.A</h1>
         </div>
@@ -790,13 +790,17 @@
             if (!apiKey) {
                 apiKey = prompt("SISTEMA ENCRIPTADO D.B.A.\n\nPara iniciar la conexión con Inteligencia Artificial, ingrese su API Key de Gemini.\n\n(Si no tiene una o no sabe qué es, consulte la pestaña CONTACTO para instrucciones).");
                 if (apiKey && apiKey.trim() !== "") {
-                    sessionStorage.setItem('dba_api_key', apiKey.trim());
+                    // AQUÍ ESTABA EL PROBLEMA: Limpiar la llave antes de asignarla a la variable y usarla
+                    apiKey = apiKey.trim(); 
+                    sessionStorage.setItem('dba_api_key', apiKey);
                 } else {
                     return "[ERROR CRÍTICO: SE REQUIERE CLAVE DE ENCRIPTACIÓN (API KEY) PARA ESTABLECER CONEXIÓN. CONSULTE LA SECCIÓN CONTACTO.]";
                 }
             }
 
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            // SEGUNDO CAMBIO IMPORTANTE: 
+            // Utilizamos el modelo gemini-1.5-flash. El modelo anterior era exclusivo interno y rechazaba llaves públicas.
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
             // ENFOQUE 1: AMPLIACIÓN DEL SYSTEM PROMPT
             // Usamos backticks (`) para crear un manual de instrucciones estructurado y fácil de editar.
@@ -826,9 +830,9 @@
                     const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                     if (!response.ok) {
                         // Si la API rechaza la llave, la borramos para que vuelva a pedirla
-                        if (response.status === 400 || response.status === 403) {
+                        if (response.status === 400 || response.status === 403 || response.status === 404) {
                             sessionStorage.removeItem('dba_api_key');
-                            return "[ERROR DE AUTENTICACIÓN: LA CLAVE PROPORCIONADA HA SIDO RECHAZADA. LIMPIE EL HISTORIAL E INTENTE NUEVAMENTE.]";
+                            return "[ERROR DE AUTENTICACIÓN: LA CLAVE PROPORCIONADA ES INVÁLIDA O NO TIENE PERMISOS. ENVÍE UN NUEVO MENSAJE PARA INGRESARLA NUEVAMENTE.]";
                         }
                         throw new Error('Fallo en la comunicación encriptada');
                     }
