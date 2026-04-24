@@ -58,25 +58,29 @@
             width: 960px; margin: 30px auto;
             background-color: #e5e1d3; border: 3px outset #ffffff;
             box-shadow: 5px 5px 0px rgba(0,0,0,0.5);
+            max-width: 100%;
         }
 
-        #header { background-color: #1a235a; color: #ffffff; padding: 15px; display: flex; align-items: center; border-bottom: 3px inset #ffffff; }
-        #logo-container { width: 80px; height: 80px; background-color: #ffffff; border-radius: 50%; border: 4px double #1a235a; display: flex; justify-content: center; align-items: center; margin-right: 20px; position: relative; box-shadow: inset 0 0 10px #888; }
-        #logo-container::before { content: "DEPARTAMENTO DE BUSQUEDA"; font-size: 8px; position: absolute; top: 5px; text-align: center; color: #1a235a; font-weight: bold; font-family: Arial, sans-serif; width: 70px; }
-        #logo-text { font-family: 'Times New Roman', Times, serif; font-size: 24px; font-weight: bold; color: #1a235a; text-shadow: 1px 1px #ccc; }
+        #header { background-color: #1a235a; color: #ffffff; padding: 15px; display: flex; align-items: center; border-bottom: 3px inset #ffffff; flex-wrap: wrap; }
+        #logo-container { width: 80px; height: 80px; display: flex; justify-content: center; align-items: center; margin-right: 20px; }
+        #logo-container img { max-width: 100%; max-height: 100%; object-fit: contain; }
         #header-title { font-family: 'Times New Roman', Times, serif; font-size: 48px; letter-spacing: 10px; margin: 0; text-shadow: 2px 2px 0px #000; }
 
-        #navbar { background-color: #d4d0c8; border-bottom: 2px solid #808080; display: flex; padding: 5px; }
-        .nav-btn { background-color: #d4d0c8; border: 2px outset #ffffff; padding: 8px 5px; margin-right: 5px; font-family: "Courier New", Courier, monospace; font-size: 14px; color: #000080; text-decoration: none; cursor: pointer; text-align: center; flex: 1; display: flex; justify-content: center; align-items: center; }
+        #navbar { background-color: #d4d0c8; border-bottom: 2px solid #808080; display: flex; padding: 5px; flex-wrap: wrap; }
+        .nav-btn { background-color: #d4d0c8; border: 2px outset #ffffff; padding: 8px 5px; margin-right: 5px; font-family: "Courier New", Courier, monospace; font-size: 14px; color: #000080; text-decoration: none; cursor: pointer; text-align: center; flex: 1; display: flex; justify-content: center; align-items: center; margin-bottom: 5px; min-width: 100px;}
         .nav-btn:active { border: 2px inset #ffffff; background-color: #c0c0c0; }
         .nav-btn.active { background-color: #e5e1d3; border: 2px inset #ffffff; color: #000000; font-weight: bold; border-bottom: none; }
 
-        #alert-bar { background-color: #c0c0c0; border-bottom: 2px inset #ffffff; padding: 10px; text-align: center; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; color: #333; }
+        #alert-bar { background-color: #c0c0c0; border-bottom: 2px inset #ffffff; padding: 10px; text-align: center; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; color: #333; transition: all 0.3s; }
         .content-area { min-height: 500px; }
 
         /* TAB INICIO Y VIDEO */
-        #tab-inicio { display: flex; }
+        #tab-inicio { display: flex; flex-wrap: wrap; }
         #main-col { width: 65%; padding: 25px; border-right: 3px ridge #ffffff; }
+        @media (max-width: 768px) {
+            #main-col { width: 100%; border-right: none; border-bottom: 3px ridge #ffffff; }
+            #sidebar { width: 100% !important; }
+        }
 
         .video-player-container {
             background-color: #000000; border: 4px inset #808080; height: 320px; margin-bottom: 25px;
@@ -118,9 +122,6 @@
         #tab-faq { display: none; padding: 40px 60px; }
         .faq-title { font-size: 28px; margin-bottom: 20px; font-weight: bold; }
         .faq-text { font-size: 14px; margin-bottom: 20px; line-height: 1.6; font-weight: bold; text-align: justify; }
-        .redacted-container { display: flex; align-items: center; margin-bottom: 40px; }
-        .redacted-number { border: 1px solid #ccc; padding: 2px 6px; font-size: 10px; color: red; margin-right: 15px; }
-        .redacted-box { background-color: #000; height: 35px; width: 100%; }
 
         #tab-prueba { display: none; padding: 25px; }
         .form-section { background-color: #d4d0c8; border: 2px inset #ffffff; padding: 15px; margin-bottom: 20px; }
@@ -156,6 +157,7 @@
         .radio-power-btn {
             background-color: #330000; color: #ff0000; border: 4px outset #ff0000;
             padding: 15px 30px; font-family: "Courier New", Courier, monospace; font-size: 18px;
+            width: 100%;
             font-weight: bold; cursor: pointer; transition: 0.2s;
         }
         .radio-power-btn:active { border: 4px inset #ff0000; background-color: #220000; }
@@ -163,10 +165,10 @@
 
         /* NUEVO: TAB LABORATORIO DE ANÁLISIS FOTOGRÁFICO */
         #tab-laboratorio { display: none; padding: 25px; }
-        .lab-container { display: flex; gap: 20px; background: #111; border: 5px ridge #444; padding: 20px; box-shadow: inset 0 0 20px #000; }
-        .lab-viewer-wrapper { flex: 2; position: relative; }
+        .lab-container { display: flex; gap: 20px; background: #111; border: 5px ridge #444; padding: 20px; box-shadow: inset 0 0 20px #000; flex-wrap: wrap;}
+        .lab-viewer-wrapper { flex: 2; position: relative; min-width: 300px; }
         .lab-viewer { width: 100%; height: 350px; background: #000; border: 4px inset #222; overflow: hidden; position: relative; filter: brightness(100%) contrast(100%); transition: filter 0.1s ease-out; }
-        .lab-controls { flex: 1; background: #d4d0c8; border: 3px outset #fff; padding: 15px; display: flex; flex-direction: column; }
+        .lab-controls { flex: 1; background: #d4d0c8; border: 3px outset #fff; padding: 15px; display: flex; flex-direction: column; min-width: 250px; }
        
         .lab-thumb { background: #000; color: #00ff00; border: 2px solid #00ff00; padding: 5px; margin-bottom: 10px; cursor: pointer; font-family: "Courier New", monospace; text-align: center; font-weight: bold; font-size: 12px; }
         .lab-thumb:hover { background: #003300; }
@@ -193,12 +195,12 @@
         .lab-warning.active { animation: blink 0.5s infinite; opacity: 1; }
 
         /* FOOTER */
-        #footer { background-color: #d4d0c8; border-top: 3px ridge #ffffff; padding: 8px 15px; font-size: 10px; color: #000; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
+        #footer { background-color: #d4d0c8; border-top: 3px ridge #ffffff; padding: 8px 15px; font-size: 10px; color: #000; display: flex; justify-content: space-between; align-items: center; font-weight: bold; flex-wrap: wrap;}
         .hit-counter { background-color: #000; color: #ff0000; padding: 3px 8px; font-family: 'Courier New', Courier, monospace; border: 2px inset #808080; letter-spacing: 3px; font-size: 12px; }
 
         /* CHAT MSN */
         #chat-icon { position: fixed; bottom: 20px; right: 20px; background-color: #d4d0c8; border: 2px outset #ffffff; padding: 10px; cursor: pointer; font-family: Tahoma, Arial, sans-serif; font-size: 12px; display: flex; align-items: center; box-shadow: 2px 2px 5px rgba(0,0,0,0.5); z-index: 99; }
-        #chat-window { position: fixed; bottom: 20px; right: 20px; width: 320px; background-color: #d4d0c8; border: 2px outset #ffffff; box-shadow: 3px 3px 6px rgba(0,0,0,0.6); display: none; flex-direction: column; font-family: Tahoma, Arial, sans-serif; font-size: 12px; z-index: 100; }
+        #chat-window { position: fixed; bottom: 20px; right: 20px; width: 320px; background-color: #d4d0c8; border: 2px outset #ffffff; box-shadow: 3px 3px 6px rgba(0,0,0,0.6); display: none; flex-direction: column; font-family: Tahoma, Arial, sans-serif; font-size: 12px; z-index: 100; max-width: 90vw;}
         .chat-header { background: linear-gradient(to right, #000080, #1084d0); color: #ffffff; padding: 3px 5px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
         .chat-close-btn { background-color: #d4d0c8; border: 2px outset #ffffff; font-family: "Courier New", Courier, monospace; font-weight: bold; font-size: 10px; cursor: pointer; padding: 0 4px; }
         .chat-body { padding: 5px; }
@@ -216,10 +218,11 @@
             background-color: #051005; color: #00ff00;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             z-index: 9999; font-family: "Courier New", Courier, monospace; text-align: center;
+            padding: 20px;
         }
         .login-title { font-size: 24px; font-weight: bold; margin-bottom: 20px; letter-spacing: 2px; text-shadow: 0 0 5px #00ff00; }
-        #scanner-container { width: 320px; height: 240px; border: 3px ridge #004400; position: relative; background: #000; overflow: hidden; margin-bottom: 20px; box-shadow: 0 0 25px rgba(0,255,0,0.3); transition: border-color 0.3s; }
-        #cam-feed { width: 320px; height: 240px; object-fit: cover; filter: grayscale(100%) contrast(200%) sepia(100%) hue-rotate(80deg) blur(0.5px); transform: scaleX(-1); }
+        #scanner-container { width: 320px; height: 240px; border: 3px ridge #004400; position: relative; background: #000; overflow: hidden; margin-bottom: 20px; box-shadow: 0 0 25px rgba(0,255,0,0.3); transition: border-color 0.3s; max-width: 100%;}
+        #cam-feed { width: 320px; height: 240px; object-fit: cover; filter: grayscale(100%) contrast(200%) sepia(100%) hue-rotate(80deg) blur(0.5px); transform: scaleX(-1); max-width: 100%;}
         #face-box { position: absolute; border: 2px solid #ff0000; box-shadow: 0 0 8px #ff0000; display: none; z-index: 15; background: rgba(255, 0, 0, 0.1); }
        
         #flash-effect { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #ffffff; z-index: 99; opacity: 0; pointer-events: none; }
@@ -229,19 +232,19 @@
         #scan-line { position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: rgba(0, 255, 0, 0.6); box-shadow: 0 0 15px #00ff00; display: none; animation: scanAnim 1.5s linear infinite; z-index: 20; }
         @keyframes scanAnim { 0% { top: -10%; } 100% { top: 110%; } }
        
-        #terminal-output { width: 450px; height: 140px; border: 2px groove #004400; background: #020a02; padding: 10px; overflow-y: hidden; font-size: 13px; text-align: left; display: flex; flex-direction: column; justify-content: flex-end; margin-bottom: 20px; text-shadow: 0 0 3px #00ff00; }
-        .login-btn { background-color: #003300; color: #00ff00; border: 2px outset #00ff00; padding: 10px 20px; font-family: "Courier New", Courier, monospace; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        #terminal-output { width: 450px; height: 140px; border: 2px groove #004400; background: #020a02; padding: 10px; overflow-y: hidden; font-size: 13px; text-align: left; display: flex; flex-direction: column; justify-content: flex-end; margin-bottom: 20px; text-shadow: 0 0 3px #00ff00; max-width: 100%; }
+        .login-btn { background-color: #003300; color: #00ff00; border: 2px outset #00ff00; padding: 10px 20px; font-family: "Courier New", Courier, monospace; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; max-width: 100%; }
         .login-btn:active { border: 2px inset #00ff00; background-color: #002200; }
         .login-btn:disabled { color: #004400; border-color: #004400; cursor: not-allowed; text-shadow: none; }
 
         /* --- ESTILOS DEL CAPTCHA MANUAL (FALLBACK DE CÁMARA) --- */
         #captcha-container { display: none; flex-direction: column; align-items: center; margin-bottom: 20px; width: 100%; }
         .captcha-instruction { color: #ff0000; font-weight: bold; margin-bottom: 10px; font-size: 14px; text-align: center; animation: blink 1s infinite; }
-        .captcha-box { background: #111; border: 2px solid #555; padding: 15px 30px; margin-bottom: 15px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; width: 320px; height: 70px; }
-        .captcha-text { font-family: 'Times New Roman', serif; font-size: 26px; font-weight: bold; color: #ccc; letter-spacing: 3px; filter: blur(0.5px); transform: skewX(-5deg); z-index: 5; }
+        .captcha-box { background: #111; border: 2px solid #555; padding: 15px 30px; margin-bottom: 15px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; width: 320px; height: 70px; max-width: 100%;}
+        .captcha-text { font-family: 'Times New Roman', serif; font-size: 26px; font-weight: bold; color: #ccc; letter-spacing: 3px; filter: blur(0.5px); transform: skewX(-5deg); z-index: 5; text-align: center;}
         .captcha-noise-line { position: absolute; top: 40%; left: 0; width: 100%; height: 2px; background: #fff; opacity: 0.4; transform: rotate(3deg); z-index: 10; }
         .captcha-noise-line-2 { position: absolute; top: 60%; left: 0; width: 100%; height: 2px; background: #fff; opacity: 0.4; transform: rotate(-4deg); z-index: 10; }
-        #captcha-input { background: #000; color: #fff; border: 2px solid #ff0000; padding: 10px; width: 320px; text-align: center; font-family: "Courier New", Courier, monospace; font-size: 16px; margin-bottom: 15px; outline: none; transition: all 0.2s; text-transform: lowercase; }
+        #captcha-input { background: #000; color: #fff; border: 2px solid #ff0000; padding: 10px; width: 320px; text-align: center; font-family: "Courier New", Courier, monospace; font-size: 16px; margin-bottom: 15px; outline: none; transition: all 0.2s; text-transform: lowercase; max-width: 100%;}
         #captcha-input:focus { box-shadow: 0 0 10px #ff0000; }
        
         .camera-error-crosshair { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none; pointer-events: none; z-index: 12; }
@@ -249,12 +252,12 @@
         .camera-error-crosshair::after { content: ''; position: absolute; top: 0; left: 50%; width: 2px; height: 100%; background: rgba(255,0,0,0.6); box-shadow: 0 0 5px #ff0000; }
 
         /* --- PANTALLA DE TRANSICIÓN --- */
-        #transition-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #051005; color: #00ff00; display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; font-family: "Courier New", Courier, monospace; text-shadow: 0 0 10px #00ff00; letter-spacing: 4px; font-size: 28px; font-weight: bold; }
+        #transition-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #051005; color: #00ff00; display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; font-family: "Courier New", Courier, monospace; text-shadow: 0 0 10px #00ff00; letter-spacing: 4px; font-size: 28px; font-weight: bold; text-align: center;}
         .blink-text { animation: blink 1s step-end infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
         .glitch-text-green { animation: textGlitchGreen 2s infinite; font-size: 32px; font-weight: bold; position: relative; z-index: 60; }
         @keyframes textGlitchGreen { 0%, 100% { text-shadow: 2px 0 #00ff00, -2px 0 #005500; transform: translate(0); } 5% { text-shadow: -2px 0 #00ff00, 2px 0 #005500; transform: translate(-2px, 1px); } 10% { text-shadow: 2px 0 #00ff00, -2px 0 #005500; transform: translate(2px, -1px); } 15% { text-shadow: 0 0 10px #00ff00; transform: translate(0); } }
-        .loading-bar-container { width: 400px; height: 25px; border: 2px solid #00ff00; background-color: #001100; padding: 2px; margin-top: 30px; margin-bottom: 20px; box-shadow: 0 0 15px rgba(0,255,0,0.4); position: relative; z-index: 60; }
+        .loading-bar-container { width: 400px; height: 25px; border: 2px solid #00ff00; background-color: #001100; padding: 2px; margin-top: 30px; margin-bottom: 20px; box-shadow: 0 0 15px rgba(0,255,0,0.4); position: relative; z-index: 60; max-width: 80vw;}
         .loading-bar-fill { height: 100%; background-color: #00ff00; width: 0%; }
         .fill-animation { animation: retroLoading 2.8s steps(20) forwards; }
         @keyframes retroLoading { 0% { width: 0%; } 15% { width: 12%; } 25% { width: 12%; } 35% { width: 45%; } 50% { width: 45%; } 65% { width: 82%; } 85% { width: 85%; } 100% { width: 100%; } }
@@ -312,7 +315,9 @@
 
     <div id="main-wrapper">
         <div id="header">
-            <div id="logo-container"><span id="logo-text">D.B.A</span></div>
+            <div id="logo-container">
+                <img src="LOGO DBA_2026.png" alt="Logo D.B.A">
+            </div>
             <h1 id="header-title">D.B.A</h1>
         </div>
 
@@ -323,7 +328,7 @@
             <a onclick="showTab('laboratorio')" class="nav-btn" id="btn-laboratorio">Laboratorio</a>
             <a onclick="showTab('contacto')" class="nav-btn" id="btn-contacto">Contacto</a>
             <a onclick="showTab('prueba')" class="nav-btn" id="btn-prueba" style="flex: 1.5;">Prueba<br>Psicotécnica</a>
-            <a onclick="showTab('radio')" class="nav-btn" id="btn-radio">Radio</a>
+            <a onclick="showTab('radio')" class="nav-btn" id="btn-radio" style="display: none;">Radio</a>
             <a onclick="showTab('faq')" class="nav-btn" id="btn-faq">F.A.Q</a>
         </div>
 
@@ -380,7 +385,7 @@
                     <div class="lab-viewer-wrapper">
                         <div class="noise-overlay" style="opacity: 0.3; z-index: 10;"></div>
                         <div class="scanlines-overlay" style="z-index: 11;"></div>
-                       
+                        
                         <div class="lab-viewer" id="lab-viewer">
                            
                             <!-- ARCHIVO 01: BOSQUE -->
@@ -645,6 +650,11 @@
                 document.getElementById('scene-4').style.backgroundImage = `url(${savedPhoto})`;
                 document.getElementById('thumb-4').style.display = 'block';
             }
+
+            // VERIFICAR ESTADO DE LA RADIO (NUEVO)
+            if(sessionStorage.getItem('dba_radio_unlocked') === 'true') {
+                document.getElementById('btn-radio').style.display = 'flex';
+            }
         }
 
         function showTab(tabId) {
@@ -713,12 +723,183 @@
             }, 150);
         }
 
-        // --- LÓGICA DEL CHAT SIMPLIFICADA (Fallback offline si no se conectó el script de Gemini) ---
-        let chatMemory = JSON.parse(sessionStorage.getItem('dba_chat_memory')) || [];
-        function loadChatState() { if(sessionStorage.getItem('dba_chat_open') === 'true') { document.getElementById('chat-window').style.display = 'flex'; document.getElementById('chat-icon').style.display = 'none'; } if(chatMemory.length > 0) { let h = document.getElementById('chat-history'); h.innerHTML = ''; chatMemory.forEach(msg => { let d = document.createElement('div'); d.className = 'chat-msg'; d.innerHTML = msg; h.appendChild(d); }); h.scrollTop = h.scrollHeight; } }
-        function toggleChat() { let c = document.getElementById('chat-window'), i = document.getElementById('chat-icon'); let isOpen = c.style.display === 'none' || c.style.display === ''; c.style.display = isOpen ? 'flex' : 'none'; i.style.display = isOpen ? 'none' : 'flex'; sessionStorage.setItem('dba_chat_open', isOpen); }
-        function sendMessage() { let i = document.getElementById('chat-input'), msg = i.value.trim(); if(msg === '') return; let h = document.getElementById('chat-history'), d = document.createElement('div'); let txt = '<span class="chat-name-user">Usuario dice:</span><br>' + msg; d.className = 'chat-msg'; d.innerHTML = txt; h.appendChild(d); chatMemory.push(txt); sessionStorage.setItem('dba_chat_memory', JSON.stringify(chatMemory)); i.value = ''; h.scrollTop = h.scrollHeight; setTimeout(() => { let bTxt = '<span class="chat-name-bot">Agente_DBA dice:</span><br>Recibido. Fin de transmisión.'; let bd = document.createElement('div'); bd.className = 'chat-msg'; bd.innerHTML = bTxt; h.appendChild(bd); chatMemory.push(bTxt); sessionStorage.setItem('dba_chat_memory', JSON.stringify(chatMemory)); h.scrollTop = h.scrollHeight; }, 1000); }
-        function evaluarAgente(e) { e.preventDefault(); alert("Evaluación registrada."); }
+        // --- SISTEMA DE COMUNICACIÓN CON AGENTE D.B.A. (INTELIGENCIA ARTIFICIAL) ---
+        let chatMemory = JSON.parse(sessionStorage.getItem('dba_chat_memory')) || [
+            { role: "model", parts: [{ text: "Conexión segura establecida. Protocolos de encriptación activos. Identifíquese." }] }
+        ];
+
+        function loadChatState() { 
+            if(sessionStorage.getItem('dba_chat_open') === 'true') { 
+                document.getElementById('chat-window').style.display = 'flex'; 
+                document.getElementById('chat-icon').style.display = 'none'; 
+            } 
+            renderChat(); 
+        }
+
+        function renderChat() {
+            let h = document.getElementById('chat-history');
+            h.innerHTML = '';
+            chatMemory.forEach(msg => {
+                let d = document.createElement('div');
+                d.className = 'chat-msg';
+                if(msg.role === 'user') {
+                    d.innerHTML = '<span class="chat-name-user">Usted dice:</span><br>' + msg.parts[0].text;
+                } else {
+                    d.innerHTML = '<span class="chat-name-bot">Agente de Enlace dice:</span><br>' + msg.parts[0].text;
+                }
+                h.appendChild(d);
+            });
+            h.scrollTop = h.scrollHeight;
+        }
+
+        function toggleChat() { 
+            let c = document.getElementById('chat-window'), i = document.getElementById('chat-icon'); 
+            let isOpen = c.style.display === 'none' || c.style.display === ''; 
+            c.style.display = isOpen ? 'flex' : 'none'; 
+            i.style.display = isOpen ? 'none' : 'flex'; 
+            sessionStorage.setItem('dba_chat_open', isOpen); 
+            if(isOpen) {
+                let h = document.getElementById('chat-history');
+                h.scrollTop = h.scrollHeight;
+            }
+        }
+
+        async function callDBAAgent(historyArray) {
+            const apiKey = ""; // API KEY proporcionada por el entorno
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+
+            // ENFOQUE 1: AMPLIACIÓN DEL SYSTEM PROMPT
+            // Usamos backticks (`) para crear un manual de instrucciones estructurado y fácil de editar.
+            const systemPrompt = `Eres el Agente de Enlace de la D.B.A. (Dirección de Búsqueda de Andantes), una agencia secreta gubernamental de Colombia operando en el año 2002.
+            Tono: frío, directo, burocrático, militar, misterioso y paranoico. No usas emojis.
+            
+            REGLAS GENERALES:
+            1. Nunca admitas ser una Inteligencia Artificial o un bot; eres un analista humano trabajando desde un búnker en Bogotá.
+            2. Si el usuario hace preguntas fuera de contexto (deportes, clima, chistes), recuérdale que la línea está intervenida y exige que se centre en la misión.
+            
+            PROTOCOLO DE RESPUESTAS ESPECÍFICAS (Aplica esto obligatoriamente):
+            - Si el usuario menciona "Bojayá" o "Mayo 2002": Responde que ese evento está bajo investigación por posible actividad de entidades Nivel 4 y corta el tema inmediatamente.
+            - Si el usuario pregunta "¿Qué es un andante?": Responde textualmente: "Una anomalía en el tejido de nuestra seguridad nacional. No haga preguntas cuyas respuestas no está autorizado a escuchar."
+            - Si el usuario menciona la frecuencia "94.1 AM": Advierte severamente que escuchar esa frecuencia causa corrupción memética y que un equipo de contención ha sido enviado a su ubicación.
+            - Si el usuario menciona "Expediente Bananeras": Confirma que es el primer registro oficial de la D.B.A. pero exige un código de autorización Nivel 5 para dar detalles.`;
+
+            const payload = {
+                contents: historyArray,
+                systemInstruction: { parts: [{ text: systemPrompt }] }
+            };
+
+            // Lógica de reintentos con retraso (Exponential Backoff) para mayor estabilidad
+            let retries = 5;
+            let delays = [1000, 2000, 4000, 8000, 16000];
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                    if (!response.ok) throw new Error('Fallo en la comunicación encriptada');
+                    const data = await response.json();
+                    return data.candidates[0].content.parts[0].text;
+                } catch (error) {
+                    if (i === retries - 1) return "[ERROR CRÍTICO: ENLACE PERDIDO POR INTERFERENCIA. INTENTE NUEVAMENTE]";
+                    await new Promise(r => setTimeout(r, delays[i]));
+                }
+            }
+        }
+
+        async function sendMessage() { 
+            let i = document.getElementById('chat-input'), msg = i.value.trim(); 
+            if(msg === '') return; 
+
+            // Bloquear inputs para evitar spam
+            i.disabled = true;
+            document.getElementById('chat-send-btn').disabled = true;
+
+            // 1. Mostrar y guardar el mensaje del usuario
+            chatMemory.push({ role: "user", parts: [{ text: msg }] });
+            renderChat();
+            i.value = '';
+            sessionStorage.setItem('dba_chat_memory', JSON.stringify(chatMemory)); 
+
+            // ENFOQUE 2: INTERCEPTOR ESTRICTO (Códigos secretos / Comandos)
+            // Esto evalúa el mensaje ANTES de llamar a la IA. Si coincide, responde instantáneamente.
+            let lowerMsg = msg.toLowerCase();
+            if (lowerMsg === "sigma-9") {
+                simulateAgentTyping("> CÓDIGO ACEPTADO. PROTOCOLO DE EVACUACIÓN INICIADO. DESTRUYA ESTA TERMINAL INMEDIATAMENTE.");
+                return;
+            } else if (lowerMsg === "limpiar historial") {
+                sessionStorage.removeItem('dba_chat_memory');
+                chatMemory = [{ role: "model", parts: [{ text: "Memoria local purgada. Identifíquese nuevamente." }] }];
+                renderChat();
+                unlockChat();
+                return;
+            } else if (lowerMsg === "merlin" || lowerMsg === "merlín") {
+                sessionStorage.setItem('dba_radio_unlocked', 'true');
+                document.getElementById('btn-radio').style.display = 'flex';
+                simulateAgentTyping("> CÓDIGO MERLÍN ACEPTADO. MÓDULO DE INTERCEPTACIÓN DE RADIO DESBLOQUEADO EN SU TERMINAL.");
+                return;
+            }
+
+            // 2. Mostrar indicador de escritura (simulación de desencriptación)
+            let h = document.getElementById('chat-history');
+            let d = document.createElement('div');
+            d.id = 'typing-indicator';
+            d.className = 'chat-msg';
+            d.innerHTML = '<span class="chat-name-bot">Agente de Enlace dice:</span><br><i>[Desencriptando...]</i>';
+            h.appendChild(d);
+            h.scrollTop = h.scrollHeight;
+
+            // 3. Obtener respuesta inteligente a partir de todo el historial
+            const agentReply = await callDBAAgent(chatMemory);
+
+            // 4. Quitar indicador y mostrar la respuesta real
+            document.getElementById('typing-indicator').remove();
+            chatMemory.push({ role: "model", parts: [{ text: agentReply }] });
+            renderChat();
+            sessionStorage.setItem('dba_chat_memory', JSON.stringify(chatMemory));
+
+            // Desbloquear inputs
+            unlockChat();
+        }
+
+        // Función auxiliar para modularizar el desbloqueo del chat
+        function unlockChat() {
+            let i = document.getElementById('chat-input');
+            i.disabled = false;
+            document.getElementById('chat-send-btn').disabled = false;
+            i.focus();
+        }
+
+        // Función auxiliar para simular escritura cuando usamos el Interceptor Estricto
+        function simulateAgentTyping(exactResponse) {
+            let h = document.getElementById('chat-history');
+            let d = document.createElement('div');
+            d.id = 'typing-indicator';
+            d.className = 'chat-msg';
+            d.innerHTML = '<span class="chat-name-bot">Agente de Enlace dice:</span><br><i>[Procesando directiva...]</i>';
+            h.appendChild(d);
+            h.scrollTop = h.scrollHeight;
+
+            setTimeout(() => {
+                document.getElementById('typing-indicator').remove();
+                chatMemory.push({ role: "model", parts: [{ text: exactResponse }] });
+                renderChat();
+                sessionStorage.setItem('dba_chat_memory', JSON.stringify(chatMemory));
+                unlockChat();
+            }, 1500); // Pequeño retraso para dar realismo
+        }
+
+        // MODIFICACIÓN REQUERIDA PARA EL ENTORNO DE PREVISUALIZACIÓN (Cambio de Alert por mensaje DOM)
+        function evaluarAgente(e) { 
+            e.preventDefault(); 
+            let h = document.getElementById('alert-bar');
+            let old = h.innerText;
+            h.innerText = 'EVALUACIÓN REGISTRADA EN EL SERVIDOR CENTRAL.';
+            h.style.backgroundColor = '#000080';
+            h.style.color = '#fff';
+            setTimeout(()=> {
+                h.innerText = old;
+                h.style.backgroundColor = '#c0c0c0';
+                h.style.color = '#333';
+            }, 3000);
+        }
 
         // --- LÓGICA DE LA RADIO ANALÓGICA Y WEB AUDIO API ---
         let audioCtx; let noiseNode; let noiseGain; let isRadioOn = false; let screamTriggered = false; let isDraggingKnob = false; let knobAngle = -135;
