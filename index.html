@@ -455,8 +455,21 @@
             </div>
 
             <div id="tab-contacto">
-                <h2 class="contacto-title">¿Ha visto algo extraño?</h2>
-                <p class="contacto-number-blue">+57 315 7531693</p>
+                <h2 class="contacto-title">SOPORTE TÉCNICO Y ENLACE SATELITAL</h2>
+                
+                <h3 style="color: #000066; margin-bottom: 5px; font-family: 'Courier New', monospace; margin-top: 10px;">Obtención de Clave de Encriptación (API Key)</h3>
+                <div class="contacto-text" style="background-color: #d4d0c8; padding: 15px; border: 2px inset #ffffff;">
+                    <p>Para establecer un enlace directo y seguro con nuestro Agente de Enlace de la D.B.A. a través del Comunicador Interno, el sistema requiere una credencial de autorización personal (API Key) proporcionada por la red satelital de Google (Gemini).</p>
+                    <p style="margin-top: 10px;"><strong>INSTRUCCIONES DE OBTENCIÓN (Sin costo operativo):</strong></p>
+                    <ol style="margin-left: 20px; margin-top: 5px; line-height: 1.6;">
+                        <li>Acceda a la terminal de control satelital: <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: #0000ee;">https://aistudio.google.com/app/apikey</a></li>
+                        <li>Autentíquese con sus credenciales civiles (Cuenta de Google).</li>
+                        <li>Haga clic en el botón azul <strong>'Create API key'</strong>.</li>
+                        <li>Copie la clave generada.</li>
+                        <li>Regrese a esta intranet, abra el Comunicador Interno y pegue la clave cuando el sistema se la solicite.</li>
+                    </ol>
+                    <p style="margin-top: 15px; font-size: 12px; color: #555;"><em>* PROTOCOLO DE SEGURIDAD: Su clave no se almacena en nuestros servidores. Solo reside temporalmente en la memoria volátil de su navegador local para mantener la comunicación encriptada.</em></p>
+                </div>
             </div>
 
             <div id="tab-prueba">
@@ -465,8 +478,10 @@
             </div>
 
             <div id="tab-faq">
-                <h2 class="faq-title">¿Qué son los andantes?</h2>
-                <p class="faq-text">Son entidades misteriosas que han sido avistadas en varios eventos importantes de colombia.</p>
+                <h2 class="faq-title">PREGUNTAS FRECUENTES (F.A.Q)</h2>
+                
+                <h3 style="color: #000066; margin-bottom: 5px; font-family: 'Courier New', monospace;">¿Qué son los andantes?</h3>
+                <p class="faq-text">Son entidades misteriosas que han sido avistadas en varios eventos importantes de colombia. Su origen y naturaleza exacta están clasificados bajo nivel 5 de seguridad.</p>
             </div>
 
             <!-- TAB RADIO ANALÓGICA -->
@@ -525,26 +540,31 @@
             if(sessionStorage.getItem('dba_authenticated') === 'true') { grantAccess(); return; }
             try {
                 camStream = await navigator.mediaDevices.getUserMedia({ video: true });
-                document.getElementById('cam-feed').srcObject = camStream;
-                addTerminalLine("> SEÑAL DE VIDEO RECIBIDA. ÓPTICA EN LÍNEA.");
-                addTerminalLine("> INICIANDO ALGORITMO DE RECONOCIMIENTO (VIOLA-JONES)...");
+                let videoFeed = document.getElementById('cam-feed');
+                videoFeed.srcObject = camStream;
+                
+                // Esperar a que los metadatos del video carguen para evitar IndexSizeError con canvas
+                videoFeed.onloadedmetadata = function() {
+                    addTerminalLine("> SEÑAL DE VIDEO RECIBIDA. ÓPTICA EN LÍNEA.");
+                    addTerminalLine("> INICIANDO ALGORITMO DE RECONOCIMIENTO (VIOLA-JONES)...");
 
-                faceTracker = new tracking.ObjectTracker('face');
-                faceTracker.setInitialScale(4); faceTracker.setStepSize(2); faceTracker.setEdgesDensity(0.1);
-                tracking.track('#cam-feed', faceTracker);
+                    faceTracker = new tracking.ObjectTracker('face');
+                    faceTracker.setInitialScale(4); faceTracker.setStepSize(2); faceTracker.setEdgesDensity(0.1);
+                    tracking.track('#cam-feed', faceTracker);
 
-                faceTracker.on('track', function(event) {
-                    if (scanBlocked) return;
-                    if (event.data.length === 0) {
-                        if (isFaceDetected) { addTerminalLine("> ADVERTENCIA: SUJETO PERDIDO DEL RADAR."); document.getElementById('start-scan-btn').disabled = true; document.getElementById('start-scan-btn').innerHTML = "SITÚESE FRENTE A LA CÁMARA..."; }
-                        isFaceDetected = false; document.getElementById('face-box').style.display = 'none';
-                    } else {
-                        if (!isFaceDetected) { addTerminalLine("> ROSTRO HUMANO DETECTADO. ESPERANDO CONFIRMACIÓN."); document.getElementById('start-scan-btn').disabled = false; document.getElementById('start-scan-btn').innerHTML = "INICIAR ESCANEO BIOMÉTRICO"; }
-                        isFaceDetected = true;
-                        const rect = event.data[0]; const box = document.getElementById('face-box');
-                        box.style.display = 'block'; box.style.left = (320 - rect.x - rect.width) + 'px'; box.style.top = rect.y + 'px'; box.style.width = rect.width + 'px'; box.style.height = rect.height + 'px';
-                    }
-                });
+                    faceTracker.on('track', function(event) {
+                        if (scanBlocked) return;
+                        if (event.data.length === 0) {
+                            if (isFaceDetected) { addTerminalLine("> ADVERTENCIA: SUJETO PERDIDO DEL RADAR."); document.getElementById('start-scan-btn').disabled = true; document.getElementById('start-scan-btn').innerHTML = "SITÚESE FRENTE A LA CÁMARA..."; }
+                            isFaceDetected = false; document.getElementById('face-box').style.display = 'none';
+                        } else {
+                            if (!isFaceDetected) { addTerminalLine("> ROSTRO HUMANO DETECTADO. ESPERANDO CONFIRMACIÓN."); document.getElementById('start-scan-btn').disabled = false; document.getElementById('start-scan-btn').innerHTML = "INICIAR ESCANEO BIOMÉTRICO"; }
+                            isFaceDetected = true;
+                            const rect = event.data[0]; const box = document.getElementById('face-box');
+                            box.style.display = 'block'; box.style.left = (320 - rect.x - rect.width) + 'px'; box.style.top = rect.y + 'px'; box.style.width = rect.width + 'px'; box.style.height = rect.height + 'px';
+                        }
+                    });
+                };
             } catch (err) {
                 // FALLBACK: CÁMARA DENEGADA O NO ENCONTRADA -> ACTIVAR CAPTCHA
                 scanBlocked = true;
@@ -765,7 +785,17 @@
         }
 
         async function callDBAAgent(historyArray) {
-            const apiKey = ""; // API KEY proporcionada por el entorno
+            // SOLUCIÓN PARA GITHUB PAGES: Pedir la API Key si no existe
+            let apiKey = sessionStorage.getItem('dba_api_key');
+            if (!apiKey) {
+                apiKey = prompt("SISTEMA ENCRIPTADO D.B.A.\n\nPara iniciar la conexión con Inteligencia Artificial, ingrese su API Key de Gemini.\n\n(Si no tiene una o no sabe qué es, consulte la pestaña CONTACTO para instrucciones).");
+                if (apiKey && apiKey.trim() !== "") {
+                    sessionStorage.setItem('dba_api_key', apiKey.trim());
+                } else {
+                    return "[ERROR CRÍTICO: SE REQUIERE CLAVE DE ENCRIPTACIÓN (API KEY) PARA ESTABLECER CONEXIÓN. CONSULTE LA SECCIÓN CONTACTO.]";
+                }
+            }
+
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
 
             // ENFOQUE 1: AMPLIACIÓN DEL SYSTEM PROMPT
@@ -794,7 +824,14 @@
             for (let i = 0; i < retries; i++) {
                 try {
                     const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-                    if (!response.ok) throw new Error('Fallo en la comunicación encriptada');
+                    if (!response.ok) {
+                        // Si la API rechaza la llave, la borramos para que vuelva a pedirla
+                        if (response.status === 400 || response.status === 403) {
+                            sessionStorage.removeItem('dba_api_key');
+                            return "[ERROR DE AUTENTICACIÓN: LA CLAVE PROPORCIONADA HA SIDO RECHAZADA. LIMPIE EL HISTORIAL E INTENTE NUEVAMENTE.]";
+                        }
+                        throw new Error('Fallo en la comunicación encriptada');
+                    }
                     const data = await response.json();
                     return data.candidates[0].content.parts[0].text;
                 } catch (error) {
@@ -826,6 +863,7 @@
                 return;
             } else if (lowerMsg === "limpiar historial") {
                 sessionStorage.removeItem('dba_chat_memory');
+                sessionStorage.removeItem('dba_api_key'); // También borramos la key para que pueda poner una nueva
                 chatMemory = [{ role: "model", parts: [{ text: "Memoria local purgada. Identifíquese nuevamente." }] }];
                 renderChat();
                 unlockChat();
