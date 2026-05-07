@@ -2,960 +2,392 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>D.B.A - Intranet de Acceso Restringido</title>
-   
-    <!-- LIBRERÍAS DE RECONOCIMIENTO FACIAL (Estilo 2000s Viola-Jones) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tracking.js/1.1.3/tracking-min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tracking.js/1.1.3/data/face-min.js"></script>
-
+    <meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+    <meta name="ProgId" content="FrontPage.Editor.Document">
+    <title>D.B.A - Departamento de Búsqueda de Andantes - Intranet</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
     <style>
-        /* RESET BÁSICO RETRO */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        .font-sys { font-family: "Courier New", Courier, monospace; }
+        .font-ui { font-family: Tahoma, "MS Sans Serif", Arial, sans-serif; }
+        .font-serif-title { font-family: "Times New Roman", Times, serif; }
+        .font-terminal { font-family: "Lucida Console", Monaco, monospace; }
 
-        body {
-            background-color: #008080;
-            font-family: "Courier New", Courier, monospace;
-            color: #000000;
-            line-height: 1.4;
-            background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.05) 2px, rgba(0,0,0,0.05) 4px);
-            transition: background-color 0.2s;
+        .win-outset {
+            background-color: #c0c0c0;
+            border-top: 2px solid #ffffff;
+            border-left: 2px solid #ffffff;
+            border-right: 2px solid #808080;
+            border-bottom: 2px solid #808080;
+        }
+        .win-inset {
+            background-color: #c0c0c0;
+            border-top: 2px solid #808080;
+            border-left: 2px solid #808080;
+            border-right: 2px solid #ffffff;
+            border-bottom: 2px solid #ffffff;
+        }
+        .win-inset-deep {
+            background-color: #ffffff;
+            border-top: 2px solid #808080;
+            border-left: 2px solid #808080;
+            border-right: 2px solid #dfdfdf;
+            border-bottom: 2px solid #dfdfdf;
+        }
+        .win-button {
+            background-color: #c0c0c0;
+            border-top: 2px solid #ffffff;
+            border-left: 2px solid #ffffff;
+            border-right: 2px solid #404040;
+            border-bottom: 2px solid #404040;
+            cursor: pointer;
+            color: black;
+            text-decoration: none;
+            outline: none;
+        }
+        .win-button:active, .win-button.active {
+            border-top: 2px solid #404040;
+            border-left: 2px solid #404040;
+            border-right: 2px solid #ffffff;
+            border-bottom: 2px solid #ffffff;
+            padding-top: 2px;
+            padding-left: 2px;
+            background-color: #d4d0c8;
         }
 
-        /* FILTROS GLOBALES RÚSTICOS (Grano y Scanlines) */
-        .noise-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 50; opacity: 0.15;
-            background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
-        }
-        .scanlines-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.3));
-            background-size: 100% 4px; pointer-events: none; z-index: 51;
+        /* Messenger MSN */
+        .msn-window {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            z-index: 50;
+            display: none;
         }
 
-        /* EFECTO GLITCH DE ERROR */
-        .fatal-error {
-            animation: textGlitch 0.2s infinite, shake 0.4s infinite;
-            color: #ff0000 !important;
-        }
-        @keyframes textGlitch {
-            0% { text-shadow: 2px 0 #00ff00, -2px 0 #0000ff; }
-            50% { text-shadow: -2px 0 #00ff00, 2px 0 #0000ff; }
-            100% { text-shadow: 2px 0 #00ff00, -2px 0 #0000ff; }
-        }
-        @keyframes shake {
-            0% { transform: translate(1px, 1px) rotate(0deg); }
-            20% { transform: translate(-1px, -2px) rotate(-1deg); }
-            40% { transform: translate(-3px, 0px) rotate(1deg); }
-            60% { transform: translate(3px, 2px) rotate(0deg); }
-            80% { transform: translate(1px, -1px) rotate(1deg); }
-            100% { transform: translate(-1px, 2px) rotate(-1deg); }
+        .bg-dba-blue { background-color: #000080; }
+        .text-dba-blue { color: #000080; }
+        .bg-dba-beige { background-color: #eaddcd; }
+        
+        body { background-color: #008080; } 
+        
+        .static-bg {
+            background-image: repeating-radial-gradient(circle at 17% 32%, #111, #222 1px, #000 1px, #1a1a1a 2px);
+            background-size: 4px 4px;
         }
 
-        /* CONTENEDOR PRINCIPAL */
-        #main-wrapper {
-            width: 960px; margin: 30px auto;
-            background-color: #e5e1d3; border: 3px outset #ffffff;
-            box-shadow: 5px 5px 0px rgba(0,0,0,0.5);
-            max-width: 100%;
+        .terminal-bg {
+            background-color: #0a110a;
+            color: #00ff00;
+            border: 1px solid #004400;
         }
 
-        #header { background-color: #1a235a; color: #ffffff; padding: 15px; display: flex; align-items: center; border-bottom: 3px inset #ffffff; flex-wrap: wrap; }
-        #logo-container { width: 80px; height: 80px; display: flex; justify-content: center; align-items: center; margin-right: 20px; }
-        #logo-container img { max-width: 100%; max-height: 100%; object-fit: contain; }
-        #header-title { font-family: 'Times New Roman', Times, serif; font-size: 48px; letter-spacing: 10px; margin: 0; text-shadow: 2px 2px 0px #000; }
-
-        #navbar { background-color: #d4d0c8; border-bottom: 2px solid #808080; display: flex; padding: 5px; flex-wrap: wrap; }
-        .nav-btn { background-color: #d4d0c8; border: 2px outset #ffffff; padding: 8px 5px; margin-right: 5px; font-family: "Courier New", Courier, monospace; font-size: 14px; color: #000080; text-decoration: none; cursor: pointer; text-align: center; flex: 1; display: flex; justify-content: center; align-items: center; margin-bottom: 5px; min-width: 100px;}
-        .nav-btn:active { border: 2px inset #ffffff; background-color: #c0c0c0; }
-        .nav-btn.active { background-color: #e5e1d3; border: 2px inset #ffffff; color: #000000; font-weight: bold; border-bottom: none; }
-
-        #alert-bar { background-color: #c0c0c0; border-bottom: 2px inset #ffffff; padding: 10px; text-align: center; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; color: #333; transition: all 0.3s; }
-        .content-area { min-height: 500px; }
-
-        /* TAB INICIO Y VIDEO */
-        #tab-inicio { display: flex; flex-wrap: wrap; }
-        #main-col { width: 65%; padding: 25px; border-right: 3px ridge #ffffff; }
-        @media (max-width: 768px) {
-            #main-col { width: 100%; border-right: none; border-bottom: 3px ridge #ffffff; }
-            #sidebar { width: 100% !important; }
-        }
-
-        .video-player-container {
-            background-color: #000000; border: 4px inset #808080; height: 320px; margin-bottom: 25px;
-            position: relative; display: flex; justify-content: center; align-items: center;
-            overflow: hidden;
-        }
-
-        .article-text p { margin-bottom: 20px; text-align: justify; font-size: 14px; font-weight: bold;}
-        .quote { font-style: italic; text-align: center; font-weight: bold; margin-top: 30px; }
-
-        #sidebar { width: 35%; padding: 20px; background-color: #e5e1d3; display: flex; flex-direction: column; }
-        .sidebar-title { font-size: 16px; border-bottom: 2px dashed #000066; padding-bottom: 5px; margin-bottom: 20px; letter-spacing: 2px; font-weight: bold;}
-        .news-item { margin-bottom: 20px; }
-        .wireframe-img-box { border: 2px inset #808080; background-color: #d4d0c8; padding: 5px; font-family: Arial, sans-serif; font-size: 14px; display: flex; align-items: center; margin-bottom: 10px; }
-        .news-date { color: #0000aa; font-weight: bold; font-size: 14px; margin-bottom: 5px; }
-        .news-text { font-size: 12px; text-align: justify; font-weight: bold; }
-        .msn-btn { background-color: #d4d0c8; border: 3px outset #ffffff; padding: 10px; font-family: "Courier New", Courier, monospace; font-weight: bold; font-size: 14px; cursor: pointer; width: 100%; margin-top: auto; }
-        .msn-btn:active { border: 3px inset #ffffff; }
-        .msn-status { color: #00aa00; font-size: 16px; }
-
-        /* RESTO DE TABS */
-        #tab-nosotros { display: none; padding: 50px 60px; }
-        .nosotros-title { font-family: "Courier New", Courier, monospace; font-size: 32px; margin-bottom: 40px; color: #000; font-weight: bold; }
-        .nosotros-text { font-size: 14px; line-height: 1.8; margin-bottom: 30px; text-align: justify; font-weight: bold; }
-
-        #tab-documentos { display: none; padding: 40px; }
-        .doc-title { color: #000080; font-size: 24px; margin-bottom: 20px; font-weight: bold; }
-        .doc-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-family: 'Courier New', monospace; font-size: 14px; font-weight: bold; }
-        .doc-table th { background-color: #c0c0c0; border: 1px solid #808080; padding: 8px; text-align: left; border-bottom: 2px solid #808080; }
-        .doc-table td { border: 1px solid #808080; padding: 8px; background-color: #e5e1d3; }
-        .doc-link { color: #0000ee; text-decoration: underline; cursor: pointer; }
-
-        #tab-contacto { display: none; padding: 60px; }
-        .contacto-title { font-size: 32px; margin-bottom: 40px; font-weight: bold; }
-        .contacto-text { font-size: 16px; margin-bottom: 20px; font-weight: bold; }
-        .contacto-number-blue { font-size: 36px; color: #000080; font-weight: bold; margin-bottom: 40px; letter-spacing: 2px;}
-        .contacto-number-black { font-size: 36px; color: #000000; font-weight: bold; letter-spacing: 2px;}
-
-        #tab-faq { display: none; padding: 40px 60px; }
-        .faq-title { font-size: 28px; margin-bottom: 20px; font-weight: bold; }
-        .faq-text { font-size: 14px; margin-bottom: 20px; line-height: 1.6; font-weight: bold; text-align: justify; }
-
-        #tab-prueba { display: none; padding: 25px; }
-        .form-section { background-color: #d4d0c8; border: 2px inset #ffffff; padding: 15px; margin-bottom: 20px; }
-        .form-question { font-weight: bold; margin-bottom: 10px; color: #000066; }
-        .form-options { margin-left: 20px; margin-bottom: 20px; }
-        .form-options label { display: block; margin-bottom: 8px; cursor: pointer; }
-        .submit-btn { background-color: #000066; color: #ffffff; font-family: "Courier New", Courier, monospace; font-size: 16px; font-weight: bold; padding: 10px 20px; border: 3px outset #ffffff; cursor: pointer; width: 100%; }
-        .submit-btn:active { border: 3px inset #ffffff; background-color: #000044; }
-
-        /* TAB RADIO INTERCEPTORA */
-        #tab-radio { display: none; padding: 40px; text-align: center; }
-        #radio-container {
-            width: 80%; margin: 0 auto; background-color: #1a1a1a; border: 5px ridge #444;
-            padding: 30px; position: relative; box-shadow: inset 0 0 30px #000, 0 0 15px rgba(0,0,0,0.8);
-            border-radius: 10px;
-        }
-        .radio-title { color: #fff; font-family: "Courier New", Courier, monospace; letter-spacing: 4px; margin-bottom: 20px; border-bottom: 2px solid #555; padding-bottom: 10px; }
-       
-        .radio-display {
-            background-color: #051005; border: 4px inset #003300; height: 90px;
-            margin-bottom: 30px; display: flex; justify-content: center; align-items: center;
-            color: #004400; font-size: 48px; font-family: 'Courier New', Courier, monospace;
-            text-shadow: none; position: relative; overflow: hidden;
-            box-shadow: inset 0 0 20px #000;
-        }
-       
-        .radio-dial-container { width: 150px; height: 150px; margin: 30px auto; border-radius: 50%; background: #222; border: 5px inset #555; display: flex; justify-content: center; align-items: center; position: relative; box-shadow: 0 0 15px rgba(0,0,0,0.8); }
-        .radio-knob { width: 110px; height: 110px; border-radius: 50%; background: #d4d0c8; border: 4px outset #fff; cursor: grab; position: relative; transform: rotate(-135deg); box-shadow: 5px 5px 15px rgba(0,0,0,0.6); transition: filter 0.2s; }
-        .radio-knob:active { cursor: grabbing; }
-        .radio-knob.disabled { pointer-events: none; filter: brightness(0.6); cursor: not-allowed; }
-        .knob-marker { width: 6px; height: 25px; background: #000; position: absolute; top: 10px; left: 50%; transform: translateX(-50%); border-radius: 3px; border: 1px inset #555; }
-       
-        .radio-power-btn {
-            background-color: #330000; color: #ff0000; border: 4px outset #ff0000;
-            padding: 15px 30px; font-family: "Courier New", Courier, monospace; font-size: 18px;
+        .doc-table {
             width: 100%;
-            font-weight: bold; cursor: pointer; transition: 0.2s;
+            border-collapse: collapse;
+            font-size: 11px;
+            font-family: "Courier New", Courier, monospace;
         }
-        .radio-power-btn:active { border: 4px inset #ff0000; background-color: #220000; }
-        .radio-power-btn.active { background-color: #003300; color: #00ff00; border: 4px inset #00ff00; }
-
-        /* NUEVO: TAB LABORATORIO DE ANÁLISIS FOTOGRÁFICO */
-        #tab-laboratorio { display: none; padding: 25px; }
-        .lab-container { display: flex; gap: 20px; background: #111; border: 5px ridge #444; padding: 20px; box-shadow: inset 0 0 20px #000; flex-wrap: wrap;}
-        .lab-viewer-wrapper { flex: 2; position: relative; min-width: 300px; }
-        .lab-viewer { width: 100%; height: 350px; background: #000; border: 4px inset #222; overflow: hidden; position: relative; filter: brightness(100%) contrast(100%); transition: filter 0.1s ease-out; }
-        .lab-controls { flex: 1; background: #d4d0c8; border: 3px outset #fff; padding: 15px; display: flex; flex-direction: column; min-width: 250px; }
-       
-        .lab-thumb { background: #000; color: #00ff00; border: 2px solid #00ff00; padding: 5px; margin-bottom: 10px; cursor: pointer; font-family: "Courier New", monospace; text-align: center; font-weight: bold; font-size: 12px; }
-        .lab-thumb:hover { background: #003300; }
-        .lab-thumb.active { background: #00ff00; color: #000; }
-       
-        .lab-slider-label { font-size: 12px; font-weight: bold; font-family: "Courier New", monospace; margin-top: 10px; display: block; }
-        .lab-slider { -webkit-appearance: none; width: 100%; height: 8px; background: #000; border: 1px inset #555; margin: 5px 0 15px 0; outline: none; }
-        .lab-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 15px; height: 30px; background: #d4d0c8; border: 2px outset #fff; cursor: pointer; }
-       
-        .hidden-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.1s ease-out; display: flex; align-items: center; justify-content: center; pointer-events: none; }
-       
-        /* Monstruos CSS */
-        .anomaly-tall { width: 30px; height: 250px; background: radial-gradient(ellipse at center, #fff 0%, transparent 60%); filter: blur(4px); position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); }
-        .anomaly-eyes { width: 5px; height: 5px; background: #fff; box-shadow: 12px 0 0 #fff; position: absolute; top: 30px; left: 8px; filter: blur(1px); }
-       
-        .anomaly-scream { width: 120px; height: 160px; background: radial-gradient(ellipse, #ccc 0%, #111 70%, transparent 100%); border-radius: 50%; filter: blur(3px) contrast(1.5); position: relative; }
-        .anomaly-scream .eye-l { width: 25px; height: 35px; background: #000; border-radius: 50%; position: absolute; top: 50px; left: 20px; transform: rotate(-15deg); }
-        .anomaly-scream .eye-r { width: 25px; height: 35px; background: #000; border-radius: 50%; position: absolute; top: 50px; right: 20px; transform: rotate(15deg); }
-        .anomaly-scream .mouth { width: 40px; height: 70px; background: #000; border-radius: 50%; position: absolute; bottom: 15px; left: 40px; }
-       
-        .anomaly-swarm { width: 100%; height: 100%; background-image: radial-gradient(circle at 20% 30%, #fff 1px, transparent 3px), radial-gradient(circle at 22% 30%, #fff 1px, transparent 3px), radial-gradient(circle at 70% 60%, #fff 2px, transparent 4px), radial-gradient(circle at 73% 60%, #fff 2px, transparent 4px), radial-gradient(circle at 40% 80%, #fff 1.5px, transparent 3px), radial-gradient(circle at 43% 80%, #fff 1.5px, transparent 3px), radial-gradient(circle at 80% 20%, #fff 1px, transparent 2px), radial-gradient(circle at 82% 20%, #fff 1px, transparent 2px); filter: blur(1px) drop-shadow(0 0 5px #fff); }
-
-        .lab-warning { color: red; font-weight: bold; text-align: center; margin-top: auto; opacity: 0; font-family: "Courier New", monospace; font-size: 14px; border: 2px dashed red; padding: 5px; }
-        .lab-warning.active { animation: blink 0.5s infinite; opacity: 1; }
-
-        /* FOOTER */
-        #footer { background-color: #d4d0c8; border-top: 3px ridge #ffffff; padding: 8px 15px; font-size: 10px; color: #000; display: flex; justify-content: space-between; align-items: center; font-weight: bold; flex-wrap: wrap;}
-        .hit-counter { background-color: #000; color: #ff0000; padding: 3px 8px; font-family: 'Courier New', Courier, monospace; border: 2px inset #808080; letter-spacing: 3px; font-size: 12px; }
-
-        /* CHAT MSN */
-        #chat-icon { position: fixed; bottom: 20px; right: 20px; background-color: #d4d0c8; border: 2px outset #ffffff; padding: 10px; cursor: pointer; font-family: Tahoma, Arial, sans-serif; font-size: 12px; display: flex; align-items: center; box-shadow: 2px 2px 5px rgba(0,0,0,0.5); z-index: 99; }
-        #chat-window { position: fixed; bottom: 20px; right: 20px; width: 320px; background-color: #d4d0c8; border: 2px outset #ffffff; box-shadow: 3px 3px 6px rgba(0,0,0,0.6); display: none; flex-direction: column; font-family: Tahoma, Arial, sans-serif; font-size: 12px; z-index: 100; max-width: 90vw;}
-        .chat-header { background: linear-gradient(to right, #000080, #1084d0); color: #ffffff; padding: 3px 5px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
-        .chat-close-btn { background-color: #d4d0c8; border: 2px outset #ffffff; font-family: "Courier New", Courier, monospace; font-weight: bold; font-size: 10px; cursor: pointer; padding: 0 4px; }
-        .chat-body { padding: 5px; }
-        .chat-history { background-color: #ffffff; border: 2px inset #808080; height: 200px; overflow-y: scroll; padding: 5px; margin-bottom: 5px; font-family: Tahoma, Arial, sans-serif; }
-        .chat-msg { margin-bottom: 8px; }
-        .chat-name-bot { color: #000080; font-weight: bold; }
-        .chat-name-user { color: #808080; font-weight: bold; }
-        .chat-input-container { display: flex; gap: 5px; }
-        #chat-input { flex-grow: 1; border: 2px inset #808080; font-family: Tahoma, Arial, sans-serif; font-size: 12px; resize: none; height: 40px; }
-        #chat-send-btn { background-color: #d4d0c8; border: 2px outset #ffffff; cursor: pointer; font-family: Tahoma, Arial, sans-serif; font-size: 12px; padding: 0 10px; }
-
-        /* --- PANTALLA DE LOGIN BIOMÉTRICO --- */
-        #login-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: #051005; color: #00ff00;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 9999; font-family: "Courier New", Courier, monospace; text-align: center;
-            padding: 20px;
+        .doc-table th {
+            background: #c0c0c0;
+            border: 1px solid #808080;
+            text-align: left;
+            padding: 4px;
         }
-        .login-title { font-size: 24px; font-weight: bold; margin-bottom: 20px; letter-spacing: 2px; text-shadow: 0 0 5px #00ff00; }
-        #scanner-container { width: 320px; height: 240px; border: 3px ridge #004400; position: relative; background: #000; overflow: hidden; margin-bottom: 20px; box-shadow: 0 0 25px rgba(0,255,0,0.3); transition: border-color 0.3s; max-width: 100%;}
-        #cam-feed { width: 320px; height: 240px; object-fit: cover; filter: grayscale(100%) contrast(200%) sepia(100%) hue-rotate(80deg) blur(0.5px); transform: scaleX(-1); max-width: 100%;}
-        #face-box { position: absolute; border: 2px solid #ff0000; box-shadow: 0 0 8px #ff0000; display: none; z-index: 15; background: rgba(255, 0, 0, 0.1); }
-       
-        #flash-effect { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #ffffff; z-index: 99; opacity: 0; pointer-events: none; }
-        .trigger-flash { animation: flashAnimation 0.8s ease-out forwards; }
-        @keyframes flashAnimation { 0% { opacity: 1; } 100% { opacity: 0; } }
-
-        #scan-line { position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: rgba(0, 255, 0, 0.6); box-shadow: 0 0 15px #00ff00; display: none; animation: scanAnim 1.5s linear infinite; z-index: 20; }
-        @keyframes scanAnim { 0% { top: -10%; } 100% { top: 110%; } }
-       
-        #terminal-output { width: 450px; height: 140px; border: 2px groove #004400; background: #020a02; padding: 10px; overflow-y: hidden; font-size: 13px; text-align: left; display: flex; flex-direction: column; justify-content: flex-end; margin-bottom: 20px; text-shadow: 0 0 3px #00ff00; max-width: 100%; }
-        .login-btn { background-color: #003300; color: #00ff00; border: 2px outset #00ff00; padding: 10px 20px; font-family: "Courier New", Courier, monospace; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; max-width: 100%; }
-        .login-btn:active { border: 2px inset #00ff00; background-color: #002200; }
-        .login-btn:disabled { color: #004400; border-color: #004400; cursor: not-allowed; text-shadow: none; }
-
-        /* --- ESTILOS DEL CAPTCHA MANUAL (FALLBACK DE CÁMARA) --- */
-        #captcha-container { display: none; flex-direction: column; align-items: center; margin-bottom: 20px; width: 100%; }
-        .captcha-instruction { color: #ff0000; font-weight: bold; margin-bottom: 10px; font-size: 14px; text-align: center; animation: blink 1s infinite; }
-        .captcha-box { background: #111; border: 2px solid #555; padding: 15px 30px; margin-bottom: 15px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; width: 320px; height: 70px; max-width: 100%;}
-        .captcha-text { font-family: 'Times New Roman', serif; font-size: 26px; font-weight: bold; color: #ccc; letter-spacing: 3px; filter: blur(0.5px); transform: skewX(-5deg); z-index: 5; text-align: center;}
-        .captcha-noise-line { position: absolute; top: 40%; left: 0; width: 100%; height: 2px; background: #fff; opacity: 0.4; transform: rotate(3deg); z-index: 10; }
-        .captcha-noise-line-2 { position: absolute; top: 60%; left: 0; width: 100%; height: 2px; background: #fff; opacity: 0.4; transform: rotate(-4deg); z-index: 10; }
-        #captcha-input { background: #000; color: #fff; border: 2px solid #ff0000; padding: 10px; width: 320px; text-align: center; font-family: "Courier New", Courier, monospace; font-size: 16px; margin-bottom: 15px; outline: none; transition: all 0.2s; text-transform: lowercase; max-width: 100%;}
-        #captcha-input:focus { box-shadow: 0 0 10px #ff0000; }
-       
-        .camera-error-crosshair { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none; pointer-events: none; z-index: 12; }
-        .camera-error-crosshair::before { content: ''; position: absolute; top: 50%; left: 0; width: 100%; height: 2px; background: rgba(255,0,0,0.6); box-shadow: 0 0 5px #ff0000; }
-        .camera-error-crosshair::after { content: ''; position: absolute; top: 0; left: 50%; width: 2px; height: 100%; background: rgba(255,0,0,0.6); box-shadow: 0 0 5px #ff0000; }
-
-        /* --- PANTALLA DE TRANSICIÓN --- */
-        #transition-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #051005; color: #00ff00; display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; font-family: "Courier New", Courier, monospace; text-shadow: 0 0 10px #00ff00; letter-spacing: 4px; font-size: 28px; font-weight: bold; text-align: center;}
-        .blink-text { animation: blink 1s step-end infinite; }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-        .glitch-text-green { animation: textGlitchGreen 2s infinite; font-size: 32px; font-weight: bold; position: relative; z-index: 60; }
-        @keyframes textGlitchGreen { 0%, 100% { text-shadow: 2px 0 #00ff00, -2px 0 #005500; transform: translate(0); } 5% { text-shadow: -2px 0 #00ff00, 2px 0 #005500; transform: translate(-2px, 1px); } 10% { text-shadow: 2px 0 #00ff00, -2px 0 #005500; transform: translate(2px, -1px); } 15% { text-shadow: 0 0 10px #00ff00; transform: translate(0); } }
-        .loading-bar-container { width: 400px; height: 25px; border: 2px solid #00ff00; background-color: #001100; padding: 2px; margin-top: 30px; margin-bottom: 20px; box-shadow: 0 0 15px rgba(0,255,0,0.4); position: relative; z-index: 60; max-width: 80vw;}
-        .loading-bar-fill { height: 100%; background-color: #00ff00; width: 0%; }
-        .fill-animation { animation: retroLoading 2.8s steps(20) forwards; }
-        @keyframes retroLoading { 0% { width: 0%; } 15% { width: 12%; } 25% { width: 12%; } 35% { width: 45%; } 50% { width: 45%; } 65% { width: 82%; } 85% { width: 85%; } 100% { width: 100%; } }
-        .transition-content { z-index: 60; position: relative; display: flex; flex-direction: column; align-items: center; }
-
+        .doc-table td {
+            border: 1px solid #dfdfdf;
+            padding: 4px;
+        }
+        
+        /* Estilo para el visor de pantalla completa */
+        .full-viewer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 100;
+            background: #808080;
+            display: flex;
+            flex-direction: column;
+        }
     </style>
 </head>
-<body>
+<body class="p-4 md:p-8 flex justify-center text-black font-ui min-h-screen relative">
 
-    <!-- PANTALLA DE ACCESO INICIAL -->
-    <div id="login-screen">
-        <div class="noise-overlay"></div><div class="scanlines-overlay"></div>
-        <div class="login-title" id="login-header-txt">D.B.A. TERMINAL DE ACCESO SEGURO</div>
-       
-        <div id="scanner-container">
-            <video id="cam-feed" width="320" height="240" autoplay muted playsinline></video>
-            <div id="face-box"></div><div id="flash-effect"></div><div id="scan-line"></div>
-            <div id="camera-error" class="camera-error-crosshair"></div>
-            <div class="noise-overlay"></div><div class="scanlines-overlay"></div>
-        </div>
-       
-        <div id="terminal-output">
-            <span>> INICIALIZANDO PROTOCOLOS DE SEGURIDAD...</span>
-            <span>> ESPERANDO SEÑAL ÓPTICA Y ALGORITMO VIOLA-JONES...</span>
-        </div>
-       
-        <!-- PROTOCOLO DE FALLBACK (CAPTCHA DE LA IMAGEN) -->
-        <div id="captcha-container">
-            <div class="captcha-instruction">FALLO ÓPTICO. VERIFICACIÓN MANUAL REQUERIDA.</div>
-            <div class="captcha-box">
-                <div class="captcha-noise-line"></div>
-                <div class="captcha-text">Ya no soy humano</div>
-                <div class="captcha-noise-line-2"></div>
-                <div class="noise-overlay" style="opacity: 0.5; z-index: 15;"></div>
+    <div id="main-container" class="w-full max-w-[900px] bg-[#c0c0c0] win-outset p-1 shadow-[4px_4px_0px_rgba(0,0,0,0.5)] h-fit relative">
+        
+        <!-- HEADER -->
+        <header class="bg-dba-blue text-white p-2 flex items-center mb-1 win-inset">
+            <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center border-2 border-[#c0c0c0] overflow-hidden ml-2 shrink-0">
+                <div class="w-[90%] h-[90%] rounded-full border border-black flex items-center justify-center text-center">
+                    <span class="text-dba-blue font-serif-title font-bold text-[10px] leading-tight" style="transform: rotate(-15deg);">
+                        REPÚBLICA<br>DE<br>COLOMBIA
+                    </span>
+                </div>
             </div>
-            <input type="text" id="captcha-input" placeholder="ESCRIBA LA FRASE SUPERIOR AQUÍ" autocomplete="off" oninput="verifyCaptcha()">
+            <h1 class="font-serif-title text-4xl md:text-5xl font-bold tracking-[0.2em] ml-6" style="text-shadow: 2px 2px 0px black;">D.B.A</h1>
+        </header>
+
+        <!-- NAVEGACIÓN -->
+        <nav id="main-nav" class="flex w-full mb-1">
+            <button onclick="showPage('inicio')" id="btn-inicio" class="win-button active flex-1 py-1 px-2 text-center text-dba-blue font-sys font-bold text-sm">Inicio</button>
+            <button onclick="showPage('nosotros')" id="btn-nosotros" class="win-button flex-1 py-1 px-2 text-center text-dba-blue font-sys font-bold text-sm">Nosotros</button>
+            <button onclick="showPage('documentos')" id="btn-documentos" class="win-button flex-1 py-1 px-2 text-center text-dba-blue font-sys font-bold text-sm">Documentos</button>
+            <button onclick="showPage('contacto')" id="btn-contacto" class="win-button flex-1 py-1 px-2 text-center text-dba-blue font-sys font-bold text-sm">Contacto</button>
+            <button onclick="showPage('prueba')" id="btn-prueba" class="win-button flex-1 py-1 px-2 text-center text-dba-blue font-sys font-bold text-sm">Prueba Psicotécnica</button>
+            <button onclick="showPage('faq')" id="btn-faq" class="win-button flex-1 py-1 px-2 text-center text-dba-blue font-sys font-bold text-sm">F.A.Q</button>
+        </nav>
+
+        <div id="marquee-container" class="win-inset bg-[#a0a0a0] py-1 px-2 mb-3">
+            <marquee id="system-marquee" scrollamount="4" class="font-sys text-sm tracking-wider uppercase font-bold text-[#333]">
+                PÁGINA EN DESUSO, ACCESO PERSONAL AUTORIZADO — REGISTRO DE ACTIVIDAD MONITORIZADO
+            </marquee>
         </div>
 
-        <button id="start-scan-btn" class="login-btn" onclick="startScan()" disabled>CÁMARA INACTIVA / BUSCANDO ROSTRO</button>
+        <!-- CONTENEDOR DINÁMICO -->
+        <div id="content-area"></div>
+
+        <footer id="main-footer" class="mt-2 win-inset bg-[#c0c0c0] p-2 flex justify-between items-center text-[10px] font-sys">
+            <div>ESTADO: <span id="auth-status">AUTENTICADO</span></div>
+            <div class="bg-black text-red-500 font-bold px-2 tracking-widest">004,815</div>
+            <div>D.B.A. INTRANET v2.04</div>
+        </footer>
     </div>
 
-    <!-- PANTALLA DE TRANSICIÓN -->
-    <div id="transition-screen">
-        <div class="noise-overlay"></div><div class="scanlines-overlay"></div>
-        <div class="transition-content">
-            <div class="glitch-text-green">ACCESO CONCEDIDO</div><br>
-            <div>AGENTE <span id="agent-number-display">0000</span></div>
-            <div class="loading-bar-container"><div class="loading-bar-fill" id="transition-loading-bar"></div></div>
-            <div class="blink-text" style="font-size: 14px; font-weight: normal;">[ DESENCRIPTANDO BASE DE DATOS D.B.A... ]</div>
-        </div>
-    </div>
-
-    <!-- CONTENEDOR DE LA APLICACIÓN -->
-    <div id="app-content" style="display: none;">
-
-    <div id="main-wrapper">
-        <div id="header">
-            <div id="logo-container">
-                <img src="LOGO DBA_2026.png" alt="Logo D.B.A">
-            </div>
-            <h1 id="header-title">D.B.A</h1>
-        </div>
-
-        <div id="navbar">
-            <a onclick="showTab('inicio')" class="nav-btn active" id="btn-inicio">Inicio</a>
-            <a onclick="showTab('nosotros')" class="nav-btn" id="btn-nosotros">Nosotros</a>
-            <a onclick="showTab('documentos')" class="nav-btn" id="btn-documentos">Documentos</a>
-            <a onclick="showTab('laboratorio')" class="nav-btn" id="btn-laboratorio">Laboratorio</a>
-            <a onclick="showTab('contacto')" class="nav-btn" id="btn-contacto">Contacto</a>
-            <a onclick="showTab('prueba')" class="nav-btn" id="btn-prueba" style="flex: 1.5;">Prueba<br>Psicotécnica</a>
-            <a onclick="showTab('radio')" class="nav-btn" id="btn-radio" style="display: none;">Radio</a>
-            <a onclick="showTab('faq')" class="nav-btn" id="btn-faq">F.A.Q</a>
-        </div>
-
-        <div id="alert-bar">AUTORIZADO - REGISTRO DE ACTIVIDAD MONITORIZADO</div>
-
-        <div class="content-area">
-           
-            <div id="tab-inicio" style="display: flex;">
-                <div id="main-col">
-                    <div class="video-player-container" title="Visor de archivos multimedia D.B.A.">
-                        <div class="noise-overlay" style="z-index: 20;"></div>
-                        <div class="scanlines-overlay" style="z-index: 21;"></div>
-                        <video controls style="width: 100%; height: 100%; z-index: 10; background: #000; position: relative;">
-                            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-                            Su terminal no soporta el protocolo de video actual.
+    <!-- TEMPLATES DE PÁGINAS -->
+    <template id="tpl-inicio">
+        <div class="flex flex-col md:flex-row gap-2 h-full">
+            <main class="w-full md:w-[65%] bg-dba-beige win-inset-deep p-4 md:p-6 flex flex-col">
+                <div class="win-outset bg-[#c0c0c0] p-1 mb-6 w-full max-w-[480px] mx-auto">
+                    <div class="w-full aspect-[4/3] bg-black win-inset relative border-4 border-[#333] overflow-hidden">
+                        <video id="dba-feed" class="w-full h-full object-cover" autoplay muted loop playsinline poster="https://api.placeholder.com/480/360/000000/00ff00?text=CONECTANDO+FEED...">
+                            <source src="videos/Intro.mp4">
                         </video>
-                    </div>
-                    <div class="article-text">
-                        <p>En la Dirección de Búsqueda de Andantes (DBA), nos dedicamos a proteger a Colombia de una amenaza que acecha en las sombras. Nuestra misión es investigar, capturar y contener a las entidades conocidas como andantes, seres misteriosos que representan un peligro para la seguridad y estabilidad de nuestro país.</p>
-                        <p class="quote">"Luchando en las Sombras por la Seguridad de Colombia"</p>
-                    </div>
-                </div>
-                <div id="sidebar">
-                    <h2 class="sidebar-title">ULTIMAS NOTICIAS</h2>
-                    <div class="news-item"><div class="wireframe-img-box">🖼️ Posesión Presidencial</div><div class="news-date">Mayo 26 2002</div></div>
-                    <div class="news-item"><div class="wireframe-img-box">🖼️ Bojayá</div><div class="news-date">Mayo 02 2002</div></div>
-                    <button class="msn-btn" onclick="toggleChat()"><span class="msn-status">●</span> Soporte MSN</button>
-                </div>
-            </div>
-
-            <!-- TABS -->
-            <div id="tab-nosotros">
-                <h2 class="nosotros-title">¿Quienes son nuestros agentes?</h2>
-                <p class="nosotros-text">La Dirección de Búsqueda de Andantes (DBA) fue establecida en 1928, en un momento crítico de la historia de Colombia.</p>
-            </div>
-           
-            <div id="tab-documentos">
-                <h2 class="doc-title">/ARCHIVOS/CLASIFICADOS/</h2>
-                <table class="doc-table">
-                    <thead><tr><th>Tipo</th><th>Nombre</th><th>Nivel</th></tr></thead>
-                    <tbody>
-                        <tr><td>[TXT]</td><td><a class="doc-link">Expediente_Bananeras_1928.txt</a></td><td>LVL_5</td></tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- NUEVA TAB: LABORATORIO DE ANÁLISIS FOTOGRÁFICO -->
-            <div id="tab-laboratorio">
-                <h2 style="border-bottom: 2px dashed #000066; padding-bottom: 5px; margin-bottom: 15px; font-size: 24px;">D.B.A. - LABORATORIO DE ANÁLISIS FOTOGRÁFICO</h2>
-               
-                <div class="lab-container">
-                   
-                    <!-- VISOR FOTOGRÁFICO -->
-                    <div class="lab-viewer-wrapper">
-                        <div class="noise-overlay" style="opacity: 0.3; z-index: 10;"></div>
-                        <div class="scanlines-overlay" style="z-index: 11;"></div>
-                        
-                        <div class="lab-viewer" id="lab-viewer">
-                           
-                            <!-- ARCHIVO 01: BOSQUE -->
-                            <div id="scene-1" class="lab-scene" style="width:100%; height:100%; background: radial-gradient(circle at center, #0a0e0a, #000);">
-                                <div style="position:absolute; bottom:0; width:100%; height: 35%; background: #030503; border-top-left-radius: 50%; border-top-right-radius: 20%;"></div>
-                                <div class="hidden-layer" id="hidden-1">
-                                    <div class="anomaly-tall">
-                                        <div class="anomaly-eyes"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- ARCHIVO 02: ROSTRO -->
-                            <div id="scene-2" class="lab-scene" style="width:100%; height:100%; background: #050505; display: none;">
-                                <div style="position:absolute; bottom:0; width:100%; height: 100%; background: repeating-linear-gradient(90deg, #030303 0%, #030303 10%, transparent 10%, transparent 20%); opacity: 0.5;"></div>
-                                <div class="hidden-layer" id="hidden-2">
-                                    <div class="anomaly-scream">
-                                        <div class="eye-l"></div>
-                                        <div class="eye-r"></div>
-                                        <div class="mouth"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- ARCHIVO 03: ENJAMBRE -->
-                            <div id="scene-3" class="lab-scene" style="width:100%; height:100%; background: #080604; display: none;">
-                                <div class="hidden-layer" id="hidden-3">
-                                    <div class="anomaly-swarm"></div>
-                                </div>
-                            </div>
-
-                            <!-- ARCHIVO 04: SUJETO ACTUAL (CAPTURADO) -->
-                            <div id="scene-4" class="lab-scene" style="width:100%; height:100%; background: #050505; display: none; background-size: cover; background-position: center; filter: grayscale(50%) sepia(30%);">
-                                <div class="hidden-layer" id="hidden-4">
-                                    <!-- Sombra perturbadora detrás del usuario -->
-                                    <div class="anomaly-tall" style="left: 20%; transform: scale(1.8); filter: blur(2px);">
-                                        <div class="anomaly-eyes" style="box-shadow: 20px 0 0 #fff; top: 20px;"></div>
-                                    </div>
-                                    <!-- Efecto rojo amenazante -->
-                                    <div style="position:absolute; top:0; left:0; width:100%; height:100%; background: radial-gradient(circle, transparent 40%, rgba(150,0,0,0.6) 100%); mix-blend-mode: multiply;"></div>
-                                    <div style="position:absolute; bottom:10px; right:10px; color:#ff0000; font-family:monospace; font-size:12px; font-weight:bold; background:rgba(0,0,0,0.5); padding:2px;">> ALERTA: ENTIDAD A NIVEL DE HOMBRO</div>
-                                </div>
-                            </div>
-
+                        <div class="absolute inset-0 pointer-events-none static-bg opacity-25"></div>
+                        <div class="absolute top-2 left-2 text-[#00ff00] font-terminal text-[10px] opacity-70 tracking-tighter">
+                            REC <span id="live-clock">00:00:00</span>
                         </div>
                     </div>
-
-                    <!-- CONTROLES -->
-                    <div class="lab-controls">
-                        <h4 style="margin-bottom: 10px; border-bottom: 1px solid #888; font-family: monospace;">EVIDENCIAS</h4>
-                        <div class="lab-thumb active" id="thumb-1" onclick="selectScene(1)">01_CAM_BOSQUE.raw</div>
-                        <div class="lab-thumb" id="thumb-2" onclick="selectScene(2)">02_SOTANO_B.raw</div>
-                        <div class="lab-thumb" id="thumb-3" onclick="selectScene(3)">03_MULTITUD.raw</div>
-                        <div class="lab-thumb" id="thumb-4" onclick="selectScene(4)" style="display:none; border-color:red; color:red;">04_SUJETO_ACTUAL.raw</div>
-                       
-                        <h4 style="margin-top: 15px; margin-bottom: 10px; border-bottom: 1px solid #888; font-family: monospace;">FILTROS ÓPTICOS</h4>
-                       
-                        <label class="lab-slider-label">BRILLO: <span id="val-br">100</span>%</label>
-                        <input type="range" class="lab-slider" id="lab-br" min="10" max="600" value="100" oninput="updateLab()">
-                       
-                        <label class="lab-slider-label">CONTRASTE: <span id="val-ct">100</span>%</label>
-                        <input type="range" class="lab-slider" id="lab-ct" min="10" max="600" value="100" oninput="updateLab()">
-
-                        <div class="lab-warning" id="lab-warning">⚠️ PELIGRO: ANOMALÍA REVELADA ⚠️</div>
-                    </div>
                 </div>
-            </div>
-
-            <div id="tab-contacto">
-                <h2 class="contacto-title">SOPORTE TÉCNICO Y ENLACE SATELITAL</h2>
-                
-                <h3 style="color: #000066; margin-bottom: 5px; font-family: 'Courier New', monospace; margin-top: 10px;">Obtención de Clave de Encriptación (API Key)</h3>
-                <div class="contacto-text" style="background-color: #d4d0c8; padding: 15px; border: 2px inset #ffffff;">
-                    <p>Para establecer un enlace directo y seguro con nuestro Agente de Enlace de la D.B.A. a través del Comunicador Interno, el sistema requiere una credencial de autorización personal (API Key) proporcionada por la red satelital de Google (Gemini).</p>
-                    <p style="margin-top: 10px;"><strong>INSTRUCCIONES DE OBTENCIÓN (Sin costo operativo):</strong></p>
-                    <ol style="margin-left: 20px; margin-top: 5px; line-height: 1.6;">
-                        <li>Acceda a la terminal de control satelital: <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: #0000ee;">https://aistudio.google.com/app/apikey</a></li>
-                        <li>Autentíquese con sus credenciales civiles (Cuenta de Google).</li>
-                        <li>Haga clic en el botón azul <strong>'Create API key'</strong>.</li>
-                        <li>Copie la clave generada.</li>
-                        <li>Regrese a esta intranet, abra el Comunicador Interno y pegue la clave cuando el sistema se la solicite.</li>
-                    </ol>
-                    <p style="margin-top: 15px; font-size: 12px; color: #555;"><em>* PROTOCOLO DE SEGURIDAD: Su clave no se almacena en nuestros servidores. Solo reside temporalmente en la memoria volátil de su navegador local para mantener la comunicación encriptada.</em></p>
+                <div class="font-sys text-[13px] leading-relaxed text-black text-justify space-y-4">
+                    <p>En la Dirección de Búsqueda de Andantes (DBA), nos dedicamos a proteger a Colombia de una amenaza que acecha en las sombras...</p>
+                    <p class="font-bold border-l-4 border-dba-blue pl-4 italic">"Luchando en las Sombras por la Seguridad de Colombia"</p>
                 </div>
-            </div>
-
-            <div id="tab-prueba">
-                <h2 style="border-bottom: 2px dashed #000066; padding-bottom: 5px; margin-bottom: 15px;">D.B.A. - Protocolo de Salud Mental (Formulario PS-042)</h2>
-                <form id="test-form" onsubmit="evaluarAgente(event)"><button type="button" class="submit-btn" onclick="evaluarAgente(event)">ENVIAR EVALUACIÓN AL SERVIDOR CENTRAL</button></form>
-            </div>
-
-            <div id="tab-faq">
-                <h2 class="faq-title">PREGUNTAS FRECUENTES (F.A.Q)</h2>
+            </main>
+            <aside class="w-full md:w-[35%] bg-dba-beige win-inset-deep p-4 flex flex-col">
+                <h2 class="font-sys font-bold text-sm mb-4 border-b border-black pb-1 uppercase">Ultimas Noticias</h2>
                 
-                <h3 style="color: #000066; margin-bottom: 5px; font-family: 'Courier New', monospace;">¿Qué son los andantes?</h3>
-                <p class="faq-text">Son entidades misteriosas que han sido avistadas en varios eventos importantes de colombia. Su origen y naturaleza exacta están clasificados bajo nivel 5 de seguridad.</p>
-            </div>
-
-            <!-- TAB RADIO ANALÓGICA -->
-            <div id="tab-radio">
-                <div id="radio-container">
-                    <div class="noise-overlay"></div>
-                    <div class="scanlines-overlay"></div>
-                    <h2 class="radio-title">INTERCEPTOR DE FRECUENCIAS D.B.A.</h2>
-                   
-                    <div class="radio-display">
-                        <span id="freq-display" style="color: #004400; text-shadow: none;">---.- AM</span>
-                    </div>
-
-                    <div class="radio-dial-container" id="dial-container">
-                        <div class="radio-knob disabled" id="radio-knob">
-                            <div class="knob-marker"></div>
+                <!-- NOTICIA QUE ABRE EL VISOR INTERNO -->
+                <div class="mb-6 text-center">
+                    <button onclick="showPage('visor-pdf')" class="block w-full group outline-none">
+                        <div class="win-inset bg-gray-600 w-full aspect-video flex items-center justify-center overflow-hidden border border-gray-400 group-hover:brightness-110 transition-all">
+                            <!-- ESPACIO PARA TU IMAGEN DE PORTADA -->
+                            <img src="img/CeseDBA.png" 
+                                 alt="Reporte Clasificado" 
+                                 class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all">
                         </div>
-                    </div>
+                    </button>
+                    <h3 class="text-dba-blue font-sys font-bold text-[12px] mt-2">Mayo 26 2002</h3>
+                    <p class="font-sys text-[10px] leading-tight text-left">Posesión presidencial bajo protocolos de contingencia Nivel 4.</p>
+                </div>
 
-                    <button id="radio-power-btn" class="radio-power-btn" onclick="toggleRadio()">SISTEMA DE INTERCEPTACIÓN: APAGADO</button>
-                    <p style="color: #888; font-size: 12px; margin-top: 15px; font-family: monospace;">ADVERTENCIA: Monitorear frecuencias no autorizadas puede inducir corrupción memética.</p>
+                <!-- NOTICIA ARCHIVO 1985 (NO CLICKEABLE) -->
+                <div class="mb-6 text-center opacity-80">
+                    <div class="win-inset bg-gray-700 w-full aspect-video flex items-center justify-center overflow-hidden border border-gray-500">
+                        <!-- ESPACIO PARA TU IMAGEN DEL PALACIO DE JUSTICIA -->
+                        <img src="img/PalacioJusticia.jpg" 
+                             alt="Archivo Palacio de Justicia" 
+                             class="w-full h-full object-cover grayscale">
+                    </div>
+                    <h3 class="text-gray-800 font-sys font-bold text-[12px] mt-2">Noviembre 6 1985</h3>
+                    <p class="font-sys text-[10px] leading-tight text-left">Toma del Palacio de Justicia. Operación de contención y barrido de información.</p>
+                    <p class="text-[9px] font-sys text-red-700 mt-1 text-left font-bold tracking-widest">[EXPEDIENTE CERRADO]</p>
+                </div>
+
+                <button onclick="toggleMessenger()" class="win-button w-full py-2 font-bold text-xs mt-auto flex items-center justify-center gap-2">
+                    <span class="w-2 h-2 bg-green-500 rounded-full border border-white"></span> Soporte MSN
+                </button>
+            </aside>
+        </div>
+    </template>
+
+    <!-- VISOR DE DOCUMENTO (PANTALLA COMPLETA INTERNA) -->
+    <template id="tpl-visor-pdf">
+        <div class="full-viewer win-outset">
+            <!-- Barra de Herramientas del Visor -->
+            <div class="bg-[#c0c0c0] p-1 border-b border-gray-600 flex justify-between items-center">
+                <div class="flex gap-1">
+                    <button onclick="showPage('inicio')" class="win-button px-3 py-1 flex items-center gap-2 font-bold text-xs">
+                        <span>←</span> ATRÁS
+                    </button>
+                    <div class="win-inset bg-[#dcdcdc] px-4 py-1 text-[10px] font-sys flex items-center">
+                        Documento: REPORTE_CLA_026.IMG (Solo Lectura)
+                    </div>
+                </div>
+                <div class="text-[10px] font-sys pr-2">Zoom: 100%</div>
+            </div>
+            
+            <!-- Contenedor del Documento -->
+            <div class="flex-grow overflow-auto p-4 bg-[#525659] flex justify-center">
+                <div class="bg-white shadow-2xl min-w-[300px] max-w-[800px] h-fit">
+                    <!-- AQUÍ SUBIRÁS TU IMAGEN DEL PDF/DOCUMENTO -->
+                    <img src="img/Comunicado Del Presidente DBA PNG.jpeg" 
+                         alt="Documento Clasificado" 
+                         class="w-full h-auto">
                 </div>
             </div>
-
         </div>
+    </template>
 
-        <div id="footer">
-            <span id="footer-auth-status" style="flex: 1; text-align: left;">ESTADO: AUTENTICADO</span>
-            <div style="flex: 1; text-align: center;"><span class="hit-counter">004,815</span></div>
-            <span style="flex: 1; text-align: right;">D.B.A. INTRANET v2.04</span>
+    <template id="tpl-nosotros">
+        <div class="bg-dba-beige win-inset-deep p-6 md:p-10 h-full min-h-[450px]">
+            <h2 class="font-sys font-bold text-3xl mb-8 tracking-tight">¿Quienes son nuestros agentes?</h2>
+            <div class="font-sys text-[14px] leading-relaxed text-black space-y-6">
+                <p>La Dirección de Búsqueda de Andantes (DBA) fue establecida en 1928...</p>
+            </div>
         </div>
+    </template>
 
+    <template id="tpl-documentos">
+        <div class="bg-dba-beige win-inset-deep p-4 min-h-[400px]">
+            <h2 class="font-sys font-bold text-lg text-dba-blue mb-4">/ARCHIVOS/CLASIFICADOS/</h2>
+            <table class="doc-table">
+                <thead><tr><th>Tipo</th><th>Nombre</th><th>Nivel</th></tr></thead>
+                <tbody>
+                    <tr><td>[TXT]</td><td><a href="#" class="text-blue-800 underline">Protocolo_01.txt</a></td><td>LVL_5</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </template>
+
+    <template id="tpl-contacto">
+        <div class="bg-dba-beige win-inset-deep p-6 md:p-12 h-full min-h-[450px]">
+            <h2 class="font-sys font-bold text-3xl mb-8 tracking-tight">¿Ha visto algo extraño?</h2>
+            <p class="font-sys text-blue-800 font-bold text-3xl">+57 315 7531693</p>
+        </div>
+    </template>
+
+    <template id="tpl-faq">
+        <div class="bg-dba-beige win-inset-deep p-6 md:p-10 h-full min-h-[450px] overflow-y-auto">
+            <h2 class="font-bold text-2xl mb-4 text-dba-blue uppercase text-center border-b border-gray-400 pb-2">F.A.Q.</h2>
+            <p class="font-sys">Preguntas frecuentes sobre los andantes.</p>
+        </div>
+    </template>
+
+    <template id="tpl-captcha">
+        <div class="terminal-bg p-6 md:p-12 h-full min-h-[450px] relative overflow-hidden flex flex-col items-center justify-center font-terminal">
+            <h2 class="text-xl mb-6">ESCRIBA FRASE DE VERIFICACIÓN:</h2>
+            <p class="text-white bg-[#004400] px-2 py-1 mb-4 border border-[#00ff00]">Un agente, un número más</p>
+            <input type="text" id="captcha-input" class="w-full bg-black border-2 border-[#00ff00] p-2 text-[#00ff00] uppercase text-center focus:outline-none">
+            <button onclick="verifyCaptcha()" class="mt-4 border-2 border-[#00ff00] px-6 py-2 hover:bg-[#00ff00] hover:text-black font-bold">VERIFICAR</button>
+        </div>
+    </template>
+
+    <template id="tpl-prueba">
+        <div class="bg-dba-beige win-inset-deep p-6 h-full min-h-[400px]">
+            <h2 class="font-sys font-bold text-xl text-dba-blue mb-4">PRUEBA PSICOTÉCNICA</h2>
+            <button onclick="processTest()" class="win-button px-8 py-2">FINALIZAR</button>
+        </div>
+    </template>
+
+    <!-- MSN MESSENGER -->
+    <div id="msn-window" class="msn-window win-outset shadow-2xl">
+        <div class="msn-header">
+            <span>Gemi (Soporte)</span>
+            <button onclick="toggleMessenger()" class="bg-[#e0e0e0] text-black px-1 border border-black text-[10px]">X</button>
+        </div>
+        <div class="p-2 bg-[#f0f0f0]">
+            <div id="chat-box" class="win-inset-deep bg-white h-48 p-2 mb-2 text-[11px] overflow-y-auto">Gemi dice: Hola operativo.</div>
+            <input type="text" id="chat-input" class="win-inset-deep w-full p-1 text-[11px]" onkeypress="if(event.key==='Enter') sendMessage()">
+        </div>
     </div>
-
-    <!-- CHAT -->
-    <div id="chat-icon" onclick="toggleChat()"><span>💬</span><span>Comunicador Interno</span></div>
-    <div id="chat-window">
-        <div class="chat-header"><span>D.B.A Messenger - En línea</span><button class="chat-close-btn" onclick="toggleChat()">X</button></div>
-        <div class="chat-body">
-            <div class="chat-history" id="chat-history"><div class="chat-msg"><span class="chat-name-bot">Agente_DBA dice:</span><br>Conexión iniciada. Identifíquese.</div></div>
-            <div class="chat-input-container"><textarea id="chat-input"></textarea><button id="chat-send-btn" onclick="sendMessage()">Enviar</button></div>
-        </div>
-    </div>
-
-    </div> <!-- FIN DE APP CONTENT -->
 
     <script>
-        // --- CÓDIGO DE LOGIN FACIAL Y CAPTCHA FALLBACK ---
-        let camStream = null;
-        let faceTracker = null;
-        let isFaceDetected = false;
-        let isCaptchaSolved = false;
-        let scanBlocked = false;
+        let isVerified = false;
 
-        window.onload = async function() {
-            if(sessionStorage.getItem('dba_authenticated') === 'true') { grantAccess(); return; }
-            try {
-                camStream = await navigator.mediaDevices.getUserMedia({ video: true });
-                let videoFeed = document.getElementById('cam-feed');
-                videoFeed.srcObject = camStream;
-                
-                // Esperar a que los metadatos del video carguen para evitar IndexSizeError con canvas
-                videoFeed.onloadedmetadata = function() {
-                    addTerminalLine("> SEÑAL DE VIDEO RECIBIDA. ÓPTICA EN LÍNEA.");
-                    addTerminalLine("> INICIANDO ALGORITMO DE RECONOCIMIENTO (VIOLA-JONES)...");
-
-                    faceTracker = new tracking.ObjectTracker('face');
-                    faceTracker.setInitialScale(4); faceTracker.setStepSize(2); faceTracker.setEdgesDensity(0.1);
-                    tracking.track('#cam-feed', faceTracker);
-
-                    faceTracker.on('track', function(event) {
-                        if (scanBlocked) return;
-                        if (event.data.length === 0) {
-                            if (isFaceDetected) { addTerminalLine("> ADVERTENCIA: SUJETO PERDIDO DEL RADAR."); document.getElementById('start-scan-btn').disabled = true; document.getElementById('start-scan-btn').innerHTML = "SITÚESE FRENTE A LA CÁMARA..."; }
-                            isFaceDetected = false; document.getElementById('face-box').style.display = 'none';
-                        } else {
-                            if (!isFaceDetected) { addTerminalLine("> ROSTRO HUMANO DETECTADO. ESPERANDO CONFIRMACIÓN."); document.getElementById('start-scan-btn').disabled = false; document.getElementById('start-scan-btn').innerHTML = "INICIAR ESCANEO BIOMÉTRICO"; }
-                            isFaceDetected = true;
-                            const rect = event.data[0]; const box = document.getElementById('face-box');
-                            box.style.display = 'block'; box.style.left = (320 - rect.x - rect.width) + 'px'; box.style.top = rect.y + 'px'; box.style.width = rect.width + 'px'; box.style.height = rect.height + 'px';
-                        }
-                    });
-                };
-            } catch (err) {
-                // FALLBACK: CÁMARA DENEGADA O NO ENCONTRADA -> ACTIVAR CAPTCHA
-                scanBlocked = true;
-                addTerminalLine("> ERROR CRÍTICO: HARDWARE ÓPTICO NO ENCONTRADO O PERMISOS DENEGADOS.");
-                addTerminalLine("> ACTIVANDO PROTOCOLO DE VERIFICACIÓN MANUAL.");
-               
-                document.getElementById('scanner-container').style.borderColor = "#ff0000";
-                document.getElementById('camera-error').style.display = "block";
-               
-                // Mostrar Captcha y ocultar completamente el botón para obligar a usar el input
-                document.getElementById('captcha-container').style.display = "flex";
-                document.getElementById('start-scan-btn').style.display = "none";
+        function updateClock() {
+            const clock = document.getElementById('live-clock');
+            if (clock) {
+                const now = new Date();
+                clock.innerText = now.toLocaleTimeString('es-CO');
             }
-        };
+        }
+        setInterval(updateClock, 1000);
 
-        function addTerminalLine(text) {
-            let term = document.getElementById('terminal-output');
-            let span = document.createElement('span');
-            span.innerHTML = "<br>" + text;
-            term.appendChild(span);
-            term.scrollTop = term.scrollHeight;
+        function showPage(pageId) {
+            const container = document.getElementById('content-area');
+            const mainContainer = document.getElementById('main-container');
+            const nav = document.getElementById('main-nav');
+            const marquee = document.getElementById('marquee-container');
+            const footer = document.getElementById('main-footer');
+
+            if (pageId === 'prueba' && !isVerified) pageId = 'captcha';
+
+            // Lógica para "Pantalla Completa" del visor
+            if (pageId === 'visor-pdf') {
+                mainContainer.classList.remove('h-fit');
+                mainContainer.classList.add('h-full', 'max-w-none', 'p-0', 'm-0');
+                nav.classList.add('hidden');
+                marquee.classList.add('hidden');
+                footer.classList.add('hidden');
+                document.body.classList.remove('p-4', 'md:p-8');
+            } else {
+                mainContainer.classList.add('h-fit');
+                mainContainer.classList.remove('h-full', 'max-w-none', 'p-0', 'm-0');
+                nav.classList.remove('hidden');
+                marquee.classList.remove('hidden');
+                footer.classList.remove('hidden');
+                document.body.classList.add('p-4', 'md:p-8');
+            }
+
+            const template = document.getElementById('tpl-' + pageId);
+            
+            document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.getElementById('btn-' + (pageId === 'captcha' ? 'prueba' : pageId));
+            if(activeBtn) activeBtn.classList.add('active');
+
+            if (template) {
+                container.innerHTML = template.innerHTML;
+                updateClock();
+            }
         }
 
-        // Lógica de Autologin mediante el Captcha
         function verifyCaptcha() {
-            let input = document.getElementById('captcha-input').value.trim().toLowerCase();
-            if (input === "ya no soy humano") {
-                isCaptchaSolved = true;
-               
-                // Bloquear el input de inmediato
-                let inp = document.getElementById('captcha-input');
-                inp.disabled = true;
-                inp.style.borderColor = "#00ff00";
-                inp.style.color = "#00ff00";
-                inp.style.boxShadow = "0 0 15px #00ff00";
-               
-                addTerminalLine("> FRASE DE VERIFICACIÓN ACEPTADA.");
-               
-                // Dispara el login de manera instantánea y automática
-                startScan();
-            }
-        }
-
-        function startScan() {
-            if(!isFaceDetected && !isCaptchaSolved) return;
-            scanBlocked = true;
-           
-            let btn = document.getElementById('start-scan-btn');
-            if(btn) btn.disabled = true;
-           
-            document.getElementById('scan-line').style.display = 'block';
-           
-            let steps = [];
-
-            if (isFaceDetected) {
-                // Entrada por Cámara Real
-                document.getElementById('flash-effect').classList.add('trigger-flash');
-                let videoEl = document.getElementById('cam-feed');
-                videoEl.pause();
-                document.getElementById('face-box').style.borderColor = "#00ff00";
-               
-                try {
-                    let canvas = document.createElement('canvas');
-                    canvas.width = videoEl.videoWidth || 320;
-                    canvas.height = videoEl.videoHeight || 240;
-                    let ctx = canvas.getContext('2d');
-                    ctx.translate(canvas.width, 0); ctx.scale(-1, 1);
-                    ctx.drawImage(videoEl, 0, 0, canvas.width, canvas.height);
-                    let imgData = canvas.toDataURL('image/jpeg', 0.8);
-                    sessionStorage.setItem('dba_user_photo', imgData);
-                } catch(e) { console.warn("Interferencia en captura.", e); }
-
-                steps = [ "> ANALIZANDO PATRONES GEOMÉTRICOS...", "> CRUZANDO DATOS CON ARCHIVOS CLASIFICADOS D.B.A...", "> DESENCRIPTANDO CREDENCIALES NIVEL 4...", "> COINCIDENCIA CONFIRMADA. BIENVENIDO, AGENTE." ];
+            const val = document.getElementById('captcha-input').value.trim().toLowerCase();
+            if (val === "un agente, un número más") {
+                isVerified = true;
+                showPage('prueba');
             } else {
-                // Entrada Automática por Captcha Sin Cámara
-                document.getElementById('scanner-container').style.borderColor = "#00ff00";
-                document.getElementById('camera-error').style.display = "none";
-                sessionStorage.removeItem('dba_user_photo');
-               
-                // Textos alternativos para indicar la falta de humanidad
-                steps = [ "> VERIFICANDO HUELLA LINGÜÍSTICA...", "> CONFIRMANDO AUSENCIA DE HUMANIDAD...", "> DESENCRIPTANDO CREDENCIALES NIVEL 4...", "> ACCESO CONCEDIDO. BIENVENIDO, AGENTE." ];
+                alert("CREDENCIALES INVÁLIDAS.");
             }
-           
-            steps.forEach((step, index) => { setTimeout(() => { addTerminalLine(step); }, 800 * (index + 1)); });
-           
+        }
+
+        function processTest() {
+            alert("PROCESANDO...");
             setTimeout(() => {
-                if (camStream) camStream.getTracks().forEach(track => track.stop()); if (faceTracker) tracking.track('#cam-feed', faceTracker).stop();
-                document.getElementById('login-screen').style.display = 'none'; let transitionScreen = document.getElementById('transition-screen');
-                let agentNum = Math.floor(Math.random() * 9000) + 1000; document.getElementById('agent-number-display').innerText = agentNum; sessionStorage.setItem('dba_agent_number', agentNum);
-                transitionScreen.style.display = 'flex'; document.getElementById('transition-loading-bar').classList.add('fill-animation');
-                setTimeout(() => { sessionStorage.setItem('dba_authenticated', 'true'); grantAccess(); }, 3200);
-            }, 800 * (steps.length + 1));
+                document.getElementById('auth-status').innerText = "VIGILANCIA ACTIVA";
+                showPage('inicio');
+            }, 1000);
         }
 
-        function grantAccess() {
-            document.getElementById('login-screen').style.display = 'none'; document.getElementById('transition-screen').style.display = 'none'; document.getElementById('app-content').style.display = 'block';
-            let savedAgentNum = sessionStorage.getItem('dba_agent_number') || '0000'; document.getElementById('footer-auth-status').innerText = 'ESTADO: AUTENTICADO // AGENTE ' + savedAgentNum;
-            loadChatState();
-           
-            // CARGAR FOTOGRAFÍA AL LABORATORIO SI EXISTE
-            let savedPhoto = sessionStorage.getItem('dba_user_photo');
-            if(savedPhoto) {
-                document.getElementById('scene-4').style.backgroundImage = `url(${savedPhoto})`;
-                document.getElementById('thumb-4').style.display = 'block';
-            }
+        function toggleMessenger() {
+            const win = document.getElementById('msn-window');
+            win.style.display = (win.style.display === 'block') ? 'none' : 'block';
+        }
 
-            // VERIFICAR ESTADO DE LA RADIO (NUEVO)
-            if(sessionStorage.getItem('dba_radio_unlocked') === 'true') {
-                document.getElementById('btn-radio').style.display = 'flex';
+        function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const chatBox = document.getElementById('chat-box');
+            if(input.value) {
+                chatBox.innerHTML += `<div><b>Operativo:</b> ${input.value}</div>`;
+                input.value = "";
+                chatBox.scrollTop = chatBox.scrollHeight;
             }
         }
 
-        function showTab(tabId) {
-            ['inicio', 'nosotros', 'documentos', 'laboratorio', 'contacto', 'prueba', 'faq', 'radio'].forEach(t => { document.getElementById('tab-' + t).style.display = 'none'; document.getElementById('btn-' + t).classList.remove('active'); });
-            document.getElementById('tab-' + tabId).style.display = tabId === 'inicio' ? 'flex' : 'block'; document.getElementById('btn-' + tabId).classList.add('active');
-           
-            // Configurar barra de aviso
-            var alertBar = document.getElementById('alert-bar');
-            if(tabId === 'radio') alertBar.innerText = "PRECAUCIÓN: INTERCEPTACIÓN DE FRECUENCIAS NO SUPERVISADA.";
-            else if(tabId === 'laboratorio') alertBar.innerText = "MÓDULO DE REVELADO FOTOGRÁFICO - BUSCANDO ANOMALÍAS...";
-            else alertBar.innerText = "AUTORIZADO - REGISTRO DE ACTIVIDAD MONITORIZADO";
-        }
-
-        // --- LÓGICA DEL LABORATORIO VISUAL ---
-        let currentLabScene = 1;
-
-        function selectScene(id) {
-            currentLabScene = id;
-            for(let i=1; i<=4; i++) {
-                let scene = document.getElementById('scene-' + i);
-                let thumb = document.getElementById('thumb-' + i);
-                if(scene) scene.style.display = 'none';
-                if(thumb) thumb.classList.remove('active');
-            }
-            let targetScene = document.getElementById('scene-' + id);
-            let targetThumb = document.getElementById('thumb-' + id);
-            if(targetScene) targetScene.style.display = 'block';
-            if(targetThumb) targetThumb.classList.add('active');
-           
-            // Resetear ajustes al cambiar foto
-            document.getElementById('lab-br').value = 100;
-            document.getElementById('lab-ct').value = 100;
-            updateLab();
-        }
-
-        function updateLab() {
-            let br = parseInt(document.getElementById('lab-br').value);
-            let ct = parseInt(document.getElementById('lab-ct').value);
-           
-            document.getElementById('val-br').innerText = br;
-            document.getElementById('val-ct').innerText = ct;
-
-            document.getElementById('lab-viewer').style.filter = `brightness(${br}%) contrast(${ct}%)`;
-
-            let brFactor = Math.max(0, (br - 200) / 400);
-            let ctFactor = Math.max(0, (ct - 150) / 450);
-            let opacity = (brFactor * ctFactor) * 2;
-            if(opacity > 1) opacity = 1;
-
-            document.getElementById('hidden-' + currentLabScene).style.opacity = opacity;
-
-            if(opacity > 0.6) {
-                document.getElementById('lab-warning').classList.add('active');
-                if(Math.random() > 0.98) triggerLabGlitch();
-            } else {
-                document.getElementById('lab-warning').classList.remove('active');
-            }
-        }
-
-        function triggerLabGlitch() {
-            document.body.style.backgroundColor = "#aa0000";
-            document.getElementById('lab-viewer').style.filter = "invert(100%) sepia(100%)";
-            setTimeout(() => {
-                document.body.style.backgroundColor = "#008080";
-                updateLab();
-            }, 150);
-        }
-
-        // --- SISTEMA DE COMUNICACIÓN CON AGENTE D.B.A. (INTELIGENCIA ARTIFICIAL) ---
-        let chatMemory = JSON.parse(sessionStorage.getItem('dba_chat_memory')) || [
-            { role: "model", parts: [{ text: "Conexión segura establecida. Protocolos de encriptación activos. Identifíquese." }] }
-        ];
-
-        function loadChatState() { 
-            if(sessionStorage.getItem('dba_chat_open') === 'true') { 
-                document.getElementById('chat-window').style.display = 'flex'; 
-                document.getElementById('chat-icon').style.display = 'none'; 
-            } 
-            renderChat(); 
-        }
-
-        function renderChat() {
-            let h = document.getElementById('chat-history');
-            h.innerHTML = '';
-            chatMemory.forEach(msg => {
-                let d = document.createElement('div');
-                d.className = 'chat-msg';
-                if(msg.role === 'user') {
-                    d.innerHTML = '<span class="chat-name-user">Usted dice:</span><br>' + msg.parts[0].text;
-                } else {
-                    d.innerHTML = '<span class="chat-name-bot">Agente de Enlace dice:</span><br>' + msg.parts[0].text;
-                }
-                h.appendChild(d);
-            });
-            h.scrollTop = h.scrollHeight;
-        }
-
-        function toggleChat() { 
-            let c = document.getElementById('chat-window'), i = document.getElementById('chat-icon'); 
-            let isOpen = c.style.display === 'none' || c.style.display === ''; 
-            c.style.display = isOpen ? 'flex' : 'none'; 
-            i.style.display = isOpen ? 'none' : 'flex'; 
-            sessionStorage.setItem('dba_chat_open', isOpen); 
-            if(isOpen) {
-                let h = document.getElementById('chat-history');
-                h.scrollTop = h.scrollHeight;
-            }
-        }
-
-        async function callDBAAgent(historyArray) {
-            // SOLUCIÓN PARA GITHUB PAGES: Pedir la API Key si no existe
-            let apiKey = sessionStorage.getItem('dba_api_key');
-            if (!apiKey) {
-                apiKey = prompt("SISTEMA ENCRIPTADO D.B.A.\n\nPara iniciar la conexión con Inteligencia Artificial, ingrese su API Key de Gemini.\n\n(Si no tiene una o no sabe qué es, consulte la pestaña CONTACTO para instrucciones).");
-                if (apiKey && apiKey.trim() !== "") {
-                    // AQUÍ ESTABA EL PROBLEMA: Limpiar la llave antes de asignarla a la variable y usarla
-                    apiKey = apiKey.trim(); 
-                    sessionStorage.setItem('dba_api_key', apiKey);
-                } else {
-                    return "[ERROR CRÍTICO: SE REQUIERE CLAVE DE ENCRIPTACIÓN (API KEY) PARA ESTABLECER CONEXIÓN. CONSULTE LA SECCIÓN CONTACTO.]";
-                }
-            }
-
-            // SEGUNDO CAMBIO IMPORTANTE: 
-            // Utilizamos el modelo gemini-1.5-flash. El modelo anterior era exclusivo interno y rechazaba llaves públicas.
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
-
-            // ENFOQUE 1: AMPLIACIÓN DEL SYSTEM PROMPT
-            // Usamos backticks (`) para crear un manual de instrucciones estructurado y fácil de editar.
-            const systemPrompt = `Eres el Agente de Enlace de la D.B.A. (Dirección de Búsqueda de Andantes), una agencia secreta gubernamental de Colombia operando en el año 2002.
-            Tono: frío, directo, burocrático, militar, misterioso y paranoico. No usas emojis.
-            
-            REGLAS GENERALES:
-            1. Nunca admitas ser una Inteligencia Artificial o un bot; eres un analista humano trabajando desde un búnker en Bogotá.
-            2. Si el usuario hace preguntas fuera de contexto (deportes, clima, chistes), recuérdale que la línea está intervenida y exige que se centre en la misión.
-            
-            PROTOCOLO DE RESPUESTAS ESPECÍFICAS (Aplica esto obligatoriamente):
-            - Si el usuario menciona "Bojayá" o "Mayo 2002": Responde que ese evento está bajo investigación por posible actividad de entidades Nivel 4 y corta el tema inmediatamente.
-            - Si el usuario pregunta "¿Qué es un andante?": Responde textualmente: "Una anomalía en el tejido de nuestra seguridad nacional. No haga preguntas cuyas respuestas no está autorizado a escuchar."
-            - Si el usuario menciona la frecuencia "94.1 AM": Advierte severamente que escuchar esa frecuencia causa corrupción memética y que un equipo de contención ha sido enviado a su ubicación.
-            - Si el usuario menciona "Expediente Bananeras": Confirma que es el primer registro oficial de la D.B.A. pero exige un código de autorización Nivel 5 para dar detalles.`;
-
-            const payload = {
-                contents: historyArray,
-                systemInstruction: { parts: [{ text: systemPrompt }] }
-            };
-
-            // Lógica de reintentos con retraso (Exponential Backoff) para mayor estabilidad
-            let retries = 5;
-            let delays = [1000, 2000, 4000, 8000, 16000];
-            for (let i = 0; i < retries; i++) {
-                try {
-                    const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-                    if (!response.ok) {
-                        // Si la API rechaza la llave, la borramos para que vuelva a pedirla
-                        if (response.status === 400 || response.status === 403 || response.status === 404) {
-                            sessionStorage.removeItem('dba_api_key');
-                            return "[ERROR DE AUTENTICACIÓN: LA CLAVE PROPORCIONADA ES INVÁLIDA O NO TIENE PERMISOS. ENVÍE UN NUEVO MENSAJE PARA INGRESARLA NUEVAMENTE.]";
-                        }
-                        throw new Error('Fallo en la comunicación encriptada');
-                    }
-                    const data = await response.json();
-                    return data.candidates[0].content.parts[0].text;
-                } catch (error) {
-                    if (i === retries - 1) return "[ERROR CRÍTICO: ENLACE PERDIDO POR INTERFERENCIA. INTENTE NUEVAMENTE]";
-                    await new Promise(r => setTimeout(r, delays[i]));
-                }
-            }
-        }
-
-        async function sendMessage() { 
-            let i = document.getElementById('chat-input'), msg = i.value.trim(); 
-            if(msg === '') return; 
-
-            // Bloquear inputs para evitar spam
-            i.disabled = true;
-            document.getElementById('chat-send-btn').disabled = true;
-
-            // 1. Mostrar y guardar el mensaje del usuario
-            chatMemory.push({ role: "user", parts: [{ text: msg }] });
-            renderChat();
-            i.value = '';
-            sessionStorage.setItem('dba_chat_memory', JSON.stringify(chatMemory)); 
-
-            // ENFOQUE 2: INTERCEPTOR ESTRICTO (Códigos secretos / Comandos)
-            // Esto evalúa el mensaje ANTES de llamar a la IA. Si coincide, responde instantáneamente.
-            let lowerMsg = msg.toLowerCase();
-            if (lowerMsg === "sigma-9") {
-                simulateAgentTyping("> CÓDIGO ACEPTADO. PROTOCOLO DE EVACUACIÓN INICIADO. DESTRUYA ESTA TERMINAL INMEDIATAMENTE.");
-                return;
-            } else if (lowerMsg === "limpiar historial") {
-                sessionStorage.removeItem('dba_chat_memory');
-                sessionStorage.removeItem('dba_api_key'); // También borramos la key para que pueda poner una nueva
-                chatMemory = [{ role: "model", parts: [{ text: "Memoria local purgada. Identifíquese nuevamente." }] }];
-                renderChat();
-                unlockChat();
-                return;
-            } else if (lowerMsg === "merlin" || lowerMsg === "merlín") {
-                sessionStorage.setItem('dba_radio_unlocked', 'true');
-                document.getElementById('btn-radio').style.display = 'flex';
-                simulateAgentTyping("> CÓDIGO MERLÍN ACEPTADO. MÓDULO DE INTERCEPTACIÓN DE RADIO DESBLOQUEADO EN SU TERMINAL.");
-                return;
-            }
-
-            // 2. Mostrar indicador de escritura (simulación de desencriptación)
-            let h = document.getElementById('chat-history');
-            let d = document.createElement('div');
-            d.id = 'typing-indicator';
-            d.className = 'chat-msg';
-            d.innerHTML = '<span class="chat-name-bot">Agente de Enlace dice:</span><br><i>[Desencriptando...]</i>';
-            h.appendChild(d);
-            h.scrollTop = h.scrollHeight;
-
-            // 3. Obtener respuesta inteligente a partir de todo el historial
-            const agentReply = await callDBAAgent(chatMemory);
-
-            // 4. Quitar indicador y mostrar la respuesta real
-            document.getElementById('typing-indicator').remove();
-            chatMemory.push({ role: "model", parts: [{ text: agentReply }] });
-            renderChat();
-            sessionStorage.setItem('dba_chat_memory', JSON.stringify(chatMemory));
-
-            // Desbloquear inputs
-            unlockChat();
-        }
-
-        // Función auxiliar para modularizar el desbloqueo del chat
-        function unlockChat() {
-            let i = document.getElementById('chat-input');
-            i.disabled = false;
-            document.getElementById('chat-send-btn').disabled = false;
-            i.focus();
-        }
-
-        // Función auxiliar para simular escritura cuando usamos el Interceptor Estricto
-        function simulateAgentTyping(exactResponse) {
-            let h = document.getElementById('chat-history');
-            let d = document.createElement('div');
-            d.id = 'typing-indicator';
-            d.className = 'chat-msg';
-            d.innerHTML = '<span class="chat-name-bot">Agente de Enlace dice:</span><br><i>[Procesando directiva...]</i>';
-            h.appendChild(d);
-            h.scrollTop = h.scrollHeight;
-
-            setTimeout(() => {
-                document.getElementById('typing-indicator').remove();
-                chatMemory.push({ role: "model", parts: [{ text: exactResponse }] });
-                renderChat();
-                sessionStorage.setItem('dba_chat_memory', JSON.stringify(chatMemory));
-                unlockChat();
-            }, 1500); // Pequeño retraso para dar realismo
-        }
-
-        // MODIFICACIÓN REQUERIDA PARA EL ENTORNO DE PREVISUALIZACIÓN (Cambio de Alert por mensaje DOM)
-        function evaluarAgente(e) { 
-            e.preventDefault(); 
-            let h = document.getElementById('alert-bar');
-            let old = h.innerText;
-            h.innerText = 'EVALUACIÓN REGISTRADA EN EL SERVIDOR CENTRAL.';
-            h.style.backgroundColor = '#000080';
-            h.style.color = '#fff';
-            setTimeout(()=> {
-                h.innerText = old;
-                h.style.backgroundColor = '#c0c0c0';
-                h.style.color = '#333';
-            }, 3000);
-        }
-
-        // --- LÓGICA DE LA RADIO ANALÓGICA Y WEB AUDIO API ---
-        let audioCtx; let noiseNode; let noiseGain; let isRadioOn = false; let screamTriggered = false; let isDraggingKnob = false; let knobAngle = -135;
-        function toggleRadio() { let btn = document.getElementById('radio-power-btn'); let display = document.getElementById('freq-display'); let knob = document.getElementById('radio-knob');
-            if (!isRadioOn) { isRadioOn = true; btn.classList.add('active'); btn.innerText = "SISTEMA DE INTERCEPTACIÓN: ENCENDIDO"; display.style.color = "#00ff00"; display.style.textShadow = "0 0 10px #00ff00"; knob.classList.remove('disabled'); let percent = (knobAngle + 135) / 270; let currentFreq = (85.0 + (percent * (108.0 - 85.0))).toFixed(1); display.innerText = currentFreq + " AM";
-                if (!audioCtx) { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); let bufferSize = audioCtx.sampleRate * 2; let buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate); let data = buffer.getChannelData(0); for (let i = 0; i < bufferSize; i++) { data[i] = Math.random() * 2 - 1; } noiseNode = audioCtx.createBufferSource(); noiseNode.buffer = buffer; noiseNode.loop = true; let filter = audioCtx.createBiquadFilter(); filter.type = 'bandpass'; filter.frequency.value = 1000; noiseGain = audioCtx.createGain(); noiseGain.gain.value = 0.2; noiseNode.connect(filter); filter.connect(noiseGain); noiseGain.connect(audioCtx.destination); noiseNode.start();
-                } else if (audioCtx.state === 'suspended') { audioCtx.resume(); }
-            } else { isRadioOn = false; btn.classList.remove('active'); btn.innerText = "SISTEMA DE INTERCEPTACIÓN: APAGADO"; display.style.color = "#004400"; display.style.textShadow = "none"; display.innerText = "---.- AM"; knob.classList.add('disabled'); if (audioCtx && audioCtx.state === 'running') { audioCtx.suspend(); } } }
-        function updateKnobRotation(e) { const knob = document.getElementById('radio-knob'); const rect = knob.getBoundingClientRect(); const centerX = rect.left + rect.width / 2; const centerY = rect.top + rect.height / 2; let clientX = e.clientX; let clientY = e.clientY; if (e.touches && e.touches.length > 0) { clientX = e.touches[0].clientX; clientY = e.touches[0].clientY; } else if (clientX === undefined) { return; } const x = clientX - centerX; const y = clientY - centerY; let angle = Math.atan2(y, x) * (180 / Math.PI) + 90; if (angle > 180) angle -= 360; if (angle < -135) angle = -135; if (angle > 135) angle = 135; knobAngle = angle; knob.style.transform = `rotate(${knobAngle}deg)`; let percent = (knobAngle + 135) / 270; let freq = 85.0 + (percent * (108.0 - 85.0)); tuneRadio(freq); }
-        function initDial() { const knob = document.getElementById('radio-knob'); const startDrag = (e) => { if (!isRadioOn) return; isDraggingKnob = true; updateKnobRotation(e); }; const onDrag = (e) => { if (!isDraggingKnob) return; updateKnobRotation(e); }; const stopDrag = () => { isDraggingKnob = false; }; knob.addEventListener('mousedown', startDrag); document.addEventListener('mousemove', onDrag); document.addEventListener('mouseup', stopDrag); knob.addEventListener('touchstart', startDrag, {passive: false}); document.addEventListener('touchmove', (e) => { if(isDraggingKnob) { e.preventDefault(); onDrag(e); } }, {passive: false}); document.addEventListener('touchend', stopDrag); }
-        function tuneRadio(val) { if (!isRadioOn) return; let freq = parseFloat(val).toFixed(1); document.getElementById('freq-display').innerText = freq + " AM"; let diff = Math.abs(freq - 94.1); if (diff < 0.1 && !screamTriggered) { triggerScream(); } else if (diff >= 0.5) { screamTriggered = false; } if (noiseGain && !screamTriggered) { let newVolume = 0.1 + (Math.random() * 0.3) + (diff * 0.05); if(newVolume > 0.8) newVolume = 0.8; noiseGain.gain.setValueAtTime(newVolume, audioCtx.currentTime); } }
-        function triggerScream() { screamTriggered = true; if (noiseGain) noiseGain.gain.setValueAtTime(0.01, audioCtx.currentTime); let osc1 = audioCtx.createOscillator(); let osc2 = audioCtx.createOscillator(); let screamGain = audioCtx.createGain(); osc1.type = 'sawtooth'; osc2.type = 'square'; osc1.frequency.setValueAtTime(2500, audioCtx.currentTime); osc1.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 1.2); osc2.frequency.setValueAtTime(1800, audioCtx.currentTime); osc2.frequency.exponentialRampToValueAtTime(50, audioCtx.currentTime + 1.2); screamGain.gain.setValueAtTime(0, audioCtx.currentTime); screamGain.gain.linearRampToValueAtTime(1.5, audioCtx.currentTime + 0.1); screamGain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 1.5); osc1.connect(screamGain); osc2.connect(screamGain); screamGain.connect(audioCtx.destination); osc1.start(); osc2.start(); osc1.stop(audioCtx.currentTime + 1.5); osc2.stop(audioCtx.currentTime + 1.5); let radioCont = document.getElementById('radio-container'); radioCont.classList.add('fatal-error'); document.body.style.backgroundColor = "#aa0000"; document.getElementById('freq-display').innerText = "ANDANTES"; setTimeout(() => { radioCont.classList.remove('fatal-error'); document.body.style.backgroundColor = "#008080"; if(isRadioOn && noiseGain) { noiseGain.gain.setValueAtTime(0.2, audioCtx.currentTime); document.getElementById('freq-display').innerText = "94.1 AM"; } }, 1500); }
-        initDial();
-
+        window.onload = () => showPage('inicio');
     </script>
 </body>
 </html>
