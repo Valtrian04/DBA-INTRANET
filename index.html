@@ -62,7 +62,7 @@
         .login-btn { background-color: #003300; color: #00ff00; border: 2px outset #00ff00; padding: 10px 20px; font-family: "Courier New", Courier, monospace; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; max-width: 100%; }
         .login-btn:active { border: 2px inset #00ff00; background-color: #002200; }
         .login-btn:disabled { color: #004400; border-color: #004400; cursor: not-allowed; text-shadow: none; }
-        
+       
         .loading-bar-container { width: 400px; height: 25px; border: 2px solid #00ff00; background-color: #001100; padding: 2px; margin-top: 30px; margin-bottom: 20px; box-shadow: 0 0 15px rgba(0,255,0,0.4); position: relative; z-index: 60; max-width: 80vw;}
         .loading-bar-fill { height: 100%; background-color: #00ff00; width: 0%; }
         .fill-animation { animation: retroLoading 2.8s steps(20) forwards; }
@@ -95,7 +95,7 @@
         .lab-warning { color: red; font-weight: bold; text-align: center; margin-top: auto; opacity: 0; font-family: "Courier New", monospace; font-size: 14px; border: 2px dashed red; padding: 5px; }
         .lab-warning.active { animation: blink 0.5s infinite; opacity: 1; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-        
+       
         .anomaly-tall { width: 30px; height: 250px; background: radial-gradient(ellipse at center, #fff 0%, transparent 60%); filter: blur(4px); position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); }
         .anomaly-eyes { width: 5px; height: 5px; background: #fff; box-shadow: 12px 0 0 #fff; position: absolute; top: 30px; left: 8px; filter: blur(1px); }
         .anomaly-scream { width: 120px; height: 160px; background: radial-gradient(ellipse, #ccc 0%, #111 70%, transparent 100%); border-radius: 50%; filter: blur(3px) contrast(1.5); position: relative; }
@@ -148,7 +148,7 @@
     <!-- APLICACIÓN PRINCIPAL -->
     <div id="app-content" style="display:none;" class="w-full max-w-[900px] h-fit relative flex justify-center">
         <div id="main-container" class="w-full bg-[#c0c0c0] win-outset p-1 shadow-[4px_4px_0px_rgba(0,0,0,0.5)] h-fit relative flex flex-col">
-            
+           
             <!-- HEADER -->
             <header class="bg-dba-blue text-white p-2 flex items-center mb-1 win-inset">
                 <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center border-2 border-[#c0c0c0] overflow-hidden ml-2 shrink-0">
@@ -166,7 +166,6 @@
                 <button onclick="showPage('recursos')" id="btn-recursos" class="win-button flex-1 py-1 px-2 text-center text-dba-blue font-sys font-bold text-xs md:text-sm">Recursos</button>
                 <button onclick="showPage('prueba')" id="btn-prueba" class="win-button flex-1 py-1 px-2 text-center text-dba-blue font-sys font-bold text-xs md:text-sm hidden" style="display:none;">Prueba</button>
                 <button onclick="showPage('radio')" id="btn-radio" class="win-button flex-1 py-1 px-2 text-center text-dba-blue font-sys font-bold text-xs md:text-sm hidden" style="display:none;">Radio</button>
-                <button onclick="showPage('reportes')" id="btn-reportes" class="win-button flex-1 py-1 px-2 text-center text-dba-blue font-sys font-bold text-xs md:text-sm">Reportes</button>
             </nav>
 
             <div id="marquee-container" class="win-inset bg-[#a0a0a0] py-1 px-2 mb-3">
@@ -177,7 +176,7 @@
 
             <!-- CONTENEDOR DINÁMICO DE PESTAÑAS -->
             <div id="content-area" class="flex-grow flex flex-col relative">
-                
+               
                 <!-- TAB INICIO -->
                 <div id="tab-inicio" class="page-tab flex flex-col md:flex-row gap-2 h-full">
                     <main class="w-full md:w-[65%] bg-dba-beige win-inset-deep p-4 md:p-6 flex flex-col">
@@ -199,7 +198,7 @@
                     </main>
                     <aside class="w-full md:w-[35%] bg-dba-beige win-inset-deep p-4 flex flex-col">
                         <h2 class="font-sys font-bold text-sm mb-4 border-b border-black pb-1 uppercase">Ultimas Noticias</h2>
-                        
+                       
                         <div class="mb-6 text-center">
                             <button onclick="openVisor('img/Comunicado Del Presidente DBA PNG.jpeg', 'REPORTE_CLA_026.IMG')" class="block w-full group outline-none">
                                 <div class="win-inset bg-gray-600 w-full aspect-video flex items-center justify-center overflow-hidden border border-gray-400 group-hover:brightness-110 transition-all">
@@ -228,7 +227,7 @@
                 <!-- TAB NOSOTROS -->
                 <div id="tab-nosotros" class="page-tab hidden bg-dba-beige win-inset-deep p-6 md:p-10 h-full min-h-[450px]">
                     <h2 class="font-sys font-bold text-2xl md:text-3xl mb-6 tracking-tight text-dba-blue uppercase border-b border-gray-400 pb-2">Sobre la D.B.A.</h2>
-                    
+                   
                     <div class="flex flex-col md:flex-row gap-6 items-start">
                         <div class="w-full md:w-1/3 shrink-0 win-outset bg-[#c0c0c0] p-1 shadow-md">
                             <div class="w-full aspect-[3/4] bg-gray-600 win-inset relative flex items-center justify-center overflow-hidden">
@@ -238,7 +237,7 @@
                                 ARCHIVO_1928_CLASIFICADO
                             </div>
                         </div>
-                        
+                       
                         <div class="w-full md:w-2/3 font-sys text-[14px] leading-relaxed text-black space-y-4 text-justify">
                             <p>La Dirección de Búsqueda de Andantes (DBA) constituye el organismo técnico de seguridad nacional responsable de la identificación, captura y contención de entidades anómalas asociadas a fenómenos de caos colectivo y crisis sociales.</p>
                             <p>Establecida operativamente en 1928 y formalizada bajo el Estatuto de Seguridad de 1978, la institución implementa protocolos de monitoreo biométrico avanzado y estrategias de saturación informativa.</p>
@@ -308,12 +307,12 @@
                 <!-- TAB LABORATORIO -->
                 <div id="tab-laboratorio" class="page-tab hidden bg-dba-beige win-inset-deep p-4 md:p-6 h-full min-h-[450px]">
                     <h2 class="font-sys font-bold text-xl md:text-2xl mb-4 text-dba-blue uppercase border-b border-gray-400 pb-2">Lab. Análisis Fotográfico</h2>
-                    
+                   
                     <div class="lab-container">
                         <div class="lab-viewer-wrapper">
                             <div class="noise-overlay" style="opacity: 0.3; z-index: 10;"></div>
                             <div class="scanlines-overlay" style="z-index: 11;"></div>
-                            
+                           
                             <div class="lab-viewer" id="lab-viewer">
                                 <div id="scene-1" class="lab-scene" style="width:100%; height:100%; background: radial-gradient(circle at center, #0a0e0a, #000);">
                                     <div style="position:absolute; bottom:0; width:100%; height: 35%; background: #030503; border-top-left-radius: 50%; border-top-right-radius: 20%;"></div>
@@ -355,7 +354,7 @@
                             <label class="lab-slider-label">CONTRASTE: <span id="val-ct">100</span>%</label>
                             <input type="range" class="lab-slider" id="lab-ct" min="10" max="600" value="100" oninput="updateLab()">
                             <div class="lab-warning" id="lab-warning">⚠️ PELIGRO: ANOMALÍA REVELADA ⚠️</div>
-                            
+                           
                             <button id="link-periodico" onclick="openVisor('PERIODICO.html', 'PERIODICO_CLASIFICADO.HTML', true)" class="hidden w-full mt-4 text-[12px] font-sys text-[#ff0000] underline hover:text-[#ff6666] font-bold tracking-widest text-center border-2 border-[#ff0000] p-2 bg-black shadow-[0_0_10px_rgba(255,0,0,0.5)] cursor-pointer outline-none" style="animation: blink 1s infinite;">
                                 > EXTRAER DOC: PERIODICO
                             </button>
@@ -366,7 +365,7 @@
                 <!-- TAB RECURSOS -->
                 <div id="tab-recursos" class="page-tab hidden bg-dba-beige win-inset-deep p-6 md:p-10 h-full min-h-[450px] overflow-y-auto">
                     <h2 class="font-sys font-bold text-2xl md:text-3xl mb-6 tracking-tight text-dba-blue uppercase border-b border-gray-400 pb-2">Recursos Operativos</h2>
-                    
+                   
                     <div class="font-sys text-[14px] leading-relaxed text-black space-y-4 text-justify mb-8">
                         <p>Para la ejecución efectiva de protocolos en campo, el operativo de la DBA debe portar un estamento de herramientas diseñado para la detección de fallas perceptibles y la gestión de la saturación informativa.</p>
                         <p>El kit físico obligatorio incluye cámaras de revelado instantáneo (estilo Polaroid) para la captura de evidencias analógicas que eviten la corrupción memética, y el Manual de Identificación de Patrones, esencial para reconocer movimientos incongruentes y conductas repetitivas en entidades que, por su naturaleza, resultan técnicamente indestructibles.</p>
@@ -395,36 +394,6 @@
                     </div>
                 </div>
 
-                <!-- TAB REPORTES -->
-                <div id="tab-reportes" class="page-tab hidden bg-dba-beige win-inset-deep p-6 md:p-10 h-full min-h-[450px] overflow-y-auto">
-                    <h2 class="font-sys font-bold text-2xl mb-6 text-dba-blue uppercase border-b border-gray-400 pb-2">Reportes Institucionales</h2>
-                    <div class="font-sys text-[14px] leading-relaxed text-black space-y-4 text-justify">
-                        <p>Dentro de los protocolos técnicos de la Dirección de Búsqueda de Andantes (DBA), la gestión de la información se estructura rigurosamente para garantizar el control de la verdad histórica mediante la fragmentación documental. Los reportes institucionales se dividen en dos categorías fundamentales para la operatividad del estamento:</p>
-                        
-                        <div class="mt-6">
-                            <h3 class="font-bold text-base text-dba-blue border-l-4 border-dba-blue pl-2">1. Informe de Avistamientos</h3>
-                            <p class="mt-2">Este documento constituye el registro técnico de la detección de entidades anómalas en entornos de caos colectivo, disturbios o crisis sociales. El objetivo del informe es identificar y catalogar las fallas perceptibles del sujeto, tales como movimientos incorrectos, patrones de conducta extraños o gestos repetitivos que los vinculan a la naturaleza del fenómeno.</p>
-                            <p class="mt-2">Para la validación de estos reportes, los agentes deben emplear algoritmos de reconocimiento óptico (Viola-Jones) y capturas analógicas para evitar la corrupción memética de la evidencia. El reporte no busca la resolución del caso, sino la alimentación de una base de datos diseñada para la saturación informativa, asegurando que los testimonios resulten contradictorios e imposibles de organizar por agentes externos.</p>
-                            
-                            <!-- BOTÓN 1: REPORTE DE AVISTAMIENTOS -->
-                            <button onclick="openVisor('img/formato_avistamiento.jpg', 'FORMATO_AVISTAMIENTO_BLANCO.IMG')" class="win-button px-4 py-2 mt-4 font-sys font-bold text-xs flex items-center justify-center gap-2">
-                                📄 REPORTE AQUÍ
-                            </button>
-                        </div>
-                        
-                        <div class="mt-8 border-t border-gray-300 pt-6">
-                            <h3 class="font-bold text-base text-dba-blue border-l-4 border-dba-blue pl-2">2. Informe de Desaparecidos</h3>
-                            <p class="mt-2">Esta categoría gestiona el rastro de individuos cuya presencia se ha desvanecido tras eventos traumáticos o crisis masivas, como el Bogotazo o la Toma del Palacio de Justicia. A diferencia de un reporte policial convencional, la DBA clasifica estos casos bajo la hipótesis de la anomalía de memoria colectiva.</p>
-                            <p class="mt-2">El informe de desaparecidos se enfoca en sujetos que, en muchos casos, han sido clasificados como "Andantes" por su capacidad de percibir inconsistencias en los relatos oficiales. La gestión de estos archivos implica el retraso operativo mediante la difusión de versiones alteradas y la pérdida deliberada de folios, con el fin de proteger la estabilidad del Estado impidiendo que los vacíos en la historia secreta de Colombia sean reconstruidos.</p>
-                            
-                            <!-- BOTÓN 2: REPORTE DE DESAPARECIDOS -->
-                            <button onclick="openVisor('img/formato_desaparecido.jpg', 'FORMATO_DESAPARECIDO_BLANCO.IMG')" class="win-button px-4 py-2 mt-4 font-sys font-bold text-xs flex items-center justify-center gap-2">
-                                📄 REPORTE AQUÍ
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- TAB PRUEBA -->
                 <div id="tab-prueba" class="page-tab hidden bg-dba-beige win-inset-deep p-6 h-full min-h-[400px]">
                     <h2 class="font-sys font-bold text-xl text-dba-blue mb-4">PRUEBA PSICOTÉCNICA</h2>
@@ -449,7 +418,8 @@
                 <div id="tab-visor-pdf" class="page-tab hidden full-viewer win-outset z-50">
                     <div class="bg-[#c0c0c0] p-1 border-b border-gray-600 flex justify-between items-center">
                         <div class="flex gap-1">
-                            <button onclick="showPage('reportes')" class="win-button px-3 py-1 flex items-center gap-2 font-bold text-xs" id="visor-back-btn">
+                            <!-- NOTA: El botón ahora redirige a 'inicio' por defecto para evitar errores -->
+                            <button onclick="showPage('inicio')" class="win-button px-3 py-1 flex items-center gap-2 font-bold text-xs" id="visor-back-btn">
                                 <span>←</span> ATRÁS
                             </button>
                             <div id="visor-title" class="win-inset bg-[#dcdcdc] px-4 py-1 text-[10px] font-sys flex items-center">
@@ -462,7 +432,7 @@
                         <div class="bg-white shadow-2xl min-w-[300px] max-w-[800px] w-full h-fit flex flex-col items-center justify-center min-h-[500px]">
                             <!-- Un texto de carga por si la imagen no existe -->
                             <span id="visor-loading-text" class="absolute font-sys font-bold text-gray-400 text-xs tracking-widest">[ CARGANDO DOCUMENTO... ]</span>
-                            
+                           
                             <img id="visor-img" src="" alt="Documento Clasificado" class="w-full h-auto relative z-10" onload="document.getElementById('visor-loading-text').style.display='none';" onerror="document.getElementById('visor-loading-text').innerText='[ ERROR: IMAGEN NO ENCONTRADA EN RUTA ]';">
                             <iframe id="visor-iframe" src="" class="w-full h-[600px] md:h-[800px] hidden bg-white border-none relative z-10"></iframe>
                             <video id="visor-video" controls class="w-full h-auto hidden bg-black border-4 border-gray-800 relative z-10"></video>
@@ -499,7 +469,7 @@
     </div>
 
     <script>
-        // --- LÓGICA GENERAL PREVIA MANTENIDA ---
+        // --- LÓGICA GENERAL DE LA APLICACIÓN ---
         let camStream = null; let faceTracker = null; let isFaceDetected = false; let isCaptchaSolved = false; let scanBlocked = false; let isVerified = false;
         let lastVisitedTab = 'inicio';
 
@@ -561,10 +531,7 @@
         setInterval(() => { const clock = document.getElementById('live-clock'); if (clock) { clock.innerText = new Date().toLocaleTimeString('es-CO'); } }, 1000);
 
         function showPage(pageId) {
-            // Guardamos la última pestaña visitada antes de abrir el visor de PDF
-            if (pageId !== 'visor-pdf') {
-                lastVisitedTab = pageId;
-            }
+            if (pageId !== 'visor-pdf') { lastVisitedTab = pageId; }
 
             const tabs = document.querySelectorAll('.page-tab');
             tabs.forEach(tab => { tab.classList.add('hidden'); tab.classList.remove('block', 'flex'); });
@@ -573,7 +540,6 @@
             if (target) { if (pageId === 'inicio') target.classList.add('flex'); else target.classList.add('block'); target.classList.remove('hidden'); }
 
             document.querySelectorAll('#main-nav button').forEach(btn => btn.classList.remove('active'));
-            // Al salir del visor de pdf nos aseguramos que el botón correcto quede activo
             const activeBtn = document.getElementById('btn-' + (pageId === 'visor-pdf' ? lastVisitedTab : pageId));
             if(activeBtn) activeBtn.classList.add('active');
 
@@ -591,12 +557,10 @@
         function openVisor(sourceUrl, docTitle, mode = false) {
             const titleEl = document.getElementById('visor-title');
             if (titleEl) titleEl.innerText = 'Documento: ' + docTitle + ' (Solo Lectura)';
-            
-            // Actualizar el botón de volver para que retorne a la pestaña donde estábamos
+           
             const backBtn = document.getElementById('visor-back-btn');
             if(backBtn) backBtn.setAttribute('onclick', `showPage('${lastVisitedTab}')`);
-            
-            // Reactivar el texto de carga antes de cambiar la fuente
+           
             const loadingText = document.getElementById('visor-loading-text');
             if(loadingText) {
                 loadingText.style.display = 'block';
@@ -605,7 +569,7 @@
 
             const imgEl = document.getElementById('visor-img'); const iframeEl = document.getElementById('visor-iframe'); const videoEl = document.getElementById('visor-video');
             if (imgEl) imgEl.classList.add('hidden'); if (iframeEl) iframeEl.classList.add('hidden'); if (videoEl) { videoEl.classList.add('hidden'); videoEl.pause(); }
-            
+           
             if (mode === true || mode === 'html') {
                 if (iframeEl) { iframeEl.classList.remove('hidden'); iframeEl.src = sourceUrl; }
             } else if (mode === 'video') {
@@ -619,41 +583,114 @@
 
         function processTest() { document.getElementById('auth-status').innerText = "PROCESANDO..."; setTimeout(() => { document.getElementById('auth-status').innerText = "VIGILANCIA ACTIVA // " + (sessionStorage.getItem('dba_agent_number') || '0000'); showPage('inicio'); }, 1000); }
 
+        // --- SISTEMA DE CHAT PRE-PROGRAMADO (SIN IA) ---
         let chatMemory = JSON.parse(sessionStorage.getItem('dba_chat_memory')) || [{ role: "model", parts: [{ text: "Conexión segura establecida. Protocolos de encriptación activos. Identifíquese operativo." }] }];
+        
         function loadChatState() { if(sessionStorage.getItem('dba_chat_open') === 'true') { document.getElementById('msn-window').style.display = 'block'; } renderChat(); }
         function toggleChat() { const win = document.getElementById('msn-window'); const isOpen = win.style.display === 'none' || win.style.display === ''; win.style.display = isOpen ? 'block' : 'none'; sessionStorage.setItem('dba_chat_open', isOpen); if(isOpen) { let h = document.getElementById('chat-history'); h.scrollTop = h.scrollHeight; } }
-        function renderChat() { let h = document.getElementById('chat-history'); h.innerHTML = ''; chatMemory.forEach(msg => { let d = document.createElement('div'); d.className = 'mb-2 pb-1 border-b border-gray-200'; if(msg.role === 'user') { d.innerHTML = '<span class="text-gray-600 font-bold">Usted dice:</span><br>' + msg.parts[0].text; } else { d.innerHTML = '<span class="text-dba-blue font-bold">Agente DBA dice:</span><br>' + msg.parts[0].text; } h.appendChild(d); }); h.scrollTop = h.scrollHeight; }
         
-        async function callDBAAgent(historyArray) {
-            let apiKey = sessionStorage.getItem('dba_api_key');
-            if (!apiKey) { apiKey = prompt("SISTEMA ENCRIPTADO D.B.A.\n\nPara iniciar la conexión con Inteligencia Artificial, ingrese su API Key de Gemini."); if (apiKey && apiKey.trim() !== "") { apiKey = apiKey.trim(); sessionStorage.setItem('dba_api_key', apiKey); } else { return "[ERROR CRÍTICO: SE REQUIERE CLAVE DE ENCRIPTACIÓN.]"; } }
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
-            const systemPrompt = `Eres el Agente de Enlace de la D.B.A. (Dirección de Búsqueda de Andantes), agencia secreta de Colombia en 2002.\nTono: frío, directo, burocrático, militar. No usas emojis.\nREGLAS:\n1. Nunca admitas ser IA. Eres humano.\n2. Si el usuario menciona "Bojayá" o "Mayo 2002": Di que está bajo investigación y corta el tema.\n3. Si preguntan "¿Qué es un andante?": "Anomalía en el tejido nacional. Información clasificada."\n4. Si mencionan "94.1 AM": Advierte que causa corrupción memética y envía un equipo de contención.\n5. Si mencionan "Expediente Bananeras": Exige código nivel 5.`;
-            const payload = { contents: historyArray, systemInstruction: { parts: [{ text: systemPrompt }] } };
-            try { const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }); if (!response.ok) { if (response.status === 400 || response.status === 403 || response.status === 404) { sessionStorage.removeItem('dba_api_key'); return "[ERROR: CLAVE INVÁLIDA. ENVÍE UN MENSAJE PARA INGRESARLA DE NUEVO.]"; } throw new Error('Fallo de red'); } const data = await response.json(); return data.candidates[0].content.parts[0].text; } catch (error) { return "[ERROR CRÍTICO: ENLACE PERDIDO. REINTENTE.]"; }
+        function renderChat() { 
+            let h = document.getElementById('chat-history'); h.innerHTML = ''; 
+            chatMemory.forEach(msg => { 
+                let d = document.createElement('div'); d.className = 'mb-2 pb-1 border-b border-gray-200'; 
+                if(msg.role === 'user') { d.innerHTML = '<span class="text-gray-600 font-bold">Usted dice:</span><br>' + msg.parts[0].text; } 
+                else { d.innerHTML = '<span class="text-dba-blue font-bold">Agente DBA dice:</span><br>' + msg.parts[0].text; } 
+                h.appendChild(d); 
+            }); 
+            h.scrollTop = h.scrollHeight; 
         }
 
-        async function sendMessage() { 
+        function sendMessage() { 
             let i = document.getElementById('chat-input'), msg = i.value.trim(); if(msg === '') return; 
             i.disabled = true; document.getElementById('chat-send-btn').disabled = true;
-            chatMemory.push({ role: "user", parts: [{ text: msg }] }); renderChat(); i.value = ''; sessionStorage.setItem('dba_chat_memory', JSON.stringify(chatMemory)); 
+            
+            // Guardar y mostrar mensaje del usuario
+            chatMemory.push({ role: "user", parts: [{ text: msg }] }); renderChat(); i.value = ''; 
+            sessionStorage.setItem('dba_chat_memory', JSON.stringify(chatMemory)); 
+            
             let lowerMsg = msg.toLowerCase();
+            
+            // 1. Easter Eggs y Comandos del Sistema
             if (lowerMsg === "sigma-9") { simulateAgentTyping("> CÓDIGO ACEPTADO. PROTOCOLO DE EVACUACIÓN INICIADO."); return; } 
-            else if (lowerMsg === "limpiar historial") { sessionStorage.removeItem('dba_chat_memory'); sessionStorage.removeItem('dba_api_key'); chatMemory = [{ role: "model", parts: [{ text: "Memoria local purgada. Identifíquese nuevamente." }] }]; renderChat(); unlockChat(); return; } 
-            else if (lowerMsg.includes("radio")) { sessionStorage.setItem('dba_radio_unlocked', 'true'); document.getElementById('btn-radio').style.display = 'block'; document.getElementById('btn-radio').classList.remove('hidden'); simulateAgentTyping("> SOLICITUD RECONOCIDA. MÓDULO DE INTERCEPTACIÓN (RADIO) DESBLOQUEADO."); return; }
-            else if (lowerMsg === "el pueblo es superior a sus dirigentes") { sessionStorage.setItem('dba_prueba_unlocked', 'true'); document.getElementById('btn-prueba').style.display = 'block'; document.getElementById('btn-prueba').classList.remove('hidden'); simulateAgentTyping("> CÓDIGO ACEPTADO. PROTOCOLO DE EVALUACIÓN DESBLOQUEADO."); return; }
-            let h = document.getElementById('chat-history'); let d = document.createElement('div'); d.id = 'typing-indicator'; d.className = 'mb-2'; d.innerHTML = '<span class="text-dba-blue font-bold">Agente DBA dice:</span><br><i>[Desencriptando...]</i>'; h.appendChild(d); h.scrollTop = h.scrollHeight;
-            const agentReply = await callDBAAgent(chatMemory); document.getElementById('typing-indicator').remove(); chatMemory.push({ role: "model", parts: [{ text: agentReply }] }); renderChat(); sessionStorage.setItem('dba_chat_memory', JSON.stringify(chatMemory)); unlockChat();
+            else if (lowerMsg === "limpiar historial") { 
+                sessionStorage.removeItem('dba_chat_memory'); 
+                chatMemory = [{ role: "model", parts: [{ text: "Memoria local purgada. Identifíquese nuevamente." }] }]; 
+                renderChat(); unlockChat(); return; 
+            } 
+            else if (lowerMsg.includes("radio")) { 
+                sessionStorage.setItem('dba_radio_unlocked', 'true'); 
+                document.getElementById('btn-radio').style.display = 'block'; document.getElementById('btn-radio').classList.remove('hidden'); 
+                simulateAgentTyping("> SOLICITUD RECONOCIDA. MÓDULO DE INTERCEPTACIÓN (RADIO) DESBLOQUEADO."); return; 
+            }
+            else if (lowerMsg === "el pueblo es superior a sus dirigentes") { 
+                sessionStorage.setItem('dba_prueba_unlocked', 'true'); 
+                document.getElementById('btn-prueba').style.display = 'block'; document.getElementById('btn-prueba').classList.remove('hidden'); 
+                simulateAgentTyping("> CÓDIGO ACEPTADO. PROTOCOLO DE EVALUACIÓN DESBLOQUEADO."); return; 
+            }
+
+            // 2. Lógica de palabras clave (Hardcoded Responses)
+            let reply = "";
+            if (lowerMsg.includes("bojayá") || lowerMsg.includes("bojaya") || lowerMsg.includes("mayo 2002")) {
+                reply = "Incidente bajo estricta investigación por la Dirección. Cese sus preguntas inmediatamente, agente.";
+            } else if (lowerMsg.includes("andante") || lowerMsg.includes("andantes")) {
+                reply = "Son una anomalía en el tejido nacional. La información técnica sobre su neutralización está estrictamente clasificada.";
+            } else if (lowerMsg.includes("94.1") || lowerMsg.includes("frecuencia")) {
+                reply = "ADVERTENCIA: Interceptar esa frecuencia causa corrupción memética severa. Equipo de contención ha sido enviado a su ubicación.";
+            } else if (lowerMsg.includes("bananeras") || lowerMsg.includes("1928")) {
+                reply = "ERROR: Se requiere código de acceso Nivel 5 para visualizar el Expediente Bananeras.";
+            } else if (lowerMsg.includes("hola") || lowerMsg.includes("quien eres") || lowerMsg.includes("quién eres")) {
+                reply = "Soy el Agente de Enlace de la D.B.A. Limítese a reportar sus hallazgos de campo de forma clara.";
+            } else {
+                // Respuestas burocráticas genéricas
+                const defaultReplies = [
+                    "Procesando solicitud... Información no disponible en este nivel de autorización.",
+                    "Mantenga la disciplina operativa. Todas sus consultas están siendo monitorizadas.",
+                    "Por favor remítase al manual de identificación de patrones. No estoy autorizado para responder eso.",
+                    "Ese dato está clasificado por la Dirección General.",
+                    "No detecto anomalías en su reporte. Siga con sus labores habituales.",
+                    "La verdad histórica es frágil, agente. No haga preguntas innecesarias."
+                ];
+                reply = defaultReplies[Math.floor(Math.random() * defaultReplies.length)];
+            }
+
+            // Simular que el agente está escribiendo
+            let h = document.getElementById('chat-history'); 
+            let d = document.createElement('div'); d.id = 'typing-indicator'; d.className = 'mb-2'; 
+            d.innerHTML = '<span class="text-dba-blue font-bold">Agente DBA dice:</span><br><i>[Escribiendo...]</i>'; 
+            h.appendChild(d); h.scrollTop = h.scrollHeight;
+            
+            setTimeout(() => {
+                document.getElementById('typing-indicator').remove();
+                chatMemory.push({ role: "model", parts: [{ text: reply }] });
+                renderChat();
+                sessionStorage.setItem('dba_chat_memory', JSON.stringify(chatMemory));
+                unlockChat();
+            }, 1500 + Math.random() * 1000); // Retraso de 1.5s a 2.5s para simular naturalidad
         }
 
         function unlockChat() { let i = document.getElementById('chat-input'); i.disabled = false; document.getElementById('chat-send-btn').disabled = false; i.focus(); }
-        function simulateAgentTyping(exactResponse) { let h = document.getElementById('chat-history'); let d = document.createElement('div'); d.id = 'typing-indicator'; d.className = 'mb-2'; d.innerHTML = '<span class="text-dba-blue font-bold">Agente DBA dice:</span><br><i>[Procesando...]</i>'; h.appendChild(d); h.scrollTop = h.scrollHeight; setTimeout(() => { document.getElementById('typing-indicator').remove(); chatMemory.push({ role: "model", parts: [{ text: exactResponse }] }); renderChat(); sessionStorage.setItem('dba_chat_memory', JSON.stringify(chatMemory)); unlockChat(); }, 1500); }
+        
+        function simulateAgentTyping(exactResponse) { 
+            let h = document.getElementById('chat-history'); 
+            let d = document.createElement('div'); d.id = 'typing-indicator'; d.className = 'mb-2'; 
+            d.innerHTML = '<span class="text-dba-blue font-bold">Agente DBA dice:</span><br><i>[Procesando...]</i>'; 
+            h.appendChild(d); h.scrollTop = h.scrollHeight; 
+            setTimeout(() => { 
+                document.getElementById('typing-indicator').remove(); 
+                chatMemory.push({ role: "model", parts: [{ text: exactResponse }] }); 
+                renderChat(); 
+                sessionStorage.setItem('dba_chat_memory', JSON.stringify(chatMemory)); 
+                unlockChat(); 
+            }, 1500); 
+        }
 
+        // --- SISTEMA DE LABORATORIO ---
         let currentLabScene = 1; let anomaliesFound = new Set();
         function selectScene(id) { currentLabScene = id; for(let i=1; i<=4; i++) { let scene = document.getElementById('scene-' + i); let thumb = document.getElementById('thumb-' + i); if(scene) scene.style.display = 'none'; if(thumb) thumb.classList.remove('active'); } let targetScene = document.getElementById('scene-' + id); let targetThumb = document.getElementById('thumb-' + id); if(targetScene) targetScene.style.display = 'block'; if(targetThumb) targetThumb.classList.add('active'); document.getElementById('lab-br').value = 100; document.getElementById('lab-ct').value = 100; updateLab(); }
         function updateLab() { let br = parseInt(document.getElementById('lab-br').value); let ct = parseInt(document.getElementById('lab-ct').value); document.getElementById('val-br').innerText = br; document.getElementById('val-ct').innerText = ct; document.getElementById('lab-viewer').style.filter = `brightness(${br}%) contrast(${ct}%)`; let brFactor = Math.max(0, (br - 200) / 400); let ctFactor = Math.max(0, (ct - 150) / 450); let opacity = (brFactor * ctFactor) * 2; if(opacity > 1) opacity = 1; document.getElementById('hidden-' + currentLabScene).style.opacity = opacity; if(opacity > 0.6) { document.getElementById('lab-warning').classList.add('active'); if(Math.random() > 0.98) triggerLabGlitch(); anomaliesFound.add(currentLabScene); if(anomaliesFound.has(1) && anomaliesFound.has(2) && anomaliesFound.has(3)) { let btnPeriodico = document.getElementById('link-periodico'); btnPeriodico.classList.remove('hidden'); btnPeriodico.classList.add('block'); } } else { document.getElementById('lab-warning').classList.remove('active'); } }
         function triggerLabGlitch() { document.body.style.backgroundColor = "#aa0000"; document.getElementById('lab-viewer').style.filter = "invert(100%) sepia(100%)"; setTimeout(() => { document.body.style.backgroundColor = "#008080"; updateLab(); }, 150); }
 
+        // --- SISTEMA DE RADIO ---
         let audioCtx; let noiseNode; let noiseGain; let isRadioOn = false; let screamTriggered = false; let isDraggingKnob = false; let knobAngle = -135;
         function toggleRadio() { let btn = document.getElementById('radio-power-btn'); let display = document.getElementById('freq-display'); let knob = document.getElementById('radio-knob'); if (!isRadioOn) { isRadioOn = true; btn.classList.add('active'); btn.innerText = "SISTEMA DE INTERCEPTACIÓN: ENCENDIDO"; display.style.color = "#00ff00"; display.style.textShadow = "0 0 10px #00ff00"; knob.classList.remove('disabled'); let percent = (knobAngle + 135) / 270; let currentFreq = (85.0 + (percent * (108.0 - 85.0))).toFixed(1); display.innerText = currentFreq + " AM"; if (!audioCtx) { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); let bufferSize = audioCtx.sampleRate * 2; let buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate); let data = buffer.getChannelData(0); for (let i = 0; i < bufferSize; i++) { data[i] = Math.random() * 2 - 1; } noiseNode = audioCtx.createBufferSource(); noiseNode.buffer = buffer; noiseNode.loop = true; let filter = audioCtx.createBiquadFilter(); filter.type = 'bandpass'; filter.frequency.value = 1000; noiseGain = audioCtx.createGain(); noiseGain.gain.value = 0.2; noiseNode.connect(filter); filter.connect(noiseGain); noiseGain.connect(audioCtx.destination); noiseNode.start(); } else if (audioCtx.state === 'suspended') { audioCtx.resume(); } } else { isRadioOn = false; btn.classList.remove('active'); btn.innerText = "SISTEMA DE INTERCEPTACIÓN: APAGADO"; display.style.color = "#004400"; display.style.textShadow = "none"; display.innerText = "---.- AM"; knob.classList.add('disabled'); if (audioCtx && audioCtx.state === 'running') { audioCtx.suspend(); } } }
         function updateKnobRotation(e) { const knob = document.getElementById('radio-knob'); const rect = knob.getBoundingClientRect(); const centerX = rect.left + rect.width / 2; const centerY = rect.top + rect.height / 2; let clientX = e.clientX; let clientY = e.clientY; if (e.touches && e.touches.length > 0) { clientX = e.touches[0].clientX; clientY = e.touches[0].clientY; } else if (clientX === undefined) { return; } const x = clientX - centerX; const y = clientY - centerY; let angle = Math.atan2(y, x) * (180 / Math.PI) + 90; if (angle > 180) angle -= 360; if (angle < -135) angle = -135; if (angle > 135) angle = 135; knobAngle = angle; knob.style.transform = `rotate(${knobAngle}deg)`; let percent = (knobAngle + 135) / 270; let freq = 85.0 + (percent * (108.0 - 85.0)); tuneRadio(freq); }
