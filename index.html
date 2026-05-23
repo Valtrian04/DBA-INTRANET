@@ -181,15 +181,26 @@
                 <div id="tab-inicio" class="page-tab flex flex-col md:flex-row gap-2 h-full">
                     <main class="w-full md:w-[65%] bg-dba-beige win-inset-deep p-4 md:p-6 flex flex-col">
                         <div class="win-outset bg-[#c0c0c0] p-1 mb-6 w-full max-w-[480px] mx-auto">
-                            <div class="w-full aspect-[4/3] bg-black win-inset relative border-4 border-[#333] overflow-hidden">
-                                <video id="dba-feed" class="w-full h-full object-cover" autoplay muted loop playsinline poster="https://api.placeholder.com/480/360/000000/00ff00?text=CONECTANDO+FEED...">
+                            
+                            <!-- CONTENEDOR DEL VIDEO MODIFICADO -->
+                            <div class="w-full aspect-[4/3] bg-black win-inset relative border-4 border-[#333] overflow-hidden group">
+                                <!-- Se agregó 'controls' para controles nativos, se removió autoplay -->
+                                <video id="dba-feed" class="w-full h-full object-cover" loop playsinline controls poster="https://api.placeholder.com/480/360/000000/00ff00?text=CONECTANDO+FEED...">
                                     <source src="videos/Intro.mp4">
                                 </video>
+                                
+                                <!-- Filtros visuales (pointer-events-none permite que los clics pasen al video) -->
                                 <div class="absolute inset-0 pointer-events-none static-bg opacity-25"></div>
-                                <div class="absolute top-2 left-2 text-[#00ff00] font-terminal text-[10px] opacity-70 tracking-tighter">
+                                <div class="absolute top-2 left-2 text-[#00ff00] font-terminal text-[10px] opacity-70 tracking-tighter pointer-events-none">
                                     REC <span id="live-clock">00:00:00</span>
                                 </div>
+
+                                <!-- NUEVO: BOTÓN DE PLAY OVERLAY -->
+                                <button id="play-intro-btn" onclick="document.getElementById('dba-feed').play(); this.style.display='none';" class="absolute inset-0 m-auto w-[160px] h-[40px] win-button font-sys font-bold text-[12px] flex items-center justify-center gap-2 z-20 shadow-[4px_4px_0px_rgba(0,0,0,0.8)] hover:scale-105 transition-transform">
+                                    ▶ INICIAR FEED
+                                </button>
                             </div>
+
                         </div>
                         <div class="font-sys text-[13px] leading-relaxed text-black text-justify space-y-4">
                             <p>En la Dirección de Búsqueda de Andantes (DBA), nos dedicamos a proteger a Colombia de una amenaza que acecha en las sombras...</p>
@@ -418,7 +429,6 @@
                 <div id="tab-visor-pdf" class="page-tab hidden full-viewer win-outset z-50">
                     <div class="bg-[#c0c0c0] p-1 border-b border-gray-600 flex justify-between items-center">
                         <div class="flex gap-1">
-                            <!-- NOTA: El botón ahora redirige a 'inicio' por defecto para evitar errores -->
                             <button onclick="showPage('inicio')" class="win-button px-3 py-1 flex items-center gap-2 font-bold text-xs" id="visor-back-btn">
                                 <span>←</span> ATRÁS
                             </button>
@@ -537,7 +547,22 @@
             tabs.forEach(tab => { tab.classList.add('hidden'); tab.classList.remove('block', 'flex'); });
 
             const target = document.getElementById('tab-' + pageId);
-            if (target) { if (pageId === 'inicio') target.classList.add('flex'); else target.classList.add('block'); target.classList.remove('hidden'); }
+            
+            if (target) { 
+                if (pageId === 'inicio') {
+                    target.classList.add('flex'); 
+                } else { 
+                    target.classList.add('block'); 
+                    // Pausar el video si salimos de la pestaña inicio
+                    const introVideo = document.getElementById('dba-feed');
+                    if (introVideo && !introVideo.paused) {
+                        introVideo.pause();
+                        // Opcional: Podríamos volver a mostrar el botón retro aquí
+                        // document.getElementById('play-intro-btn').style.display = 'flex';
+                    }
+                } 
+                target.classList.remove('hidden'); 
+            }
 
             document.querySelectorAll('#main-nav button').forEach(btn => btn.classList.remove('active'));
             const activeBtn = document.getElementById('btn-' + (pageId === 'visor-pdf' ? lastVisitedTab : pageId));
@@ -604,13 +629,11 @@
             let i = document.getElementById('chat-input'), msg = i.value.trim(); if(msg === '') return; 
             i.disabled = true; document.getElementById('chat-send-btn').disabled = true;
             
-            // Guardar y mostrar mensaje del usuario
             chatMemory.push({ role: "user", parts: [{ text: msg }] }); renderChat(); i.value = ''; 
             sessionStorage.setItem('dba_chat_memory', JSON.stringify(chatMemory)); 
             
             let lowerMsg = msg.toLowerCase();
             
-            // 1. Easter Eggs y Comandos del Sistema
             if (lowerMsg === "sigma-9") { simulateAgentTyping("> CÓDIGO ACEPTADO. PROTOCOLO DE EVACUACIÓN INICIADO."); return; } 
             else if (lowerMsg === "limpiar historial") { 
                 sessionStorage.removeItem('dba_chat_memory'); 
@@ -628,7 +651,6 @@
                 simulateAgentTyping("> CÓDIGO ACEPTADO. PROTOCOLO DE EVALUACIÓN DESBLOQUEADO."); return; 
             }
 
-            // 2. Lógica de palabras clave (Hardcoded Responses)
             let reply = "";
             if (lowerMsg.includes("bojayá") || lowerMsg.includes("bojaya") || lowerMsg.includes("mayo 2002")) {
                 reply = "Incidente bajo estricta investigación por la Dirección. Cese sus preguntas inmediatamente, agente.";
@@ -641,7 +663,6 @@
             } else if (lowerMsg.includes("hola") || lowerMsg.includes("quien eres") || lowerMsg.includes("quién eres")) {
                 reply = "Soy el Agente de Enlace de la D.B.A. Limítese a reportar sus hallazgos de campo de forma clara.";
             } else {
-                // Respuestas burocráticas genéricas
                 const defaultReplies = [
                     "Procesando solicitud... Información no disponible en este nivel de autorización.",
                     "Mantenga la disciplina operativa. Todas sus consultas están siendo monitorizadas.",
@@ -653,7 +674,6 @@
                 reply = defaultReplies[Math.floor(Math.random() * defaultReplies.length)];
             }
 
-            // Simular que el agente está escribiendo
             let h = document.getElementById('chat-history'); 
             let d = document.createElement('div'); d.id = 'typing-indicator'; d.className = 'mb-2'; 
             d.innerHTML = '<span class="text-dba-blue font-bold">Agente DBA dice:</span><br><i>[Escribiendo...]</i>'; 
@@ -665,7 +685,7 @@
                 renderChat();
                 sessionStorage.setItem('dba_chat_memory', JSON.stringify(chatMemory));
                 unlockChat();
-            }, 1500 + Math.random() * 1000); // Retraso de 1.5s a 2.5s para simular naturalidad
+            }, 1500 + Math.random() * 1000);
         }
 
         function unlockChat() { let i = document.getElementById('chat-input'); i.disabled = false; document.getElementById('chat-send-btn').disabled = false; i.focus(); }
