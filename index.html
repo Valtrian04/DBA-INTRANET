@@ -181,26 +181,20 @@
                 <div id="tab-inicio" class="page-tab flex flex-col md:flex-row gap-2 h-full">
                     <main class="w-full md:w-[65%] bg-dba-beige win-inset-deep p-4 md:p-6 flex flex-col">
                         <div class="win-outset bg-[#c0c0c0] p-1 mb-6 w-full max-w-[480px] mx-auto">
-                            
-                            <!-- CONTENEDOR DEL VIDEO MODIFICADO -->
                             <div class="w-full aspect-[4/3] bg-black win-inset relative border-4 border-[#333] overflow-hidden group">
-                                <!-- Se agregó 'controls' para controles nativos, se removió autoplay -->
                                 <video id="dba-feed" class="w-full h-full object-cover" loop playsinline controls poster="https://api.placeholder.com/480/360/000000/00ff00?text=CONECTANDO+FEED...">
                                     <source src="videos/Intro.mp4">
                                 </video>
                                 
-                                <!-- Filtros visuales (pointer-events-none permite que los clics pasen al video) -->
                                 <div class="absolute inset-0 pointer-events-none static-bg opacity-25"></div>
                                 <div class="absolute top-2 left-2 text-[#00ff00] font-terminal text-[10px] opacity-70 tracking-tighter pointer-events-none">
                                     REC <span id="live-clock">00:00:00</span>
                                 </div>
 
-                                <!-- NUEVO: BOTÓN DE PLAY OVERLAY -->
                                 <button id="play-intro-btn" onclick="document.getElementById('dba-feed').play(); this.style.display='none';" class="absolute inset-0 m-auto w-[160px] h-[40px] win-button font-sys font-bold text-[12px] flex items-center justify-center gap-2 z-20 shadow-[4px_4px_0px_rgba(0,0,0,0.8)] hover:scale-105 transition-transform">
-                                    ▶ PLAY
+                                    ▶ INICIAR FEED
                                 </button>
                             </div>
-
                         </div>
                         <div class="font-sys text-[13px] leading-relaxed text-black text-justify space-y-4">
                             <p>En la Dirección de Búsqueda de Andantes (DBA), nos dedicamos a proteger a Colombia de una amenaza que acecha en las sombras...</p>
@@ -557,8 +551,6 @@
                     const introVideo = document.getElementById('dba-feed');
                     if (introVideo && !introVideo.paused) {
                         introVideo.pause();
-                        // Opcional: Podríamos volver a mostrar el botón retro aquí
-                        // document.getElementById('play-intro-btn').style.display = 'flex';
                     }
                 } 
                 target.classList.remove('hidden'); 
@@ -712,11 +704,119 @@
 
         // --- SISTEMA DE RADIO ---
         let audioCtx; let noiseNode; let noiseGain; let isRadioOn = false; let screamTriggered = false; let isDraggingKnob = false; let knobAngle = -135;
-        function toggleRadio() { let btn = document.getElementById('radio-power-btn'); let display = document.getElementById('freq-display'); let knob = document.getElementById('radio-knob'); if (!isRadioOn) { isRadioOn = true; btn.classList.add('active'); btn.innerText = "SISTEMA DE INTERCEPTACIÓN: ENCENDIDO"; display.style.color = "#00ff00"; display.style.textShadow = "0 0 10px #00ff00"; knob.classList.remove('disabled'); let percent = (knobAngle + 135) / 270; let currentFreq = (85.0 + (percent * (108.0 - 85.0))).toFixed(1); display.innerText = currentFreq + " AM"; if (!audioCtx) { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); let bufferSize = audioCtx.sampleRate * 2; let buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate); let data = buffer.getChannelData(0); for (let i = 0; i < bufferSize; i++) { data[i] = Math.random() * 2 - 1; } noiseNode = audioCtx.createBufferSource(); noiseNode.buffer = buffer; noiseNode.loop = true; let filter = audioCtx.createBiquadFilter(); filter.type = 'bandpass'; filter.frequency.value = 1000; noiseGain = audioCtx.createGain(); noiseGain.gain.value = 0.2; noiseNode.connect(filter); filter.connect(noiseGain); noiseGain.connect(audioCtx.destination); noiseNode.start(); } else if (audioCtx.state === 'suspended') { audioCtx.resume(); } } else { isRadioOn = false; btn.classList.remove('active'); btn.innerText = "SISTEMA DE INTERCEPTACIÓN: APAGADO"; display.style.color = "#004400"; display.style.textShadow = "none"; display.innerText = "---.- AM"; knob.classList.add('disabled'); if (audioCtx && audioCtx.state === 'running') { audioCtx.suspend(); } } }
-        function updateKnobRotation(e) { const knob = document.getElementById('radio-knob'); const rect = knob.getBoundingClientRect(); const centerX = rect.left + rect.width / 2; const centerY = rect.top + rect.height / 2; let clientX = e.clientX; let clientY = e.clientY; if (e.touches && e.touches.length > 0) { clientX = e.touches[0].clientX; clientY = e.touches[0].clientY; } else if (clientX === undefined) { return; } const x = clientX - centerX; const y = clientY - centerY; let angle = Math.atan2(y, x) * (180 / Math.PI) + 90; if (angle > 180) angle -= 360; if (angle < -135) angle = -135; if (angle > 135) angle = 135; knobAngle = angle; knob.style.transform = `rotate(${knobAngle}deg)`; let percent = (knobAngle + 135) / 270; let freq = 85.0 + (percent * (108.0 - 85.0)); tuneRadio(freq); }
+        
+        // NUEVAS VARIABLES GLOBALES PARA LA RADIO 99.9
+        let externalScreamAudio = new Audio('Audios/Grito.mp3');
+        let externalScreamTriggered = false;
+
+        function toggleRadio() { 
+            let btn = document.getElementById('radio-power-btn'); let display = document.getElementById('freq-display'); let knob = document.getElementById('radio-knob'); 
+            if (!isRadioOn) { 
+                isRadioOn = true; btn.classList.add('active'); btn.innerText = "SISTEMA DE INTERCEPTACIÓN: ENCENDIDO"; display.style.color = "#00ff00"; display.style.textShadow = "0 0 10px #00ff00"; knob.classList.remove('disabled'); 
+                let percent = (knobAngle + 135) / 270; let currentFreq = (85.0 + (percent * (108.0 - 85.0))).toFixed(1); display.innerText = currentFreq + " AM"; 
+                if (!audioCtx) { 
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)(); 
+                    let bufferSize = audioCtx.sampleRate * 2; let buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate); let data = buffer.getChannelData(0); 
+                    for (let i = 0; i < bufferSize; i++) { data[i] = Math.random() * 2 - 1; } 
+                    noiseNode = audioCtx.createBufferSource(); noiseNode.buffer = buffer; noiseNode.loop = true; 
+                    let filter = audioCtx.createBiquadFilter(); filter.type = 'bandpass'; filter.frequency.value = 1000; 
+                    noiseGain = audioCtx.createGain(); noiseGain.gain.value = 0.2; 
+                    noiseNode.connect(filter); filter.connect(noiseGain); noiseGain.connect(audioCtx.destination); 
+                    noiseNode.start(); 
+                } else if (audioCtx.state === 'suspended') { audioCtx.resume(); } 
+            } else { 
+                isRadioOn = false; btn.classList.remove('active'); btn.innerText = "SISTEMA DE INTERCEPTACIÓN: APAGADO"; display.style.color = "#004400"; display.style.textShadow = "none"; display.innerText = "---.- AM"; knob.classList.add('disabled'); 
+                if (audioCtx && audioCtx.state === 'running') { audioCtx.suspend(); } 
+                
+                // Si la radio se apaga, pausar el audio externo también
+                externalScreamAudio.pause();
+                externalScreamAudio.currentTime = 0;
+                externalScreamTriggered = false;
+            } 
+        }
+
+        function updateKnobRotation(e) { 
+            const knob = document.getElementById('radio-knob'); const rect = knob.getBoundingClientRect(); const centerX = rect.left + rect.width / 2; const centerY = rect.top + rect.height / 2; let clientX = e.clientX; let clientY = e.clientY; 
+            if (e.touches && e.touches.length > 0) { clientX = e.touches[0].clientX; clientY = e.touches[0].clientY; } else if (clientX === undefined) { return; } 
+            const x = clientX - centerX; const y = clientY - centerY; let angle = Math.atan2(y, x) * (180 / Math.PI) + 90; 
+            if (angle > 180) angle -= 360; if (angle < -135) angle = -135; if (angle > 135) angle = 135; 
+            knobAngle = angle; knob.style.transform = `rotate(${knobAngle}deg)`; 
+            let percent = (knobAngle + 135) / 270; let freq = 85.0 + (percent * (108.0 - 85.0)); 
+            tuneRadio(freq); 
+        }
+
         function initDial() { const knob = document.getElementById('radio-knob'); const startDrag = (e) => { if (!isRadioOn) return; isDraggingKnob = true; updateKnobRotation(e); }; const onDrag = (e) => { if (!isDraggingKnob) return; updateKnobRotation(e); }; const stopDrag = () => { isDraggingKnob = false; }; knob.addEventListener('mousedown', startDrag); document.addEventListener('mousemove', onDrag); document.addEventListener('mouseup', stopDrag); knob.addEventListener('touchstart', startDrag, {passive: false}); document.addEventListener('touchmove', (e) => { if(isDraggingKnob) { e.preventDefault(); onDrag(e); } }, {passive: false}); document.addEventListener('touchend', stopDrag); }
-        function tuneRadio(val) { if (!isRadioOn) return; let freq = parseFloat(val).toFixed(1); document.getElementById('freq-display').innerText = freq + " AM"; let diff = Math.abs(freq - 94.1); if (diff < 0.1 && !screamTriggered) { triggerScream(); } else if (diff >= 0.5) { screamTriggered = false; } if (noiseGain && !screamTriggered) { let newVolume = 0.1 + (Math.random() * 0.3) + (diff * 0.05); if(newVolume > 0.8) newVolume = 0.8; noiseGain.gain.setValueAtTime(newVolume, audioCtx.currentTime); } }
-        function triggerScream() { screamTriggered = true; if (noiseGain) noiseGain.gain.setValueAtTime(0.01, audioCtx.currentTime); let osc1 = audioCtx.createOscillator(); let osc2 = audioCtx.createOscillator(); let screamGain = audioCtx.createGain(); osc1.type = 'sawtooth'; osc2.type = 'square'; osc1.frequency.setValueAtTime(2500, audioCtx.currentTime); osc1.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 1.2); osc2.frequency.setValueAtTime(1800, audioCtx.currentTime); osc2.frequency.exponentialRampToValueAtTime(50, audioCtx.currentTime + 1.2); screamGain.gain.setValueAtTime(0, audioCtx.currentTime); screamGain.gain.linearRampToValueAtTime(1.5, audioCtx.currentTime + 0.1); screamGain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 1.5); osc1.connect(screamGain); osc2.connect(screamGain); screamGain.connect(audioCtx.destination); osc1.start(); osc2.start(); osc1.stop(audioCtx.currentTime + 1.5); osc2.stop(audioCtx.currentTime + 1.5); let radioCont = document.getElementById('radio-container'); radioCont.classList.add('fatal-error'); document.body.style.backgroundColor = "#aa0000"; document.getElementById('freq-display').innerText = "ANDANTES"; setTimeout(() => { radioCont.classList.remove('fatal-error'); document.body.style.backgroundColor = "#008080"; if(isRadioOn && noiseGain) { noiseGain.gain.setValueAtTime(0.2, audioCtx.currentTime); document.getElementById('freq-display').innerText = "94.1 AM"; } }, 1500); }
+        
+        function tuneRadio(val) { 
+            if (!isRadioOn) return; 
+            let freq = parseFloat(val).toFixed(1); 
+            document.getElementById('freq-display').innerText = freq + " AM"; 
+            
+            // Lógica Anomalía 1: 94.1 AM (Sonido Matemático)
+            let diff1 = Math.abs(freq - 94.1); 
+            if (diff1 < 0.1 && !screamTriggered) { triggerScream(); } 
+            else if (diff1 >= 0.5) { screamTriggered = false; } 
+
+            // Lógica Anomalía 2: 99.9 AM (Archivo mp3 Local)
+            let diff2 = Math.abs(freq - 99.9);
+            if (diff2 < 0.1 && !externalScreamTriggered) { 
+                triggerExternalScream(); 
+            } else if (diff2 >= 0.5) { 
+                externalScreamTriggered = false;
+                externalScreamAudio.pause(); // Si se aleja de la frecuencia, el audio se corta
+                externalScreamAudio.currentTime = 0;
+            }
+
+            // Control de volumen de la estática de fondo
+            let minDiff = Math.min(diff1, diff2);
+            if (noiseGain && !screamTriggered && !externalScreamTriggered) { 
+                let newVolume = 0.1 + (Math.random() * 0.3) + (minDiff * 0.05); 
+                if(newVolume > 0.8) newVolume = 0.8; 
+                noiseGain.gain.setValueAtTime(newVolume, audioCtx.currentTime); 
+            } 
+        }
+
+        function triggerScream() { 
+            screamTriggered = true; if (noiseGain) noiseGain.gain.setValueAtTime(0.01, audioCtx.currentTime); 
+            let osc1 = audioCtx.createOscillator(); let osc2 = audioCtx.createOscillator(); let screamGain = audioCtx.createGain(); 
+            osc1.type = 'sawtooth'; osc2.type = 'square'; osc1.frequency.setValueAtTime(2500, audioCtx.currentTime); osc1.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 1.2); osc2.frequency.setValueAtTime(1800, audioCtx.currentTime); osc2.frequency.exponentialRampToValueAtTime(50, audioCtx.currentTime + 1.2); 
+            screamGain.gain.setValueAtTime(0, audioCtx.currentTime); screamGain.gain.linearRampToValueAtTime(1.5, audioCtx.currentTime + 0.1); screamGain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 1.5); 
+            osc1.connect(screamGain); osc2.connect(screamGain); screamGain.connect(audioCtx.destination); osc1.start(); osc2.start(); osc1.stop(audioCtx.currentTime + 1.5); osc2.stop(audioCtx.currentTime + 1.5); 
+            let radioCont = document.getElementById('radio-container'); radioCont.classList.add('fatal-error'); document.body.style.backgroundColor = "#aa0000"; document.getElementById('freq-display').innerText = "ANDANTES"; 
+            setTimeout(() => { 
+                radioCont.classList.remove('fatal-error'); document.body.style.backgroundColor = "#008080"; 
+                if(isRadioOn && noiseGain) { noiseGain.gain.setValueAtTime(0.2, audioCtx.currentTime); document.getElementById('freq-display').innerText = "94.1 AM"; } 
+            }, 1500); 
+        }
+
+        // NUEVA FUNCIÓN: Dispara el audio cargado localmente
+        function triggerExternalScream() {
+            externalScreamTriggered = true;
+            if (noiseGain) noiseGain.gain.setValueAtTime(0.01, audioCtx.currentTime); // Baja el volumen de la estática
+
+            // Reproduce el archivo
+            externalScreamAudio.currentTime = 0;
+            externalScreamAudio.play().catch(e => console.log("Error al reproducir Audios/Grito.mp3 (asegúrate de que el archivo exista en esa ruta):", e));
+
+            // Efectos visuales de terror
+            let radioCont = document.getElementById('radio-container');
+            radioCont.classList.add('fatal-error');
+            document.body.style.backgroundColor = "#aa0000";
+            document.getElementById('freq-display').innerText = "ERROR";
+
+            // Remueve los efectos visuales después de 2.5 segundos
+            setTimeout(() => {
+                radioCont.classList.remove('fatal-error');
+                document.body.style.backgroundColor = "#008080";
+                
+                // Si la radio sigue encendida y seguimos en la estación, restaura la pantalla
+                if(isRadioOn && noiseGain && externalScreamTriggered) {
+                    noiseGain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                    document.getElementById('freq-display').innerText = "99.9 AM";
+                }
+            }, 2500);
+        }
+
         initDial();
     </script>
 </body>
