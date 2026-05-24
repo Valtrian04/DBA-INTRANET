@@ -816,8 +816,41 @@
                 }
             }, 2500);
         }
+        // ... dentro de la función tuneRadio ...
 
+// Lógica Nueva: 104.1 AM (Transmisión Radio Sutatenza)
+let diff3 = Math.abs(freq - 104.1);
+if (diff3 < 0.1) {
+    document.getElementById('radio-video-overlay').style.display = 'flex';
+}
+
+// ... fin de la función ...
+
+// NUEVAS FUNCIONES DE CONTROL
+function playRadioVideo() {
+    const video = document.getElementById('radio-sutatenza-feed');
+    video.play();
+    document.getElementById('play-radio-video-btn').style.display = 'none';
+}
+
+function closeRadioVideo() {
+    const video = document.getElementById('radio-sutatenza-feed');
+    video.pause();
+    video.currentTime = 0;
+    document.getElementById('radio-video-overlay').style.display = 'none';
+    document.getElementById('play-radio-video-btn').style.display = 'flex';
+}
         initDial();
     </script>
+    <!-- OVERLAY DE ANOMALÍA VISUAL (RADIO) -->
+<div id="radio-video-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:black; z-index: 20000; justify-content:center; align-items:center; flex-direction:column;">
+    <video id="radio-sutatenza-feed" class="w-full max-w-[800px] aspect-video border-4 border-[#00ff00]" playsinline>
+        <source src="videos/RadioSutatenza.mp4" type="video/mp4">
+    </video>
+    <button id="play-radio-video-btn" onclick="playRadioVideo()" class="mt-4 win-button p-4 font-bold font-sys text-xl shadow-[4px_4px_0px_#00ff00]">
+        ▶ INICIAR TRANSMISIÓN HISTÓRICA
+    </button>
+    <button onclick="closeRadioVideo()" class="mt-4 text-white font-sys underline text-xs">CERRAR TRANSMISIÓN</button>
+</div>
 </body>
 </html>
