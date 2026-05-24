@@ -706,9 +706,11 @@
         let audioCtx; let noiseNode; let noiseGain; let isRadioOn = false; let screamTriggered = false; let isDraggingKnob = false; let knobAngle = -135;
         
         // NUEVAS VARIABLES GLOBALES PARA LA RADIO 99.9
-        let externalScreamAudio = new Audio('Audios/Grito.mp3');
-        let externalScreamTriggered = false;
-
+let externalScreamAudio = new Audio('Audios/Grito.mp3');
+let desaparecidaAudio = new Audio('Audios/desaparecida.mp3'); // AÑADIDO
+let externalScreamTriggered = false;
+let desaparecidaTriggered = false; // AÑADIDO
+        
         function toggleRadio() { 
             let btn = document.getElementById('radio-power-btn'); let display = document.getElementById('freq-display'); let knob = document.getElementById('radio-knob'); 
             if (!isRadioOn) { 
@@ -732,6 +734,9 @@
                 externalScreamAudio.pause();
                 externalScreamAudio.currentTime = 0;
                 externalScreamTriggered = false;
+                desaparecidaAudio.pause();      // <--- AÑADE ESTO
+                desaparecidaAudio.currentTime = 0; // <--- AÑADE ESTO
+                desaparecidaTriggered = false;     // <--- AÑADE ESTO
             } 
         }
 
@@ -765,7 +770,23 @@
                 externalScreamTriggered = false;
                 externalScreamAudio.pause(); // Si se aleja de la frecuencia, el audio se corta
                 externalScreamAudio.currentTime = 0;
+            // Añade esto dentro de function tuneRadio(val) { ... }
+            let diff3 = Math.abs(freq - 104.1);
+            if (diff3 < 0.1) {
+            document.getElementById('radio-video-overlay').style.display = 'flex';
             }
+            }
+
+            // Lógica Anomalía 3: 107.5 AM (desaparecida.mp3)
+let diff3 = Math.abs(freq - 107.5);
+if (diff3 < 0.1 && !desaparecidaTriggered) { 
+    desaparecidaTriggered = true; 
+    desaparecidaAudio.play(); 
+} else if (diff3 >= 0.5) { 
+    desaparecidaTriggered = false; 
+    desaparecidaAudio.pause(); 
+    desaparecidaAudio.currentTime = 0; 
+}
 
             // Control de volumen de la estática de fondo
             let minDiff = Math.min(diff1, diff2);
@@ -816,41 +837,8 @@
                 }
             }, 2500);
         }
-        // ... dentro de la función tuneRadio ...
 
-// Lógica Nueva: 104.1 AM (Transmisión Radio Sutatenza)
-let diff3 = Math.abs(freq - 104.1);
-if (diff3 < 0.1) {
-    document.getElementById('radio-video-overlay').style.display = 'flex';
-}
-
-// ... fin de la función ...
-
-// NUEVAS FUNCIONES DE CONTROL
-function playRadioVideo() {
-    const video = document.getElementById('radio-sutatenza-feed');
-    video.play();
-    document.getElementById('play-radio-video-btn').style.display = 'none';
-}
-
-function closeRadioVideo() {
-    const video = document.getElementById('radio-sutatenza-feed');
-    video.pause();
-    video.currentTime = 0;
-    document.getElementById('radio-video-overlay').style.display = 'none';
-    document.getElementById('play-radio-video-btn').style.display = 'flex';
-}
         initDial();
     </script>
-    <!-- OVERLAY DE ANOMALÍA VISUAL (RADIO) -->
-<div id="radio-video-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:black; z-index: 20000; justify-content:center; align-items:center; flex-direction:column;">
-    <video id="radio-sutatenza-feed" class="w-full max-w-[800px] aspect-video border-4 border-[#00ff00]" playsinline>
-        <source src="videos/RadioSutatenza.mp4" type="video/mp4">
-    </video>
-    <button id="play-radio-video-btn" onclick="playRadioVideo()" class="mt-4 win-button p-4 font-bold font-sys text-xl shadow-[4px_4px_0px_#00ff00]">
-        ▶ INICIAR TRANSMISIÓN HISTÓRICA
-    </button>
-    <button onclick="closeRadioVideo()" class="mt-4 text-white font-sys underline text-xs">CERRAR TRANSMISIÓN</button>
-</div>
 </body>
 </html>
