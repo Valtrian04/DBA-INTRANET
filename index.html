@@ -485,6 +485,7 @@
 
         // --- 02. INICIALIZACIÓN Y BIOMETRÍA ---
         window.onload = async function() {
+            initDial(); 
             if(sessionStorage.getItem('dba_authenticated') === 'true') { grantAccess(); return; }
             initDial(); // Inicializa el dial desde el principio
             
