@@ -192,7 +192,7 @@
                                 </div>
 
                                 <button id="play-intro-btn" onclick="document.getElementById('dba-feed').play(); this.style.display='none';" class="absolute inset-0 m-auto w-[160px] h-[40px] win-button font-sys font-bold text-[12px] flex items-center justify-center gap-2 z-20 shadow-[4px_4px_0px_rgba(0,0,0,0.8)] hover:scale-105 transition-transform">
-                                    ▶ INICIAR FEED
+                                    ▶ PLAY
                                 </button>
                             </div>
                         </div>
@@ -224,7 +224,7 @@
                         </div>
 
                         <button onclick="toggleChat()" class="win-button w-full py-2 font-bold text-xs mt-auto flex items-center justify-center gap-2">
-                            <span class="w-2 h-2 bg-green-500 rounded-full border border-white"></span> Soporte MSN
+                            <span class="w-2 h-2 bg-green-500 rounded-full border border-white"></span> Soporte SMS
                         </button>
                     </aside>
                 </div>
@@ -411,7 +411,7 @@
                     <div id="radio-container" class="mt-8">
                         <!-- AÑADE ESTE BLOQUE: OVERLAY DE VIDEO ANOMALÍA 104.1 -->
         <div id="radio-video-overlay" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 40; flex-direction: column; justify-content: center; align-items: center; pointer-events: none; overflow: hidden; border-radius: 5px;">
-            <video id="radio-video" style="width: 90%; border: 2px solid #ff0000; filter: contrast(150%) grayscale(50%);" loop playsinline>
+            <video id="radio-video" style="width: 90%; border: 2px solid #ff0000; filter: contrast(150%) grayscale(50%);" playsinline onended="document.getElementById('radio-video-overlay').style.display='none';">
                 <source src="videos/RadioSutatenza.mp4" type="video/mp4"> <!-- Asegúrate de que la ruta sea correcta -->
             </video>
         </div>
