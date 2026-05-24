@@ -752,7 +752,7 @@ let desaparecidaTriggered = false; // AÑADIDO
 
         function initDial() { const knob = document.getElementById('radio-knob'); const startDrag = (e) => { if (!isRadioOn) return; isDraggingKnob = true; updateKnobRotation(e); }; const onDrag = (e) => { if (!isDraggingKnob) return; updateKnobRotation(e); }; const stopDrag = () => { isDraggingKnob = false; }; knob.addEventListener('mousedown', startDrag); document.addEventListener('mousemove', onDrag); document.addEventListener('mouseup', stopDrag); knob.addEventListener('touchstart', startDrag, {passive: false}); document.addEventListener('touchmove', (e) => { if(isDraggingKnob) { e.preventDefault(); onDrag(e); } }, {passive: false}); document.addEventListener('touchend', stopDrag); }
         
-        function tuneRadio(val) { 
+    function tuneRadio(val) { 
             if (!isRadioOn) return; 
             let freq = parseFloat(val).toFixed(1); 
             document.getElementById('freq-display').innerText = freq + " AM"; 
@@ -762,20 +762,41 @@ let desaparecidaTriggered = false; // AÑADIDO
             if (diff1 < 0.1 && !screamTriggered) { triggerScream(); } 
             else if (diff1 >= 0.5) { screamTriggered = false; } 
 
-            // Lógica Anomalía 2: 99.9 AM (Archivo mp3 Local)
+            // Lógica Anomalía 2: 99.9 AM (Grito.mp3)
             let diff2 = Math.abs(freq - 99.9);
             if (diff2 < 0.1 && !externalScreamTriggered) { 
                 triggerExternalScream(); 
             } else if (diff2 >= 0.5) { 
                 externalScreamTriggered = false;
-                externalScreamAudio.pause(); // Si se aleja de la frecuencia, el audio se corta
+                externalScreamAudio.pause(); 
                 externalScreamAudio.currentTime = 0;
-            // Añade esto dentro de function tuneRadio(val) { ... }
+            }
+
+            // Lógica Anomalía 3: 104.1 AM (Video)
             let diff3 = Math.abs(freq - 104.1);
             if (diff3 < 0.1) {
-            document.getElementById('radio-video-overlay').style.display = 'flex';
+                document.getElementById('radio-video-overlay').style.display = 'flex';
             }
+
+            // Lógica Anomalía 4: 107.5 AM (desaparecida.mp3)
+            let diff4 = Math.abs(freq - 107.5);
+            if (diff4 < 0.1 && !desaparecidaTriggered) { 
+                desaparecidaTriggered = true; 
+                desaparecidaAudio.play(); 
+            } else if (diff4 >= 0.5) { 
+                desaparecidaTriggered = false; 
+                desaparecidaAudio.pause(); 
+                desaparecidaAudio.currentTime = 0; 
             }
+
+            // Control de volumen de la estática
+            let minDiff = Math.min(diff1, diff2, diff3, diff4);
+            if (noiseGain && !screamTriggered && !externalScreamTriggered && !desaparecidaTriggered) { 
+                let newVolume = 0.1 + (Math.random() * 0.3) + (minDiff * 0.05); 
+                if(newVolume > 0.8) newVolume = 0.8; 
+                noiseGain.gain.setValueAtTime(newVolume, audioCtx.currentTime); 
+            } 
+        }
 
             // Lógica Anomalía 3: 107.5 AM (desaparecida.mp3)
 let diff3 = Math.abs(freq - 107.5);
