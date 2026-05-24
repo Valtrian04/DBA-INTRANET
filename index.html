@@ -409,6 +409,12 @@
                 <div id="tab-radio" class="page-tab hidden bg-dba-beige win-inset-deep p-6 h-full min-h-[450px]">
                     <h2 class="font-sys font-bold text-2xl mb-4 text-dba-blue uppercase border-b border-gray-400 pb-2">Interceptor de Frecuencias D.B.A.</h2>
                     <div id="radio-container" class="mt-8">
+                        <!-- AÑADE ESTE BLOQUE: OVERLAY DE VIDEO ANOMALÍA 104.1 -->
+        <div id="radio-video-overlay" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 40; flex-direction: column; justify-content: center; align-items: center; pointer-events: none; overflow: hidden; border-radius: 5px;">
+            <video id="radio-video" style="width: 90%; border: 2px solid #ff0000; filter: contrast(150%) grayscale(50%);" loop playsinline>
+                <source src="videos/RadioSutatenza.mp4" type="video/mp4"> <!-- Asegúrate de que la ruta sea correcta -->
+            </video>
+        </div>
                         <div class="noise-overlay"></div><div class="scanlines-overlay"></div>
                         <div class="radio-display"><span id="freq-display" style="color: #004400; text-shadow: none;">---.- AM</span></div>
                         <div class="radio-dial-container" id="dial-container">
@@ -845,7 +851,10 @@
                 if (audioCtx && audioCtx.state === 'running') { audioCtx.suspend(); } 
                 
                 externalScreamAudio.pause(); externalScreamAudio.currentTime = 0; externalScreamTriggered = false;
-                desaparecidaAudio.pause(); desaparecidaAudio.currentTime = 0; desaparecidaTriggered = false; 
+                desaparecidaAudio.pause(); desaparecidaAudio.currentTime = 0; desaparecidaTriggered = false;
+                
+                let vid = document.getElementById('radio-video');
+                if(vid) vid.pause();
                 
                 let overlay = document.getElementById('radio-video-overlay');
                 if(overlay) overlay.style.display = 'none';
@@ -904,16 +913,25 @@
             if (diff2 < 0.1 && !externalScreamTriggered) { triggerExternalScream(); } 
             else if (diff2 >= 0.5) { externalScreamTriggered = false; externalScreamAudio.pause(); externalScreamAudio.currentTime = 0; }
 
-            // Anomalía 3: 104.1 AM (Video)
+          // Anomalía 3: 104.1 AM (Video)
             let diff3 = Math.abs(freq - 104.1);
             if (diff3 < 0.1 && !videoTriggered) { 
                 videoTriggered = true; 
                 let overlay = document.getElementById('radio-video-overlay');
+                let vid = document.getElementById('radio-video');
+                
                 if(overlay) overlay.style.display = 'flex'; 
-            } else if (diff3 >= 0.5) { 
+                if(vid) {
+                    vid.currentTime = 0; // Reinicia el video desde el principio
+                    vid.play().catch(e => console.log(e)); // Le da play
+                }
+            } else if (diff3 >= 0.5 && videoTriggered) { 
                 videoTriggered = false; 
                 let overlay = document.getElementById('radio-video-overlay');
+                let vid = document.getElementById('radio-video');
+                
                 if(overlay) overlay.style.display = 'none'; 
+                if(vid) vid.pause(); // Lo pausa para que no siga sonando de fondo
             }
 
             // Anomalía 4: 107.5 AM
