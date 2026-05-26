@@ -299,16 +299,51 @@
                 </div>
 
                 <!-- TAB DOCUMENTOS -->
-                <div id="tab-documentos" class="page-tab hidden bg-dba-beige win-inset-deep p-4 min-h-[400px]">
-                    <h2 class="font-sys font-bold text-lg text-dba-blue mb-4">/ARCHIVOS/CLASIFICADOS/</h2>
-                    <table class="doc-table">
-                        <thead><tr><th>Tipo</th><th>Nombre</th><th>Nivel</th></tr></thead>
-                        <tbody>
-                            <tr><td>[TXT]</td><td><a href="#" class="text-blue-800 underline">Protocolo_01.txt</a></td><td>LVL_5</td></tr>
-                        </tbody>
-                    </table>
-                </div>
+             <div id="tab-documentos" class="page-tab hidden bg-dba-beige win-inset-deep p-4 min-h-[400px]">
+    <h2 class="font-sys font-bold text-lg text-dba-blue mb-4">/ARCHIVOS/CLASIFICADOS/</h2>
+    <table class="doc-table w-full text-left">
+        <thead>
+            <tr>
+                <th class="pb-2">Tipo</th>
+                <th class="pb-2">Nombre</th>
+                <th class="pb-2">Nivel</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+            <tr>
+                <td>[TXT]</td>
+                <td><a href="#" onclick="openVisor('ruta/Protocolo_01.txt', 'Protocolo 01', 'html'); return false;" class="text-blue-800 underline">Protocolo_01.txt</a></td>
+                <td>LVL_5</td>
+            </tr>
+            
+            <tr>
+                <td>[IMG]</td>
+                <td><a href="#" onclick="openVisor('img/Carta.gif', 'CARTA', false); return false;" class="text-blue-800 underline">CARTA ENCONTRADA</a></td>
+                <td>LVL_2</td>
+            </tr>
 
+            <tr>
+                <td>[IMG]</td>
+                <td><a href="#" onclick="openVisor('img/Panfleto.png', '¿COMO VISTE LA MUJER COLOMBIANA?', false); return false;" class="text-blue-800 underline">GUÍA DE VESTIIMENTA Y ESTILO PARA DAMAS</a></td>
+                <td>LVL_3</td>
+            </tr>
+
+            <tr>
+                <td>[VID]</td>
+                <td><a href="#" onclick="openVisor('videos/Informe desaparecidos.mp4', 'DESAPARECIDOS', 'video'); return false;" class="text-blue-800 underline">REVISE EL MAPA</a></td>
+                <td>LVL_4</td>
+            </tr>
+
+            <tr>
+                <td>[VID]</td>
+                <td><a href="#" onclick="openVisor('videos/Comercial.mp4', 'VIDEO COMERCIAL RECUPERADO', 'video'); return false;" class="text-blue-800 underline">PARA MÁS INFORMACIÓN REVISE LA GUÍA DE VESTIIMENTA Y ESTILO PARA DAMAS</a></td>
+                <td>LVL_5</td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
                 <!-- TAB LABORATORIO -->
              <div id="tab-laboratorio" class="page-tab hidden bg-dba-beige win-inset-deep p-4 md:p-6 h-full min-h-[450px]">
                     <h2 class="font-sys font-bold text-xl md:text-2xl mb-4 text-dba-blue uppercase border-b border-gray-400 pb-2">Lab. Análisis Fotográfico</h2>
