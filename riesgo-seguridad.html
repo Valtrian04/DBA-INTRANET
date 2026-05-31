@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SISTEMA DBA - RIESGO DE SEGURIDAD</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #dcdcdc;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .contenedor-riesgo {
+            border: 2px solid #ff3b30;
+            background-color: #000;
+            padding: 3rem;
+            max-width: 600px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(255, 59, 48, 0.4);
+        }
+
+        .titulo-alerta {
+            color: #ff3b30;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .texto-riesgo {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+            text-align: justify;
+        }
+
+        .btn-eliminar {
+            background-color: #ff3b30;
+            color: #fff;
+            border: none;
+            padding: 1rem 3rem;
+            font-size: 1.2rem;
+            font-family: inherit;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        .btn-eliminar:hover {
+            background-color: #cc0000;
+            box-shadow: 0 0 10px #ff3b30;
+        }
+
+        /* Efecto Glitch para cuando hunden el botón */
+        @keyframes glitch {
+            0% { transform: translate(0) }
+            20% { transform: translate(-10px, 10px) }
+            40% { transform: translate(-10px, -10px) }
+            60% { transform: translate(10px, 10px) }
+            80% { transform: translate(10px, -10px) }
+            100% { transform: translate(0) }
+        }
+
+        .efecto-glitch {
+            animation: glitch 0.1s infinite;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="contenedor-riesgo" id="panel-riesgo">
+        <h1 class="titulo-alerta">ADVERTENCIA NIVEL 5</h1>
+        <p class="texto-riesgo">
+            Esta página es un riesgo crítico para nuestra seguridad. Los registros aquí descritos desatarían el pánico y el colapso del orden establecido si llegasen a ser de conocimiento público.
+        </p>
+        <p class="texto-riesgo">
+            Es deber ineludible de todos los agentes eliminar de inmediato todo el contenido alojado en este servidor. Cumpla su directriz.
+        </p>
+        <button class="btn-eliminar" onclick="activarGlitchYEliminar()">EJECUTAR ELIMINACIÓN</button>
+    </div>
+
+    <script>
+        function activarGlitchYEliminar() {
+            // 1. Aplicar clase de glitch a toda la pantalla
+            document.body.classList.add('efecto-glitch');
+            
+            // 2. A los 2 segundos, lanza el pantallazo azul
+            setTimeout(() => {
+                document.body.classList.remove('efecto-glitch');
+                
+                // Mismo mensaje final
+                document.body.innerHTML = `
+                    <div style="position:fixed; inset:0; background:#0000AA; color:white; display:flex; align-items:center; justify-content:center; z-index:10000; font-family:monospace; text-align:center; padding: 2rem;">
+                        <h1 style="font-size: 3rem; text-shadow: 2px 2px 0 #000;">Ahora ellos saben de usted.<br><br>Mantenga los ojos abiertos,<br>pronto lo encontrarán.</h1>
+                    </div>
+                `;
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
