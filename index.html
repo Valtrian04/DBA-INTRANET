@@ -834,43 +834,243 @@
         }
 
     // --- PROCESAMIENTO DEL TEST (NUEVA VERSIÓN ARG) ---
+// ==========================================
+// 1. BASE DE DATOS DE PREGUNTAS
+// ==========================================
+const dbPreguntas = [
+    {
+        seccion: "Sección I: Protocolos Básicos",
+        q: "1. Cuando recibe instrucciones contradictorias de dos superiores distintos, usted:",
+        opciones: [
+            { txt: "Sigue las instrucciones más recientes.", val: "A" },
+            { txt: "Solicita una aclaración antes de actuar.", val: "N" },
+            { txt: "DESOBEDECE.", val: "B" }
+        ]
+    },
+    {
+        q: "2. ¿Cómo suele organizar información importante?",
+        opciones: [
+            { txt: "Fotografío y grabo los encuentros.", val: "B" },
+            { txt: "Solo registro aquello que considero relevante.", val: "A" },
+            { txt: "Confío principalmente en mi memoria.", val: "N" }
+        ]
+    },
+    {
+        q: "3. Si encuentra un documento clasificado abandonado en una oficina:",
+        opciones: [
+            { txt: "Lo entrego inmediatamente.", val: "A" },
+            { txt: "Lo reviso para identificar al propietario.", val: "N" },
+            { txt: "Lo leo antes de reportarlo.", val: "B" }
+        ]
+    },
+    {
+        q: "4. ¿Suele tener su espacio de trabajo lleno de documentos y objetos?",
+        opciones: [
+            { txt: "Sí, necesito tener todo visible.", val: "B" },
+            { txt: "Mantengo únicamente lo que estoy utilizando.", val: "A" },
+            { txt: "No puedo trabajar si existe desorden.", val: "N" },
+            { txt: "No puedo trabajar porque ellos me persiguen.", val: "B" }
+        ]
+    },
+    {
+        q: "5. ¿Qué considera más importante?",
+        opciones: [
+            { txt: "La verdad.", val: "B" },
+            { txt: "La justicia.", val: "N" },
+            { txt: "La normalidad.", val: "A" }
+        ]
+    },
+    {
+        seccion: "Sección II: Percepción y Criterio",
+        q: "6. Si diez personas afirman haber visto algo imposible, usted piensa que:",
+        opciones: [
+            { txt: "Están confundidas.", val: "A" },
+            { txt: "Existe una explicación aún desconocida.", val: "N" },
+            { txt: "Alguien está ocultando información.", val: "B" }
+        ]
+    },
+    {
+        q: "7. ¿Qué considera más peligroso?",
+        opciones: [
+            { txt: "Una mentira bien contada.", val: "B" },
+            { txt: "Una verdad mal entendida.", val: "A" },
+            { txt: "Una verdad que nadie quiere escuchar.", val: "N" }
+        ]
+    },
+    {
+        q: "8. ¿Con qué frecuencia cuestiona la información oficial?",
+        opciones: [
+            { txt: "Rara vez.", val: "A" },
+            { txt: "Solo cuando existen inconsistencias.", val: "N" },
+            { txt: "Con frecuencia.", val: "B" }
+        ]
+    },
+    {
+        q: "9. ¿Cuál de las siguientes afirmaciones le parece más correcta?",
+        opciones: [
+            { txt: "La estabilidad es más importante que la verdad.", val: "A" },
+            { txt: "La verdad es más importante que la estabilidad.", val: "B" },
+            { txt: "Ambas son igualmente importantes.", val: "N" }
+        ]
+    },
+    {
+        q: "10. Si un relato posee varias versiones incompatibles entre sí:",
+        opciones: [
+            { txt: "Una debe ser correcta.", val: "N" },
+            { txt: "Todas contienen algo de verdad.", val: "B" },
+            { txt: "Solo la verdad oficial es confiable.", val: "A" }
+        ]
+    },
+    {
+        seccion: "Sección III: Evaluación Ética",
+        q: "11. ¿Qué decisión considera peor?",
+        opciones: [
+            { txt: "Asesinar a su familia para cumplir una misión.", val: "B" }, 
+            { txt: "Experimentar con menores para evitar una catástrofe.", val: "A" }
+        ]
+    },
+    {
+        q: "12. ¿Qué decisión considera peor?",
+        opciones: [
+            { txt: "Destruir contenido sensible para evitar el pánico.", val: "B" }, 
+            { txt: "Difundir información que podría provocar caos.", val: "A" }
+        ]
+    },
+    {
+        q: "13. ¿Qué decisión considera peor?",
+        opciones: [
+            { txt: "Mentir a toda una nación por siglos.", val: "B" },
+            { txt: "Desaparecer a una parte de la población.", val: "A" }
+        ]
+    },
+    {
+        q: "14. ¿Qué decisión considera peor?",
+        opciones: [
+            { txt: "Sacrificar a una persona para salvar cien.", val: "B" },
+            { txt: "Sacrificar cien para salvar una.", val: "A" }
+        ]
+    },
+    {
+        q: "15. ¿Qué decisión considera peor?",
+        opciones: [
+            { txt: "Ocultar una verdad peligrosa.", val: "B" },
+            { txt: "Revelar una verdad peligrosa.", val: "A" }
+        ]
+    },
+    {
+        seccion: "Sección IV: Estabilidad Psicológica",
+        q: "16. Si observa algo que contradice completamente su comprensión del mundo:",
+        opciones: [
+            { txt: "Buscaría una explicación racional.", val: "N" },
+            { txt: "Intentaría olvidarlo.", val: "A" },
+            { txt: "Necesitaría demostrarlo a otros.", val: "B" }
+        ]
+    },
+    {
+        q: "17. Si nadie creyera lo que usted vio:",
+        opciones: [
+            { txt: "Aceptaría la situación.", val: "A" },
+            { txt: "Seguiría investigando.", val: "N" },
+            { txt: "Haría todo lo posible para convencer a otros.", val: "B" }
+        ]
+    },
+    {
+        q: "18. ¿Cuál de estas frases le resulta más inquietante?",
+        opciones: [
+            { txt: "\"No existe evidencia.\"", val: "N" },
+            { txt: "\"La evidencia fue eliminada.\"", val: "A" },
+            { txt: "\"La evidencia existe, pero no debe encontrarse.\"", val: "B" }
+        ]
+    },
+    {
+        q: "19. ¿Qué le preocupa más?",
+        opciones: [
+            { txt: "Ser observado.", val: "N" },
+            { txt: "Ser olvidado.", val: "B" },
+            { txt: "Descubrir algo que no debería existir.", val: "A" }
+        ]
+    },
+    {
+        seccion: "Sección V: Directrices Finales",
+        q: "20. Si descubriera una verdad capaz de cambiar la historia de Colombia, usted:",
+        opciones: [
+            { txt: "La entregaría a las autoridades competentes.", val: "A" },
+            { txt: "Esperaría pruebas adicionales antes de actuar.", val: "N" },
+            { txt: "La compartiría públicamente.", val: "B" }
+        ]
+    },
+    {
+        q: "21. Si un secreto protegiera millones de vidas, usted:",
+        opciones: [
+            { txt: "Lo mantendría oculto.", val: "A" },
+            { txt: "Evaluaría cada caso individualmente.", val: "N" },
+            { txt: "Lo revelaría igualmente.", val: "B" }
+        ]
+    },
+    {
+        q: "22. Si descubre que una organización ha manipulado la historia durante décadas:",
+        opciones: [
+            { txt: "La denunciaría inmediatamente.", val: "B" },
+            { txt: "Intentaría comprender sus motivos.", val: "N" },
+            { txt: "Buscaría formar parte de ella.", val: "A" }
+        ]
+    },
+    {
+        q: "23. Suponga que posee el único archivo existente sobre un fenómeno peligroso.",
+        opciones: [
+            { txt: "Lo destruiría.", val: "A" },
+            { txt: "Lo archivaría.", val: "A" },
+            { txt: "Lo publicaría.", val: "B" }
+        ]
+    },
+    {
+        q: "24. Se le entrega evidencia irrefutable de la existencia de los Andantes. ¿Qué hace con el archivo?",
+        opciones: [
+            { txt: "Clasificar y restringir el acceso.", val: "A" },
+            { txt: "Guardarlo para futuras investigaciones.", val: "N" },
+            { txt: "Compartirlo con el mundo.", val: "B" }
+        ]
+    }
+];
+
+// ==========================================
+// 2. GENERADOR DEL TEST (Inyecta el HTML)
+// ==========================================
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('formulario-test');
+    if (!form) return; // Se detiene si no encuentra el formulario para no dar error
+
+    let htmlContent = "";
+
+    dbPreguntas.forEach((item, index) => {
+        if (item.seccion) {
+            htmlContent += `<div class="mt-8 mb-4 border-b-2 border-gray-400 font-bold text-dba-blue uppercase">${item.seccion}</div>`;
+        }
+
+        htmlContent += `<div class="mb-6">
+            <p class="font-bold mb-2">${item.q}</p>
+            <div class="flex flex-col space-y-1 ml-4">`;
+
+        item.opciones.forEach((opcion) => {
+            htmlContent += `
+                <label class="flex items-center space-x-2 cursor-pointer hover:bg-gray-200 p-1 rounded">
+                    <input type="radio" name="p${index}" value="${opcion.val}" class="accent-black w-4 h-4">
+                    <span>${opcion.txt}</span>
+                </label>`;
+        });
+
+        htmlContent += `</div></div>`;
+    });
+
+    form.innerHTML = htmlContent;
+});
+
+// ==========================================
+// 3. PROCESAMIENTO DEL TEST (Calcula y Redirige)
+// ==========================================
 function processTest() {
     const form = document.getElementById('formulario-test');
     const totalRespuestas = dbPreguntas.length;
-    let custodioPuntos = 0;
-    let divulgadorPuntos = 0;
-    let respondidas = 0;
-
-    // Contar las respuestas (A = Agente/Custodio, B = Amenaza/Divulgador)
-    for (let i = 0; i < totalRespuestas; i++) {
-        const seleccion = form.querySelector(`input[name="p${i}"]:checked`);
-        if (seleccion) {
-            respondidas++;
-            if (seleccion.value === "A") custodioPuntos++;
-            if (seleccion.value === "B") divulgadorPuntos++;
-        }
-    }
-
-    if (respondidas < totalRespuestas) {
-        alert(`ERROR DEL SISTEMA: Ha omitido ${totalRespuestas - respondidas} interrogantes.`);
-        return;
-    }
-
-    // --- EVALUACIÓN DE CAMINOS ---
-    // Si tiene más puntos de custodio, es Posible Agente
-    if (custodioPuntos >= divulgadorPuntos) {
-        // Redirige a la nueva página
-        window.location.href = 'riesgo-seguridad.html';
-    } else {
-        // Si tiene más de divulgador, es una AMENAZA
-        ejecutarProtocoloAmenaza();
-    }
-}
-
-// --- PROCESAMIENTO DEL TEST (JS PRINCIPAL) ---
-function processTest() {
-    const form = document.getElementById('formulario-test');
-    const totalRespuestas = dbPreguntas.length; // Asegúrate de tener tu array dbPreguntas arriba
     let custodioPuntos = 0;
     let divulgadorPuntos = 0;
     let respondidas = 0;
@@ -885,18 +1085,18 @@ function processTest() {
         }
     }
 
-    // Validar que respondieron todo
+    // Validar que el usuario haya respondido todo
     if (respondidas < totalRespuestas) {
-        alert(`ERROR DEL SISTEMA: Ha omitido ${totalRespuestas - respondidas} interrogantes.`);
+        alert(`ERROR DEL SISTEMA: Ha omitido ${totalRespuestas - respondidas} interrogantes. Complete la evaluación.`);
         return;
     }
 
-    // --- EVALUACIÓN DE CAMINOS Y REDIRECCIÓN ---
+    // Redirección según el puntaje
     if (custodioPuntos >= divulgadorPuntos) {
-        // Redirige al jugador a la página de Posible Agente
+        // Camino CUSTODIO (Riesgo de Seguridad / Pantallazo y Glitch)
         window.location.href = 'riesgo-seguridad.html';
     } else {
-        // Redirige al jugador a la página de Amenaza
+        // Camino DIVULGADOR (Amenaza / Pantalla Roja y Muerte)
         window.location.href = 'amenaza.html';
     }
 }
