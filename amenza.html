@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SISTEMA DBA - ERROR CRÍTICO</title>
+    <style>
+        /* Reset y estilos base */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { overflow: hidden; font-family: monospace; background-color: #000; color: #fff; }
+
+        /* 1. ANIMACIÓN DE AMENAZA (Parpadeo) */
+        @keyframes parpadeo {
+            0%, 100% { background-color: #990000; color: #fff; }
+            50% { background-color: #000; color: #ff0000; }
+        }
+        #pantalla-alerta {
+            position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+            text-align: center; animation: parpadeo 0.1s infinite; z-index: 100;
+        }
+        #pantalla-alerta h1 { font-size: 6vw; font-weight: bold; line-height: 1.2; }
+
+        /* 2. PANTALLAZO AZUL (BSOD) */
+        #pantallazo-azul {
+            position: fixed; inset: 0; background-color: #0000AA; color: #fff;
+            padding: 3rem; display: none; flex-direction: column; z-index: 200;
+        }
+        .bsod-texto { max-width: 800px; font-size: 1.2rem; line-height: 1.5; }
+
+        /* 3. POP-UP DEL ALIADO (Estilo retro) */
+        #popup-aliado {
+            background-color: #c0c0c0; color: #000; border: 2px solid #fff;
+            border-right-color: #555; border-bottom-color: #555; padding: 1rem;
+            margin-top: 3rem; max-width: 550px; box-shadow: 10px 10px 0px rgba(0,0,0,0.5);
+        }
+        .popup-header { background: #0000AA; color: #fff; padding: 3px 8px; font-weight: bold; margin-bottom: 1rem; }
+        
+        .botones-container { display: flex; justify-content: space-around; gap: 15px; margin-top: 1.5rem; }
+        .btn-retro {
+            background: #e0e0e0; border: 2px solid #fff; border-right-color: #555; border-bottom-color: #555;
+            padding: 8px 15px; cursor: pointer; font-family: inherit; font-weight: bold; font-size: 1rem; transition: 0.2s;
+        }
+        .btn-retro:active { border: 2px solid #555; border-right-color: #fff; border-bottom-color: #fff; }
+
+        /* Barra de carga */
+        #contenedor-carga { display: none; margin-top: 1.5rem; border: 2px solid #555; background: #fff; height: 25px; width: 100%; }
+        #barra-carga { width: 0%; height: 100%; background: #0000AA; }
+
+        /* 4. PANTALLA ROJA (Final) */
+        #pantalla-muerte {
+            position: fixed; inset: 0; background-color: #8B0000; color: #fff;
+            display: none; align-items: center; justify-content: center; flex-direction: column;
+            text-align: center; z-index: 300; padding: 2rem;
+        }
+        #pantalla-muerte h1 { font-size: 4vw; text-shadow: 2px 2px 5px #000; }
+        #pantalla-muerte p { font-size: 2vw; margin-top: 2rem; opacity: 0.8; }
+        
+        /* 5. PANTALLA NEGRA */
+        #pantalla-negra { position: fixed; inset: 0; background-color: #000; z-index: 400; display: none; }
+        
+        /* Contenedor del mensaje cuando hundes Eliminar */
+        #mensaje-eliminado {
+            display: none; position: fixed; inset: 0; background: #0000AA; color: white;
+            align-items: center; justify-content: center; z-index: 250; text-align: center;
+        }
+        #mensaje-eliminado h1 { font-size: 3.5rem; text-shadow: 3px 3px 0 #000; line-height: 1.4; }
+    </style>
+</head>
+<body>
+
+    <audio id="sonido-disparo" src="audio/disparo.mp3" preload="auto"></audio>
+
+    <div id="pantalla-alerta">
+        <h1>ERROR<br>AMENAZA DETECTADA<br>CONTENCIÓN EN CURSO</h1>
+    </div>
+
+    <div id="pantallazo-azul">
+        <div class="bsod-texto">
+            <p>A problem has been detected and DBA_SYSTEM has been shut down to prevent information leak.</p>
+            <br>
+            <p>PROTOCOL_BREACH_DETECTED_IN_USER_TERMINAL</p>
+            <br>
+            <p>Initiating lockdown...</p>
+        </div>
+        
+        <div id="popup-aliado">
+            <div class="popup-header">Mensaje Entrante Interceptado...</div>
+            <p style="font-size: 1.1rem; line-height: 1.4; text-align: justify;">
+                Esto es lo último que puedo hacer por ti. Este archivo contiene todos los documentos. Confío en que harás lo correcto y sacarás a Colombia de las sombras de la mentira que la mantiene en su ignorancia.
+            </p>
+            
+            <div class="botones-container" id="grupo-botones">
+                <button class="btn-retro" onclick="iniciarDescarga()">Descargar y Compartir</button>
+                <button class="btn-retro" onclick="ejecutarEliminacion()">Eliminar</button>
+            </div>
+
+            <div id="contenedor-carga">
+                <div id="barra-carga"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="mensaje-eliminado">
+        <h1>Ahora ellos saben de usted.<br><br>Mantenga los ojos abiertos,<br>pronto lo encontrarán.</h1>
+    </div>
+
+    <div id="pantalla-muerte">
+        <h1>"Para decir la verdad en Colombia, a uno le cuesta la vida"</h1>
+        <p>Usted fue encontrado.</p>
+    </div>
+
+    <div id="pantalla-negra"></div>
+
+    <script>
+        // 1. Al cargar la página, espera 3.5s y muestra el pantallazo azul
+        window.onload = () => {
+            setTimeout(() => {
+                document.getElementById('pantalla-alerta').style.display = 'none';
+                document.getElementById('pantallazo-azul').style.display = 'flex';
+            }, 3500);
+        };
+
+        // 2. Acción si eligen "Eliminar" (Camino cobarde/precavido)
+        function ejecutarEliminacion() {
+            document.getElementById('pantallazo-azul').style.display = 'none';
+            document.getElementById('mensaje-eliminado').style.display = 'flex';
+        }
+
+        // 3. Acción si eligen "Descargar" (Camino del mártir)
+        function iniciarDescarga() {
+            // Oculta botones y muestra barra
+            document.getElementById('grupo-botones').style.display = 'none';
+            document.getElementById('contenedor-carga').style.display = 'block';
+            
+            const barra = document.getElementById('barra-carga');
+            let progreso = 0;
+            
+            // Simula la descarga
+            const intervalo = setInterval(() => {
+                progreso += Math.floor(Math.random() * 5) + 2; 
+                if (progreso >= 100) {
+                    progreso = 100;
+                    clearInterval(intervalo);
+                    ejecutarDisparoYMuerte();
+                }
+                barra.style.width = progreso + '%';
+            }, 200); // Velocidad de la barra
+        }
+
+        function ejecutarDisparoYMuerte() {
+            // Reproducir sonido de disparo
+            const audio = document.getElementById('sonido-disparo');
+            audio.play().catch(e => console.log("Audio bloqueado por el navegador", e));
+
+            // Quitar BSOD y poner pantalla roja de sangre
+            document.getElementById('pantallazo-azul').style.display = 'none';
+            document.getElementById('pantalla-muerte').style.display = 'flex';
+
+            // Después de 4 segundos, todo se va a negro
+            setTimeout(() => {
+                document.getElementById('pantalla-negra').style.display = 'block';
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
