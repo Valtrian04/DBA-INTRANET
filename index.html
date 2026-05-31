@@ -442,10 +442,22 @@
                 </div>
 
                 <!-- TAB PRUEBA -->
-                <div id="tab-prueba" class="page-tab hidden bg-dba-beige win-inset-deep p-6 h-full min-h-[400px]">
-                    <h2 class="font-sys font-bold text-xl text-dba-blue mb-4">PRUEBA PSICOTÉCNICA</h2>
-                    <button onclick="processTest()" class="win-button px-8 py-2">FINALIZAR EVALUACIÓN</button>
-                </div>
+                <div id="tab-prueba" class="page-tab hidden bg-dba-beige win-inset-deep p-6 h-full min-h-[400px] overflow-y-auto">
+    <h2 class="font-sys font-bold text-xl text-dba-blue mb-2">EVALUACIÓN PSICOTÉCNICA // DBA</h2>
+    <p class="text-sm mb-6 border-b border-black pb-2 uppercase tracking-widest text-red-700">Responda con total sinceridad. El sistema monitorea sus elecciones.</p>
+    
+    <form id="formulario-test" class="space-y-8 text-sm font-sys">
+        </form>
+
+    <div class="mt-8 pt-4 border-t border-black text-center" id="btn-container-test">
+        <button type="button" onclick="processTest()" class="win-button px-8 py-2 font-bold bg-gray-300 border-2 border-gray-600 hover:bg-gray-400 cursor-pointer shadow-sm">
+            FINALIZAR EVALUACIÓN
+        </button>
+    </div>
+
+    <div id="resultado-test" class="hidden mt-6 bg-black text-green-500 p-6 font-mono text-sm border-2 border-red-800 shadow-inner">
+        </div>
+</div>
 
                 <!-- TAB RADIO -->
                 <div id="tab-radio" class="page-tab hidden bg-dba-beige win-inset-deep p-6 h-full min-h-[450px]">
@@ -820,6 +832,74 @@
                 unlockChat(); 
             }, 1500); 
         }
+
+    // --- PROCESAMIENTO DEL TEST (NUEVA VERSIÓN ARG) ---
+function processTest() {
+    const form = document.getElementById('formulario-test');
+    const totalRespuestas = dbPreguntas.length;
+    let custodioPuntos = 0;
+    let divulgadorPuntos = 0;
+    let respondidas = 0;
+
+    // Contar las respuestas (A = Agente/Custodio, B = Amenaza/Divulgador)
+    for (let i = 0; i < totalRespuestas; i++) {
+        const seleccion = form.querySelector(`input[name="p${i}"]:checked`);
+        if (seleccion) {
+            respondidas++;
+            if (seleccion.value === "A") custodioPuntos++;
+            if (seleccion.value === "B") divulgadorPuntos++;
+        }
+    }
+
+    if (respondidas < totalRespuestas) {
+        alert(`ERROR DEL SISTEMA: Ha omitido ${totalRespuestas - respondidas} interrogantes.`);
+        return;
+    }
+
+    // --- EVALUACIÓN DE CAMINOS ---
+    // Si tiene más puntos de custodio, es Posible Agente
+    if (custodioPuntos >= divulgadorPuntos) {
+        // Redirige a la nueva página
+        window.location.href = 'riesgo-seguridad.html';
+    } else {
+        // Si tiene más de divulgador, es una AMENAZA
+        ejecutarProtocoloAmenaza();
+    }
+}
+
+// --- PROCESAMIENTO DEL TEST (JS PRINCIPAL) ---
+function processTest() {
+    const form = document.getElementById('formulario-test');
+    const totalRespuestas = dbPreguntas.length; // Asegúrate de tener tu array dbPreguntas arriba
+    let custodioPuntos = 0;
+    let divulgadorPuntos = 0;
+    let respondidas = 0;
+
+    // Contar las respuestas
+    for (let i = 0; i < totalRespuestas; i++) {
+        const seleccion = form.querySelector(`input[name="p${i}"]:checked`);
+        if (seleccion) {
+            respondidas++;
+            if (seleccion.value === "A") custodioPuntos++;
+            if (seleccion.value === "B") divulgadorPuntos++;
+        }
+    }
+
+    // Validar que respondieron todo
+    if (respondidas < totalRespuestas) {
+        alert(`ERROR DEL SISTEMA: Ha omitido ${totalRespuestas - respondidas} interrogantes.`);
+        return;
+    }
+
+    // --- EVALUACIÓN DE CAMINOS Y REDIRECCIÓN ---
+    if (custodioPuntos >= divulgadorPuntos) {
+        // Redirige al jugador a la página de Posible Agente
+        window.location.href = 'riesgo-seguridad.html';
+    } else {
+        // Redirige al jugador a la página de Amenaza
+        window.location.href = 'amenaza.html';
+    }
+}
 
         // --- 05. LABORATORIO ---
         let currentLabScene = 1; let anomaliesFound = new Set();
