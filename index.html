@@ -525,12 +525,12 @@
         <button onclick="toggleChat()" class="bg-[#c0c0c0] text-black px-1 border-t border-l border-white border-b border-r border-gray-600 active:border-t-gray-600 active:border-l-gray-600 active:border-b-white active:border-r-white outline-none">X</button>
     </div>
     
-    <div class="p-2 bg-[#d4d0c8] flex-grow flex flex-col gap-2 min-h-0">
+    <div class="p-2 bg-[#d4d0c8] flex-1 flex flex-col gap-2 overflow-hidden">
         
-        <div id="chat-history" class="win-inset-deep bg-white flex-grow p-2 text-[13px] overflow-y-auto font-sys min-h-0"></div>
+        <div id="chat-history" class="win-inset-deep bg-white flex-1 p-2 text-[13px] overflow-y-auto overflow-x-hidden font-sys break-words"></div>
         
         <div class="flex gap-1 shrink-0">
-            <input type="text" id="chat-input" class="win-inset-deep flex-grow p-1 text-[13px] font-sys" onkeypress="if(event.key==='Enter') sendMessage()" placeholder="Escriba su mensaje...">
+            <input type="text" id="chat-input" class="win-inset-deep flex-1 p-1 text-[13px] font-sys" onkeypress="if(event.key==='Enter') sendMessage()" placeholder="Escriba su mensaje...">
             <button id="chat-send-btn" onclick="sendMessage()" class="win-button px-2 font-sys text-xs font-bold shrink-0">Enviar</button>
         </div>
         
