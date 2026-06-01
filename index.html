@@ -513,33 +513,25 @@
             </footer>
         </div>
     </div>
-
-  <!-- MSN MESSENGER (FIX DEFINITIVO SCROLL) -->
-<div id="msn-window" class="msn-window win-outset shadow-2xl fixed bottom-5 right-5 w-[350px] h-[450px] flex flex-col" style="display:none;">
     
-    <!-- HEADER -->
-    <div class="bg-[#000080] text-white p-1 flex justify-between items-center px-2 font-bold text-xs font-ui tracking-wide shrink-0">
-        <div class="flex items-center gap-1.5">
-            <span class="w-2 h-2 bg-green-400 rounded-full border-[0.5px] border-white shadow-sm shadow-green-500"></span>
-            <span>DBA Messenger en línea</span>
+<!-- MSN MESSENGER -->
+    <div id="msn-window" class="msn-window win-outset shadow-2xl fixed bottom-5 right-5 w-[320px]" style="display:none;">
+        <div class="bg-[#000080] text-white p-1 flex justify-between items-center px-2 font-bold text-xs font-ui tracking-wide">
+            <div class="flex items-center gap-1.5">
+                <span class="w-2 h-2 bg-green-400 rounded-full border-[0.5px] border-white shadow-sm shadow-green-500"></span>
+                <span>DBA Messenger en línea</span>
+            </div>
+            <button onclick="toggleChat()" class="bg-[#c0c0c0] text-black px-1 border-t border-l border-white border-b border-r border-gray-600 active:border-t-gray-600 active:border-l-gray-600 active:border-b-white active:border-r-white outline-none">X</button>
         </div>
-        <button onclick="toggleChat()" class="bg-[#c0c0c0] text-black px-1 border-t border-l border-white border-b border-r border-gray-600 active:border-t-gray-600 active:border-l-gray-600 active:border-b-white active:border-r-white outline-none">X</button>
-    </div>
+        <div class="p-2 bg-[#d4d0c8]">
+            <div id="chat-history" class="win-inset-deep bg-white h-[260px] p-2 mb-2 text-[11px] overflow-y-auto font-sys"></div>
+            <div class="flex gap-1">
+                <input type="text" id="chat-input" class="win-inset-deep flex-grow p-1 text-[11px] font-sys" onkeypress="if(event.key==='Enter') sendMessage()" placeholder="Escriba su mensaje...">
+                <button id="chat-send-btn" onclick="sendMessage()" class="win-button px-2 font-sys text-xs font-bold">Enviar</button>
+            </div>
+        </div>
+    </div> 
     
-    <!-- CUERPO GRIS (min-h-0 es obligatorio aquí) -->
-    <div class="p-2 bg-[#d4d0c8] flex-1 flex flex-col gap-2 min-h-0">
-        
-        <!-- HISTORIAL BLANCO (min-h-0 y overflow-y-auto son obligatorios aquí) -->
-        <div id="chat-history" class="win-inset-deep bg-white flex-1 p-2 text-[13px] overflow-y-auto font-sys break-words min-h-0"></div>
-        
-        <!-- ZONA DE INPUT (shrink-0 protege esta zona para que no se aplaste) -->
-        <div class="flex gap-1 shrink-0">
-            <input type="text" id="chat-input" class="win-inset-deep flex-1 p-1 text-[13px] font-sys" onkeypress="if(event.key==='Enter') sendMessage()" placeholder="Escriba su mensaje...">
-            <button id="chat-send-btn" onclick="sendMessage()" class="win-button px-2 font-sys text-xs font-bold shrink-0">Enviar</button>
-        </div>
-        
-    </div>
-</div>
 <script>
         // --- 01. VARIABLES GLOBALES ---
         let camStream = null; let faceTracker = null; let isFaceDetected = false; let isCaptchaSolved = false; let scanBlocked = false; let isVerified = false;
