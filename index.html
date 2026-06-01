@@ -900,7 +900,7 @@ const chatDatabase = [
         action: function() {
             sessionStorage.setItem('dba_radio_unlocked', 'true');
             let btn = document.getElementById('btn-radio');
-            if(btn) { btn.style.display = 'block'; btn.classList.remove('hidden'); }
+            if(btn) { btn.style.display = 'block'; btn.classList.remove('hidden'); showPage('radio'); }
         }
     },
     {
