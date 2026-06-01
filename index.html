@@ -794,9 +794,11 @@ function renderChat() {
     chatMemory.forEach(msg => { 
         let d = document.createElement('div'); d.className = 'mb-2 pb-1 border-b border-gray-200'; 
         if(msg.role === 'user') { 
-            d.innerHTML = '<span class="text-gray-600 font-bold">Usted dice:</span><br>' + msg.parts[0].text; 
+            // Agregamos <span class="font-bold"> al texto del usuario
+            d.innerHTML = '<span class="text-gray-600 font-bold">Usted dice:</span><br><span class="font-bold">' + msg.parts[0].text + '</span>'; 
         } else { 
-            d.innerHTML = '<span class="text-dba-blue font-bold">Agente DBA dice:</span><br>' + msg.parts[0].text; 
+            // Agregamos <span class="font-bold"> al texto del bot
+            d.innerHTML = '<span class="text-dba-blue font-bold">Agente DBA dice:</span><br><span class="font-bold">' + msg.parts[0].text + '</span>'; 
         } 
         h.appendChild(d); 
     }); 
