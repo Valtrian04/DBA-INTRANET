@@ -1143,6 +1143,9 @@ function processTest() {
         }
 
         // --- 06. SISTEMA DE RADIO ---
+    // AÑADIDO: Presentamos el audio al sistema para que sepa qué reproducir
+        let desaparecidaTriggered = false;
+        const desaparecidaAudio = new Audio('Audios/DesaparecidaAudio.MP3'); // CAMBIA ESTO por el nombre real de tu audio
         function toggleRadio() { 
             let btn = document.getElementById('radio-power-btn'); 
             let display = document.getElementById('freq-display'); 
@@ -1256,11 +1259,11 @@ function processTest() {
                 if(vid) vid.pause(); // Lo pausa para que no siga sonando de fondo
             }
 
-            // Anomalía 4: 107.5 AM
+        // Anomalía 4: 107.5 AM
             let diff4 = Math.abs(freq - 107.5);
             if (diff4 < 0.1 && !desaparecidaTriggered) { 
                 desaparecidaTriggered = true; 
-                desaparecidaAudio.play().catch(e => console.log(e)); 
+                desaparecidaAudio.play().catch(e => console.log("Error al reproducir audio:", e)); 
             } 
             else if (diff4 >= 0.5) { 
                 desaparecidaTriggered = false; 
