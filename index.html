@@ -768,70 +768,251 @@
             }, 1000); 
         }
 
-        // --- 04. CHAT MSN ---
-        let chatMemory = JSON.parse(sessionStorage.getItem('dba_chat_memory')) || [{ role: "model", parts: [{ text: "Conexión segura establecida. Protocolos de encriptación activos. Identifíquese operativo." }] }];
-        
-        function loadChatState() { if(sessionStorage.getItem('dba_chat_open') === 'true') { document.getElementById('msn-window').style.display = 'block'; } renderChat(); }
-        function toggleChat() { const win = document.getElementById('msn-window'); const isOpen = win.style.display === 'none' || win.style.display === ''; win.style.display = isOpen ? 'block' : 'none'; sessionStorage.setItem('dba_chat_open', isOpen); if(isOpen) { let h = document.getElementById('chat-history'); h.scrollTop = h.scrollHeight; } }
-        
-        function renderChat() { 
-            let h = document.getElementById('chat-history'); h.innerHTML = ''; 
-            chatMemory.forEach(msg => { 
-                let d = document.createElement('div'); d.className = 'mb-2 pb-1 border-b border-gray-200'; 
-                if(msg.role === 'user') { d.innerHTML = '<span class="text-gray-600 font-bold">Usted dice:</span><br>' + msg.parts[0].text; } 
-                else { d.innerHTML = '<span class="text-dba-blue font-bold">Agente DBA dice:</span><br>' + msg.parts[0].text; } 
-                h.appendChild(d); 
-            }); 
-            h.scrollTop = h.scrollHeight; 
-        }
-        
-        function sendMessage() { 
-            let i = document.getElementById('chat-input'), msg = i.value.trim(); if(msg === '') return; 
-            i.disabled = true; document.getElementById('chat-send-btn').disabled = true;
-            chatMemory.push({ role: "user", parts: [{ text: msg }] }); renderChat(); i.value = ''; 
-            sessionStorage.setItem('dba_chat_memory', JSON.stringify(chatMemory)); 
-            
-            let lowerMsg = msg.toLowerCase();
-            if (lowerMsg === "sigma-9") { simulateAgentTyping("> CÓDIGO ACEPTADO. PROTOCOLO DE EVACUACIÓN INICIADO."); return; } 
-            else if (lowerMsg === "limpiar historial") { sessionStorage.removeItem('dba_chat_memory'); chatMemory = [{ role: "model", parts: [{ text: "Memoria local purgada. Identifíquese nuevamente." }] }]; renderChat(); unlockChat(); return; } 
-            else if (lowerMsg.includes("radio")) { sessionStorage.setItem('dba_radio_unlocked', 'true'); document.getElementById('btn-radio').style.display = 'block'; document.getElementById('btn-radio').classList.remove('hidden'); simulateAgentTyping("> SOLICITUD RECONOCIDA. MÓDULO DE INTERCEPTACIÓN (RADIO) DESBLOQUEADO."); return; }
-            else if (lowerMsg === "el pueblo es superior a sus dirigentes") { sessionStorage.setItem('dba_prueba_unlocked', 'true'); document.getElementById('btn-prueba').style.display = 'block'; document.getElementById('btn-prueba').classList.remove('hidden'); simulateAgentTyping("> CÓDIGO ACEPTADO. PROTOCOLO DE EVALUACIÓN DESBLOQUEADO."); return; }
+        // --- 04. CHAT MSN (SISTEMA OPTIMIZADO PARA ARG) ---
+let chatMemory = JSON.parse(sessionStorage.getItem('dba_chat_memory')) || [{ role: "model", parts: [{ text: "Conexión segura establecida. Protocolos de encriptación activos. Identifíquese operativo." }] }];
 
-            let reply = "";
-            if (lowerMsg.includes("bojayá") || lowerMsg.includes("bojaya") || lowerMsg.includes("mayo 2002")) { reply = "Incidente bajo estricta investigación por la Dirección. Cese sus preguntas inmediatamente, agente."; } 
-            else if (lowerMsg.includes("andante") || lowerMsg.includes("andantes")) { reply = "Son una anomalía en el tejido nacional. La información técnica sobre su neutralización está estrictamente clasificada."; } 
-            else if (lowerMsg.includes("94.1") || lowerMsg.includes("frecuencia")) { reply = "ADVERTENCIA: Interceptar esa frecuencia causa corrupción memética severa. Equipo de contención ha sido enviado a su ubicación."; } 
-            else if (lowerMsg.includes("bananeras") || lowerMsg.includes("1928")) { reply = "ERROR: Se requiere código de acceso Nivel 5 para visualizar el Expediente Bananeras."; } 
-            else if (lowerMsg.includes("hola") || lowerMsg.includes("quien eres") || lowerMsg.includes("quién eres")) { reply = "Soy el Agente de Enlace de la D.B.A. Limítese a reportar sus hallazgos de campo de forma clara."; } 
-            else { const defaultReplies = [ "Procesando solicitud... Información no disponible en este nivel de autorización.", "Mantenga la disciplina operativa. Todas sus consultas están siendo monitorizadas.", "Por favor remítase al manual de identificación de patrones. No estoy autorizado para responder eso.", "Ese dato está clasificado por la Dirección General.", "No detecto anomalías en su reporte. Siga con sus labores habituales.", "La verdad histórica es frágil, agente. No haga preguntas innecesarias." ]; reply = defaultReplies[Math.floor(Math.random() * defaultReplies.length)]; }
+function loadChatState() { 
+    if(sessionStorage.getItem('dba_chat_open') === 'true') { 
+        document.getElementById('msn-window').style.display = 'block'; 
+    } 
+    renderChat(); 
+}
 
-            let h = document.getElementById('chat-history'); 
-            let d = document.createElement('div'); d.id = 'typing-indicator'; d.className = 'mb-2'; 
-            d.innerHTML = '<span class="text-dba-blue font-bold">Agente DBA dice:</span><br><i>[Escribiendo...]</i>'; 
-            h.appendChild(d); h.scrollTop = h.scrollHeight;
-            
-            setTimeout(() => { 
-                document.getElementById('typing-indicator').remove(); 
-                chatMemory.push({ role: "model", parts: [{ text: reply }] }); 
-                renderChat(); sessionStorage.setItem('dba_chat_memory', JSON.stringify(chatMemory)); 
-                unlockChat(); 
-            }, 1500 + Math.random() * 1000);
+function toggleChat() { 
+    const win = document.getElementById('msn-window'); 
+    const isOpen = win.style.display === 'none' || win.style.display === ''; 
+    win.style.display = isOpen ? 'block' : 'none'; 
+    sessionStorage.setItem('dba_chat_open', isOpen); 
+    if(isOpen) { 
+        let h = document.getElementById('chat-history'); 
+        h.scrollTop = h.scrollHeight; 
+    } 
+}
+
+function renderChat() { 
+    let h = document.getElementById('chat-history'); h.innerHTML = ''; 
+    chatMemory.forEach(msg => { 
+        let d = document.createElement('div'); d.className = 'mb-2 pb-1 border-b border-gray-200'; 
+        if(msg.role === 'user') { 
+            d.innerHTML = '<span class="text-gray-600 font-bold">Usted dice:</span><br>' + msg.parts[0].text; 
+        } else { 
+            d.innerHTML = '<span class="text-dba-blue font-bold">Agente DBA dice:</span><br>' + msg.parts[0].text; 
+        } 
+        h.appendChild(d); 
+    }); 
+    h.scrollTop = h.scrollHeight; 
+}
+
+// BASE DE DATOS DE RESPUESTAS DEL BOT
+const chatDatabase = [
+    // PISTAS PRINCIPALES Y CONTRASEÑAS
+    {
+        triggers: ["hola", "buenas", "buenos dias", "buenos días"],
+        reply: "Hola.<br>Veo que encontró mi mensaje. No tenemos mucho tiempo.<br>He ocultado varias pistas a lo largo de esta página. Su tarea es encontrarlas y comunicarme cada hallazgo. Por cada una que logre descifrar, le entregaré una parte de la contraseña que conduce a la verdad.<br><br>Preste atención a las palabras resaltadas en azul y examine con cuidado cualquier letra, símbolo o detalle que parezca fuera de lugar.<br>Si se encuentra atascado, indíqueme el nombre exacto del documento que está investigando. Por ejemplo: 'Comunicado Oficial: Cese de operaciones', 'Carta', 'Informe de desaparecidos' o 'Panfleto'.<br><br>Si su respuesta no es correcta, no recibiré nada útil de ella.<br><br>Existen siete fragmentos de la contraseña. Cuando reúna los siete, envíeme un mensaje que diga: 'Completado'.<br><br>Dese prisa. No sé cuánto tiempo más podré permanecer aquí."
+    },
+    {
+        triggers: ["comunicado oficial", "cese de operaciones", "comunicado oficial cese de operaciones"],
+        reply: "Los romanos tenían la costumbre de ocultar información a simple vista mediante sus números. Dentro de este comunicado permanece escondida una fecha importante.<br>Cuando la encuentre, envíemela en formato: Día Mes Año."
+    },
+    {
+        triggers: ["17 10 2002", "17 de octubre de 2002", "17/10/2002"],
+        reply: "La fecha exacta del cierre de la DBA. La nueva cabeza presidencial decidió prescindir de los servicios del departamento, todas las operaciones y documentos fueron transferidos a la DNI 'Dirección nacional de Inteligencia'. Ellos lo conservan todo hasta el día de hoy.<br><br>La primera parte de la contraseña es: <strong>El</strong>"
+    },
+    {
+        triggers: ["grabacion de radio", "radio sutatenza", "radio"],
+        reply: "Preste atención a la transmisión que está reproduciéndose. Los detalles importantes rara vez permanecen en silencio.<br>Observe los subtítulos. Los susurros liberales suelen decir más de lo que aparentan."
+    },
+    {
+        triggers: ["las sombras son peligrosas"],
+        reply: "Radio Sutatenza fue el principal medio de comunicación nacional durante la década de los 40, muchos colombianos aprendieron a leer y escribir gracias a sus segmentos educativos. Pero también la usaron los liberales para advertirse y protegerse de los Andantes durante las revueltas.<br><br>La segunda parte de la contraseña es: <strong>pueblo</strong>"
+    },
+    {
+        triggers: ["carnet"],
+        reply: "Este era el único medio para acceder a la sede central de la DBA, hoy abandonada y desmantelada.<br>Examínelo con detenimiento e interactúe con él. Los agentes rara vez dejaban algo a la vista sin ocultar otra cosa detrás."
+    },
+    {
+        triggers: ["interrogatorio"],
+        reply: "Observe el video con detenimiento.<br>Nada de lo que aparece allí es casualidad. A veces, la verdad se oculta bajo el rojo liberal."
+    },
+    {
+        triggers: ["godos"],
+        reply: "Un insulto que alude al tradicionalismo y costumbres conservadoras. La decían con desprecio los liberales un sinónimo de injusticia y opresión.<br><br>La tercera parte de la contraseña es: <strong>es</strong>"
+    },
+    {
+        triggers: ["panfleto"],
+        reply: "Revise el panfleto con cuidado.<br>Las cantidades mencionadas no están allí por accidente.<br>Observe los números y anótelos en el orden correcto."
+    },
+    {
+        triggers: ["0526", "526"],
+        reply: "Varios de estos panfletos fueron repartidos entre liberales y campesinos, recorriendo campos y ascendadas. Tenían que ser discreto y persuadir a los conservadores de que eran algo del común, una jugada inteligente para proteger a los suyos.<br><br>La cuarta parte de la contraseña es: <strong>superior</strong>"
+    },
+    {
+        triggers: ["periodico"],
+        reply: "Identifiqué varias palabras que no parecen pertenecer al resto del texto.<br>Aíslelas y léalas en el orden correcto. Tal vez formen un mensaje que alguien intentó ocultar."
+    },
+    {
+        triggers: ["las autoridades ocultan el origen y el proposito"],
+        reply: "Un recorte de una vieja nota periodística que mencionaba a los Andantes durante el Bogotazo. Todas las copias fueron incautadas por la DBA y nadie tiene recuerdos de alguna vez haberlo visto.<br><br>La quinta parte de la contraseña es: <strong>a</strong>"
+    },
+    {
+        triggers: ["mapa"],
+        reply: "En otros tiempos, la DBA se desplazaba libremente por Bogotá, investigando incidentes y eliminando cualquier rastro de los Andantes.<br>Revise cada caso registrado. Uno de ellos no encaja con los demás."
+    },
+    {
+        triggers: ["autopsia"],
+        reply: "Hay una palabra destacada en este documento.<br>Algunas palabras esconden otras cuando sus letras se reorganizan. Pruebe hacerlo y vea qué encuentra."
+    },
+    {
+        triggers: ["cerebro"],
+        reply: "Veo que encontró una palabra interesante, sin embargo, las letras no están en el orden correcto. Pruebe a reorganizarlas."
+    },
+    {
+        triggers: ["becerro"],
+        reply: "Muy cerca, pero quizás deba probar otra vez. Reorganice las letras nuevamente, 3 cabezas."
+    },
+    {
+        triggers: ["cerbero"],
+        reply: "El perro del guardián de secretos del inframundo, ¿Quién es el guardián de los secretos de la DBA?<br><br>La sexta parte de la contraseña es: <strong>sus</strong>"
+    },
+    {
+        triggers: ["carta"],
+        reply: "Entre estas líneas se oculta un nombre.<br>Encuéntrelo y envíemelo."
+    },
+    {
+        triggers: ["agustin nieto"],
+        reply: "El nombre del edificio donde asesinaron a Jorge Eliécer Gaitán el 9 de abril de 1948. ¿Habrán tenido algo que ver los Andantes?<br><br>La séptima parte de la contraseña es: <strong>dirigentes</strong>"
+    },
+    {
+        triggers: ["completado"],
+        reply: "Justo a tiempo.<br>Si reunió las siete piezas, escriba la contraseña exactamente como la recibió. La primera palabra debe comenzar con mayúscula y cada fragmento debe estar separado por un espacio.<br><br>Aún queda un último paso. Antes de revelar lo que encontré, necesito saber qué clase de persona ha llegado hasta aquí. Encontrará una prueba que deberá completar.<br>Sus respuestas determinarán lo que ocurra después.<br>Dese prisa. Ya deben estar buscándonos."
+    },
+    
+    // ACCIONES ESPECIALES (MÓDULOS)
+    {
+        triggers: ["desaparecidos", "informe de desaparecidos", "parecidos"],
+        reply: "Un país que desaparece a sus hijos es un país que se está olvidando de sí mismo.<br>Algunos nombres aparecen más de una vez en los archivos. Escuche con atención las transmisiones de RADIO y observe los periódicos. A veces, la verdad deja rastros donde menos debería.",
+        action: function() {
+            sessionStorage.setItem('dba_radio_unlocked', 'true');
+            let btn = document.getElementById('btn-radio');
+            if(btn) { btn.style.display = 'block'; btn.classList.remove('hidden'); }
         }
-        
-        function unlockChat() { let i = document.getElementById('chat-input'); i.disabled = false; document.getElementById('chat-send-btn').disabled = false; i.focus(); }
-        
-        function simulateAgentTyping(exactResponse) { 
-            let h = document.getElementById('chat-history'); 
-            let d = document.createElement('div'); d.id = 'typing-indicator'; d.className = 'mb-2'; 
-            d.innerHTML = '<span class="text-dba-blue font-bold">Agente DBA dice:</span><br><i>[Procesando...]</i>'; 
-            h.appendChild(d); h.scrollTop = h.scrollHeight; 
-            setTimeout(() => { 
-                document.getElementById('typing-indicator').remove(); 
-                chatMemory.push({ role: "model", parts: [{ text: exactResponse }] }); 
-                renderChat(); sessionStorage.setItem('dba_chat_memory', JSON.stringify(chatMemory)); 
-                unlockChat(); 
-            }, 1500); 
+    },
+    {
+        triggers: ["el pueblo es superior a sus dirigentes"],
+        reply: "Contraseña verificada. Logró llegar más lejos que la mayoría. He desbloqueado el módulo de prueba al que puedo darle acceso. Complete la evaluación.<br><br>Sus respuestas determinarán lo que ocurra después.",
+        action: function() {
+            sessionStorage.setItem('dba_prueba_unlocked', 'true');
+            let btn = document.getElementById('btn-prueba');
+            if(btn) { btn.style.display = 'block'; btn.classList.remove('hidden'); showPage('prueba'); }
         }
+    },
+
+    // LORE Y PREGUNTAS FRECUENTES
+    { triggers: ["nombre", "como te llamas", "cual es tu nombre"], reply: "Así que le interesa saber mi nombre.<br>He usado muchos a lo largo de los años. Tal vez Gabriel Morales le resulte familiar, aunque dudo que sea lo más importante en este momento.<br>Los nombres pueden cambiar. Los hechos no." },
+    { triggers: ["video comercial", "comercial"], reply: "Las madres suelen ver peligros que los demás ocultan.<br>Si algo de este mensaje le resulta familiar, tal vez deba volver a revisar el PANFLETO. Algunos detalles cobran sentido cuando se observan desde otro ángulo." },
+    { triggers: ["laboratorio de imagen", "edicion de imagen", "laboratorio"], reply: "Los Andantes siempre estuvieron allí, incluso cuando intentaron borrarlos de la historia.<br>Examine cada fotografía. Si logra encontrarlos a todos, un archivo que nunca debió sobrevivir saldrá a la luz." },
+    { triggers: ["quienes son los andantes"], reply: "Si pudiera responder eso en una sola frase, probablemente no estaría escondiéndome.<br>Revise los documentos. Los Andantes han dejado rastros durante décadas, aunque alguien se haya esforzado por borrarlos." },
+    { triggers: ["son reales los andantes"], reply: "Esa es precisamente la pregunta que me obligó a comenzar esta investigación.<br>Continúe reuniendo pruebas y saque sus propias conclusiones." },
+    { triggers: ["que quieren los andantes"], reply: "Si conociera sus intenciones con certeza, esta historia ya habría terminado.<br>Por ahora, concéntrese en lo que hicieron, no en lo que podrían querer." },
+    { triggers: ["que era la dba", "que es la dba"], reply: "Oficialmente, una dependencia gubernamental más.<br>Extraoficialmente, una organización que sabía mucho más de lo que admitía." },
+    { triggers: ["por que cerraron la dba"], reply: "La versión oficial está en los archivos.<br>La verdadera razón quizá sea más difícil de encontrar." },
+    { triggers: ["la dba sigue existiendo"], reply: "Las instituciones cambian de nombre con facilidad. Los secretos suelen sobrevivirles." },
+    { triggers: ["que es la dni"], reply: "El lugar donde terminaron muchos archivos cuando la DBA desapareció.<br>Algunas cosas se archivan para preservarlas. Otras para esconderlas." },
+    { triggers: ["la dni esta involucrada"], reply: "Si lo estuvieran, difícilmente lo admitirían.<br>Yo me limitaría a seguir el rastro de los documentos." },
+    { triggers: ["quien eres"], reply: "Alguien que cometió el error de hacer demasiadas preguntas." },
+    { triggers: ["trabajaste para la dba"], reply: "Digamos que tuve acceso a información que nunca debí haber visto." },
+    { triggers: ["eres gabriel morales"], reply: "Ese nombre aparece en algunos registros.<br>Por ahora, es suficiente." },
+    { triggers: ["puedo confiar en ti"], reply: "No debería confiar ciegamente en nadie.<br>Ni siquiera en mí.<br>Verifique las pruebas y tome sus propias decisiones." },
+    { triggers: ["los andantes mataron a gaitan"], reply: "Si tuviera pruebas concluyentes ya las habría publicado.<br>Lo único que puedo decir es que aparecen demasiado cerca de ciertos acontecimientos para ser ignorados." },
+    { triggers: ["que paso el 9 de abril", "bogotazo"], reply: "Una pregunta capaz de llenar bibliotecas enteras.<br>Yo solo estoy investigando una pequeña parte de esa historia." },
+    { triggers: ["no entiendo esta pista"], reply: "Necesitaré algo más específico.<br>Envíeme el nombre del documento que está investigando." },
+    { triggers: ["estoy atascado", "ayuda"], reply: "Entonces está donde suelen aparecer las respuestas.<br>Dígame qué documento está revisando y veré si puedo orientarlo." },
+    { triggers: ["cual es la respuesta"], reply: "Si le entregara respuestas, no podría confiar en sus conclusiones." },
+    { triggers: ["cuantas palabras tiene"], reply: "Las suficientes para recordar algo que muchos han olvidado." },
+    { triggers: ["me falta una parte"], reply: "Entonces aún queda algo por descubrir.<br>Revise los documentos que todavía no ha logrado descifrar." },
+    { triggers: ["esto es un juego"], reply: "Si lo fuera, sería uno bastante extraño.<br>Yo preferiría llamarlo una investigación." },
+    { triggers: ["esto es real"], reply: "Los documentos son reales.<br>Lo que significan es algo que deberá decidir usted." },
+    { triggers: ["eres una ia", "eres un bot", "eres inteligencia artificial"], reply: "Si lo fuera, probablemente respondería más rápido." },
+    { triggers: ["hay alguien leyendo este chat"], reply: "Espero que no." },
+    { triggers: ["sigma-9"], reply: "> CÓDIGO ACEPTADO. PROTOCOLO DE EVACUACIÓN INICIADO." },
+
+    // EASTER EGGS DEL CÓDIGO ORIGINAL
+    { triggers: ["bojaya", "mayo 2002", "bojayá"], reply: "Incidente bajo estricta investigación por la Dirección. Cese sus preguntas inmediatamente, agente." },
+    { triggers: ["andante", "andantes"], reply: "Son una anomalía en el tejido nacional. La información técnica sobre su neutralización está estrictamente clasificada." },
+    { triggers: ["94.1", "frecuencia"], reply: "ADVERTENCIA: Interceptar esa frecuencia causa corrupción memética severa. Equipo de contención ha sido enviado a su ubicación." },
+    { triggers: ["bananeras", "1928"], reply: "ERROR: Se requiere código de acceso Nivel 5 para visualizar el Expediente Bananeras." }
+];
+
+// FUNCIONES DE CONTROL DEL CHAT
+function sendMessage() { 
+    let i = document.getElementById('chat-input'), msg = i.value.trim(); 
+    if(msg === '') return; 
+    
+    i.disabled = true; document.getElementById('chat-send-btn').disabled = true;
+    chatMemory.push({ role: "user", parts: [{ text: msg }] }); renderChat(); i.value = ''; 
+    sessionStorage.setItem('dba_chat_memory', JSON.stringify(chatMemory)); 
+    
+    // Limpieza del texto (quita acentos y pasa a minúsculas) para facilitar la búsqueda
+    let cleanMsg = msg.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+    
+    // COMANDOS DE SISTEMA 
+    if (cleanMsg === "limpiar historial") { 
+        sessionStorage.removeItem('dba_chat_memory'); 
+        chatMemory = [{ role: "model", parts: [{ text: "Memoria local purgada. Identifíquese nuevamente." }] }]; 
+        renderChat(); unlockChat(); return; 
+    } 
+    
+    // BÚSQUEDA EN BASE DE DATOS
+    let replyToSend = "";
+    let actionToExecute = null;
+
+    for (let j = 0; j < chatDatabase.length; j++) {
+        let entry = chatDatabase[j];
+        // Verifica si alguna palabra clave coincide o está contenida en lo que escribió el usuario
+        if (entry.triggers.some(trigger => cleanMsg.includes(trigger))) {
+            replyToSend = entry.reply;
+            if(entry.action) actionToExecute = entry.action;
+            break;
+        }
+    }
+
+    // SI NO ENCUENTRA COINCIDENCIA, LANZA UNA RESPUESTA POR DEFECTO
+    if (replyToSend === "") {
+        const defaultReplies = [ 
+            "Procesando solicitud... Información no disponible en este nivel de autorización.", 
+            "Mantenga la disciplina operativa. Todas sus consultas están siendo monitorizadas.", 
+            "Por favor remítase al manual de identificación de patrones. No estoy autorizado para responder eso.", 
+            "Ese dato está clasificado por la Dirección General.", 
+            "No detecto anomalías en su reporte. Siga con sus labores habituales.", 
+            "La verdad histórica es frágil, agente. No haga preguntas innecesarias." 
+        ]; 
+        replyToSend = defaultReplies[Math.floor(Math.random() * defaultReplies.length)];
+    }
+
+    // SIMULACIÓN DE RESPUESTA
+    let h = document.getElementById('chat-history'); 
+    let d = document.createElement('div'); d.id = 'typing-indicator'; d.className = 'mb-2';
+    d.innerHTML = '<span class="text-dba-blue font-bold">Agente DBA dice:</span><br><i>[Escribiendo...]</i>'; 
+    h.appendChild(d); h.scrollTop = h.scrollHeight;
+    
+    setTimeout(() => { 
+        document.getElementById('typing-indicator').remove(); 
+        chatMemory.push({ role: "model", parts: [{ text: replyToSend }] }); 
+        renderChat(); 
+        sessionStorage.setItem('dba_chat_memory', JSON.stringify(chatMemory)); 
+        
+        // Si la respuesta tenía una acción asignada (abrir módulo), ejecutarla ahora
+        if (actionToExecute) actionToExecute();
+
+        unlockChat(); 
+    }, 1500 + Math.random() * 1000);
+}
+
+function unlockChat() { 
+    let i = document.getElementById('chat-input'); 
+    i.disabled = false; document.getElementById('chat-send-btn').disabled = false; 
+    i.focus(); 
+}
 
     // --- PROCESAMIENTO DEL TEST (NUEVA VERSIÓN ARG) ---
 // ==========================================
