@@ -409,7 +409,7 @@
                     <h2 class="font-sys font-bold text-2xl md:text-3xl mb-6 tracking-tight text-dba-blue uppercase border-b border-gray-400 pb-2">Recursos Operativos</h2>
                    
                     <div class="font-sys text-[14px] leading-relaxed text-black space-y-4 text-justify mb-8">
-                        <p>Para la ejecución efectiva de protocolos en campo, el operativo de la DBA debe portar un estamento de herramientas diseñado para la detección de fallas perceptibles y la gestión de la saturación informativa.</p>
+                        <p>Para la ejecución efectiva de protocolos en campo, el operativo de la DBA debe portar un grupo de herramientas diseñado para la detección de fallas perceptibles y la gestión de la saturación informativa.</p>
                         <p>El kit físico obligatorio incluye cámaras de revelado instantáneo (estilo Polaroid) para la captura de evidencias analógicas que eviten la corrupción memética, y el Manual de Identificación de Patrones, esencial para reconocer movimientos incongruentes y conductas repetitivas en entidades que, por su naturaleza, resultan técnicamente indestructibles.</p>
                         <p>En la dimensión digital, el agente dispondrá de una terminal de acceso seguro equipada con algoritmos de reconocimiento óptico basados en el modelo Viola-Jones, un interceptor de frecuencias analógicas para el monitoreo de señales en la banda AM y protocolos de fragmentación documental.</p>
                         <p>Este conjunto instrumental asegura que cualquier hallazgo anómalo sea procesado bajo criterios de desorden informativo, impidiendo que la verdad histórica sea organizada por agentes externos.</p>
@@ -841,7 +841,11 @@ const chatDatabase = [
     },
     {
         triggers: ["carnet"],
-        reply: "Este era el único medio para acceder a la sede central de la DBA, hoy abandonada y desmantelada.<br>Examínelo con detenimiento e interactúe con él. Los agentes rara vez dejaban algo a la vista sin ocultar otra cosa detrás."
+        reply: "Este era el único medio para acceder a la sede central de la DBA, hoy abandonada y desmantelada.<br>Examínelo con detenimiento e interactúe con él. Los agentes rara vez dejaban algo a la vista sin ocultar otra cosa detrás, el uso de códigos como el BINARIO era muy común en el epóca."
+    },
+        {
+        triggers: ["lo saben"],
+        reply: "Ellos ya saben lo que está haciendo y quien es usted, dese prisa clique el carnet para descubrir lo que ocultan"
     },
     {
         triggers: ["interrogatorio"],
@@ -852,7 +856,7 @@ const chatDatabase = [
         reply: "Un insulto que alude al tradicionalismo y costumbres conservadoras. La decían con desprecio los liberales un sinónimo de injusticia y opresión.<br><br>La tercera parte de la contraseña es: <strong>es</strong>"
     },
     {
-        triggers: ["panfleto"],
+        triggers: ["panfleto", "panfleto como viste la mujer colombiana", "guia de vestimenta y estilo para damas"],
         reply: "Revise el panfleto con cuidado.<br>Las cantidades mencionadas no están allí por accidente.<br>Observe los números y anótelos en el orden correcto."
     },
     {
@@ -888,7 +892,7 @@ const chatDatabase = [
         reply: "El perro del guardián de secretos del inframundo, ¿Quién es el guardián de los secretos de la DBA?<br><br>La sexta parte de la contraseña es: <strong>sus</strong>"
     },
     {
-        triggers: ["carta"],
+        triggers: ["carta", "manuscrito", "manuscrito recuperado"],
         reply: "Entre estas líneas se oculta un nombre.<br>Encuéntrelo y envíemelo."
     },
     {
@@ -992,12 +996,13 @@ function sendMessage() {
     // SI NO ENCUENTRA COINCIDENCIA, LANZA UNA RESPUESTA POR DEFECTO
     if (replyToSend === "") {
         const defaultReplies = [ 
-            "Procesando solicitud... Información no disponible en este nivel de autorización.", 
-            "Mantenga la disciplina operativa. Todas sus consultas están siendo monitorizadas.", 
-            "Por favor remítase al manual de identificación de patrones. No estoy autorizado para responder eso.", 
-            "Ese dato está clasificado por la Dirección General.", 
-            "No detecto anomalías en su reporte. Siga con sus labores habituales.", 
+            "Procesando solicitud... Información no disponible en este nivel de autorización. Intente de nuevo", 
+            "Mantenga la disciplina operativa. Todas sus consultas están siendo monitorizadas. Lo que pregunta no corresponde, vuelva a preguntar correctamente", 
+            "No estoy autorizado para responder eso. Pregunte otra cosa", 
+            "Ese dato está clasificado por la Dirección General. Pregunte otra cosa", 
+            "No detecto anomalías en su reporte. Siga con sus labores habituales. Intente de nuevo.", 
             "La verdad histórica es frágil, agente. No haga preguntas innecesarias." 
+            "Explore un poco más siga buscando y vuelva con respuestas."
         ]; 
         replyToSend = defaultReplies[Math.floor(Math.random() * defaultReplies.length)];
     }
