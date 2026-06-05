@@ -744,39 +744,39 @@
                 const v = document.getElementById('visor-video'); 
                 if (v && !v.paused) v.pause();
             }
-            
+        }
             function openVisor(sourceUrl, docTitle, mode = false) {
-    const titleEl = document.getElementById('visor-title'); 
-    if (titleEl) titleEl.innerText = 'Documento: ' + docTitle + ' (Solo Lectura)';
+            const titleEl = document.getElementById('visor-title'); 
+            if (titleEl) titleEl.innerText = 'Documento: ' + docTitle + ' (Solo Lectura)';
+            
+            const backBtn = document.getElementById('visor-back-btn'); 
+            if(backBtn) backBtn.setAttribute('onclick', `showPage('${lastVisitedTab}')`);
+            
+            const loadingText = document.getElementById('visor-loading-text'); 
+            if(loadingText) { loadingText.style.display = 'block'; loadingText.innerText = '[ CARGANDO DOCUMENTO... ]'; }
+            
+            const imgEl = document.getElementById('visor-img'); 
+            const iframeEl = document.getElementById('visor-iframe'); 
+            const videoEl = document.getElementById('visor-video');
+            
+            if (imgEl) { 
+                imgEl.classList.add('hidden'); 
+                imgEl.style.transform = "scale(1)"; // REINICIA EL ZOOM
+            } 
+            if (iframeEl) iframeEl.classList.add('hidden'); 
+            if (videoEl) { videoEl.classList.add('hidden'); videoEl.pause(); }
+            
+            if (mode === true || mode === 'html') { 
+                if (iframeEl) { iframeEl.classList.remove('hidden'); iframeEl.src = sourceUrl; } 
+            } else if (mode === 'video') { 
+                if (videoEl) { videoEl.classList.remove('hidden'); videoEl.src = sourceUrl; videoEl.play().catch(e => console.log("Autoplay bloqueado")); } 
+            } else { 
+                if (imgEl) { imgEl.classList.remove('hidden'); imgEl.src = sourceUrl; } 
+                if (iframeEl) iframeEl.src = ''; 
+            }
+            showPage('visor-pdf');
+        }
     
-    const backBtn = document.getElementById('visor-back-btn'); 
-    if(backBtn) backBtn.setAttribute('onclick', `showPage('${lastVisitedTab}')`);
-    
-    const loadingText = document.getElementById('visor-loading-text'); 
-    if(loadingText) { loadingText.style.display = 'block'; loadingText.innerText = '[ CARGANDO DOCUMENTO... ]'; }
-    
-    const imgEl = document.getElementById('visor-img'); 
-    const iframeEl = document.getElementById('visor-iframe'); 
-    const videoEl = document.getElementById('visor-video');
-    
-    if (imgEl) { 
-        imgEl.classList.add('hidden'); 
-        imgEl.style.transform = "scale(1)"; // REINICIA EL ZOOM PARA DOCUMENTOS NUEVOS
-    } 
-    if (iframeEl) iframeEl.classList.add('hidden'); 
-    if (videoEl) { videoEl.classList.add('hidden'); videoEl.pause(); }
-    
-    if (mode === true || mode === 'html') { 
-        if (iframeEl) { iframeEl.classList.remove('hidden'); iframeEl.src = sourceUrl; } 
-    } else if (mode === 'video') { 
-        if (videoEl) { videoEl.classList.remove('hidden'); videoEl.src = sourceUrl; videoEl.play().catch(e => console.log("Autoplay bloqueado")); } 
-    } else { 
-        if (imgEl) { imgEl.classList.remove('hidden'); imgEl.src = sourceUrl; } 
-        if (iframeEl) iframeEl.src = ''; 
-    }
-    showPage('visor-pdf');
-}
-
         function processTest() { 
             document.getElementById('auth-status').innerText = "PROCESANDO..."; 
             setTimeout(() => { 
