@@ -178,29 +178,32 @@
             <div id="content-area" class="flex-grow flex flex-col relative">
                
                 <!-- TAB INICIO -->
-                <div id="tab-inicio" class="page-tab flex flex-col md:flex-row gap-2 h-full">
-                    <main class="w-full md:w-[65%] bg-dba-beige win-inset-deep p-4 md:p-6 flex flex-col">
-                        <div class="win-outset bg-[#c0c0c0] p-1 mb-6 w-full max-w-[480px] mx-auto">
-                            <div class="w-full aspect-[4/3] bg-black win-inset relative border-4 border-[#333] overflow-hidden group">
-                                <video id="dba-feed" class="w-full h-full object-cover" loop playsinline controls poster="https://api.placeholder.com/480/360/000000/00ff00?text=CONECTANDO+FEED...">
-                                    <source src="videos/Intro.mp4">
-                                </video>
-                                
-                                <div class="absolute inset-0 pointer-events-none static-bg opacity-25"></div>
-                                <div class="absolute top-2 left-2 text-[#00ff00] font-terminal text-[10px] opacity-70 tracking-tighter pointer-events-none">
-                                    REC <span id="live-clock">00:00:00</span>
-                                </div>
+<div id="tab-inicio" class="page-tab flex flex-col md:flex-row gap-2 h-full">
+    <main class="w-full md:w-[65%] bg-dba-beige win-inset-deep p-4 md:p-6 flex flex-col">
+        
+        <div class="win-outset bg-[#c0c0c0] p-1 mb-6 w-full max-w-[720px] mx-auto">
+            <div class="w-full aspect-video bg-black win-inset relative border-4 border-[#333] overflow-hidden group">
+                
+                <video id="dba-feed" class="w-full h-full object-contain" loop playsinline controls poster="https://api.placeholder.com/1920/1080/000000/00ff00?text=CONECTANDO+FEED...">
+                    <source src="videos/Intro.mp4">
+                </video>
+                
+                <div class="absolute inset-0 pointer-events-none static-bg opacity-25"></div>
+                <div class="absolute top-2 left-2 text-[#00ff00] font-terminal text-[10px] opacity-70 tracking-tighter pointer-events-none">
+                    REC <span id="live-clock">00:00:00</span>
+                </div>
 
-                                <button id="play-intro-btn" onclick="document.getElementById('dba-feed').play(); this.style.display='none';" class="absolute inset-0 m-auto w-[160px] h-[40px] win-button font-sys font-bold text-[12px] flex items-center justify-center gap-2 z-20 shadow-[4px_4px_0px_rgba(0,0,0,0.8)] hover:scale-105 transition-transform">
-                                    ▶ PLAY
-                                </button>
-                            </div>
-                        </div>
-                        <div class="font-sys text-[13px] leading-relaxed text-black text-justify space-y-4">
-                            <p>En la Dirección de Búsqueda de Andantes (DBA), nos dedicamos a proteger a Colombia de una amenaza que acecha en las sombras...</p>
-                            <p class="font-bold border-l-4 border-dba-blue pl-4 italic">"Luchando en las Sombras por la Seguridad de Colombia"</p>
-                        </div>
-                    </main>
+                <button id="play-intro-btn" onclick="document.getElementById('dba-feed').play(); this.style.display='none';" class="absolute inset-0 m-auto w-[160px] h-[40px] win-button font-sys font-bold text-[12px] flex items-center justify-center gap-2 z-20 shadow-[4px_4px_0px_rgba(0,0,0,0.8)] hover:scale-105 transition-transform">
+                    ▶ PLAY
+                </button>
+            </div>
+        </div>
+
+        <div class="font-sys text-[13px] leading-relaxed text-black text-justify space-y-4">
+            <p>En la Dirección de Búsqueda de Andantes (DBA), nos dedicamos a proteger a Colombia de una amenaza que acecha en las sombras...</p>
+            <p class="font-bold border-l-4 border-dba-blue pl-4 italic">"Luchando en las Sombras por la Seguridad de Colombia"</p>
+        </div>
+    </main>
                     <aside class="w-full md:w-[35%] bg-dba-beige win-inset-deep p-4 flex flex-col">
                         <h2 class="font-sys font-bold text-sm mb-4 border-b border-black pb-1 uppercase">Ultimas Noticias</h2>
                        
